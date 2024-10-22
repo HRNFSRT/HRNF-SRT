@@ -99,52 +99,36 @@ nav ul li .cta {
     }
 }
 
-/* Hero Section Styling */
+/* Hero Section */
 .hero {
-    position: relative;
-    height: 100vh;    /* Full viewport height */
-    width: 100%;      /* Full width of the page */
-    overflow: hidden;
+    position: relative;          /* Make it relative for absolute positioning of content */
 }
 
-/* Background for the Hero Section */
 .hero-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('hero-background.png');  /* Update with the correct path */
-    background-size: cover;    /* Ensures the image covers the entire section */
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;  /* Ensure background is behind the text */
-    background-color: #333;  /* Fallback color if image doesn't load */
+    background-image: url('hero-background.png'); /* Update this path accordingly */
+    background-size: cover;      /* Cover the entire area */
+    background-position: center;  /* Center the background image */
+    height: 100vh;               /* Full viewport height */
+    display: flex;               /* Use flexbox for centering content */
+    justify-content: center;      /* Center content horizontally */
+    align-items: center;          /* Center content vertically */
 }
 
-/* Content in the Hero Section */
 .hero-content {
-    position: relative;
-    z-index: 1;  /* Content appears on top of background */
-    color: #ffffff;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    color: white;                /* Change text color for contrast */
+    text-align: center;          /* Center text */
+    padding: 20px;              /* Add some padding for better spacing */
+    backdrop-filter: blur(5px);  /* Optional: blurs background for better text visibility */
 }
 
-/* Hero Text Styling */
-.hero h1 {
-    font-size: 3rem;  /* Adjust font size as needed */
-    margin-bottom: 0.5rem;
+h1 {
+    font-size: 3rem;            /* Adjust heading size as needed */
 }
 
-.hero p {
-    font-size: 1.5rem;  /* Adjust font size as needed */
-    margin-top: 0;
+p {
+    font-size: 1.5rem;          /* Adjust paragraph size as needed */
 }
+
 
 
 /* About Section */
