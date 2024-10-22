@@ -99,37 +99,34 @@ nav ul li .cta {
     }
 }
 
+
 /* Hero Section */
 .hero {
-    position: relative;          /* Make it relative for absolute positioning of content */
+    position: relative; /* Keep this for relative positioning if needed */
 }
 
 .hero-background {
-    background-image: url('HRNF Collage-1.png'); /* Update this path accordingly */
-    background-size: cover;      /* Cover the entire area */
-    background-position: center;  /* Center the background image */
-    height: 100vh;               /* Full viewport height */
-    display: flex;               /* Use flexbox for centering content */
-    justify-content: center;      /* Center content horizontally */
-    align-items: center;          /* Center content vertically */
+    background-image: url('images/hero-background.png'); /* Ensure this path is correct */
+    background-size: cover; /* Adjusts the image to cover the entire section */
+    background-position: center; /* Centers the image */
+    height: 100vh; /* Full viewport height */
+    display: flex; /* Use flexbox for centering if you add content later */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    filter: none; /* Remove any filters that may affect sharpness */
+    -webkit-backface-visibility: hidden; /* For performance, especially on mobile */
+    backface-visibility: hidden; /* For performance, especially on mobile */
+    image-rendering: -webkit-optimize-contrast; /* For sharper rendering on some browsers */
+    image-rendering: crisp-edges; /* Another option for sharp images */
+    image-rendering: pixelated; /* Use this for pixel art or if you want a retro look */
 }
 
-.hero-content {
-    color: white;                /* Change text color for contrast */
-    text-align: center;          /* Center text */
-    padding: 20px;              /* Add some padding for better spacing */
-    backdrop-filter: blur(5px);  /* Optional: blurs background for better text visibility */
+/* Optional: Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .hero-background {
+        height: 60vh; /* Adjust height for smaller screens if necessary */
+    }
 }
-
-h1 {
-    font-size: 3rem;            /* Adjust heading size as needed */
-}
-
-p {
-    font-size: 1.5rem;          /* Adjust paragraph size as needed */
-}
-
-
 
 /* About Section */
 .about, .features, .contact {
