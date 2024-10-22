@@ -66,36 +66,40 @@ nav ul li .cta {
     border-radius: 5px;
     color: #333;
 }
-/* Hero Section */
+/* Hero Section Styling */
 .hero {
-    background-image: url('hero-background.png'); /* Using the provided image */
-    background-size: cover;
-    background-position: center;
-    height: 70vh;
+    position: relative;
+    height: 100vh;  /* Full viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
     color: #ffffff;
     text-align: center;
-    position: relative;
-    margin-top: 10px;
+    overflow: hidden;
 }
 
-.hero-content {
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-    padding: 30px;
-    border-radius: 10px;
+/* Background for the Hero Section */
+.hero-background {
+    background-image: url('path-to-your-hero-background-image.png');  /* Replace with the correct image path */
+    background-size: cover;   /* Ensure the image covers the entire section */
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;  /* Ensure background is behind content */
 }
 
-}
-
-.hero h2 {
-    font-size: 3em;
+/* Content in the Hero Section */
+.hero h1 {
+    font-size: 3rem;  /* Adjust as needed */
+    margin-bottom: 0.5rem;
 }
 
 .hero p {
-    margin-bottom: 20px;
-    font-size: 1.2em;
+    font-size: 1.5rem;  /* Adjust as needed */
 }
 
 .hero .btn {
