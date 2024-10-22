@@ -26,8 +26,17 @@ header {
     padding: 20px 0;
 }
 
-.logo {
-    float: left;
+nav {
+    background-color: #333;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+nav .logo img {
+    height: 80px; /* Adjust as needed */
 }
 
 nav {
@@ -36,13 +45,15 @@ nav {
 
 nav ul {
     list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li {
     display: inline;
     margin-left: 15px;
 }
-
 nav ul li a {
     color: #fff;
     text-decoration: none;
@@ -55,13 +66,27 @@ nav ul li .cta {
     border-radius: 5px;
     color: #333;
 }
-
 /* Hero Section */
 .hero {
-    background: url('hero-background.jpg') center/cover no-repeat;
-    color: white;
+    background-image: url('hero-background.png'); /* Using the provided image */
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
     text-align: center;
-    padding: 100px 0;
+    position: relative;
+    margin-top: 10px;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+    padding: 30px;
+    border-radius: 10px;
+}
+
 }
 
 .hero h2 {
@@ -136,81 +161,4 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
-}
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Navigation */
-nav {
-    background-color: #333;
-    color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-nav .logo img {
-    height: 80px; /* Adjust as needed */
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-/* Hero Section */
-.hero {
-    background-image: url('hero-background.png'); /* Using the provided image */
-    background-size: cover;
-    background-position: center;
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff;
-    text-align: center;
-    position: relative;
-    margin-top: 10px;
-}
-
-.hero-content {
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-    padding: 30px;
-    border-radius: 10px;
-}
-
-/* About Section */
-.about {
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #f4f4f4;
-}
-
-.about h2 {
-    margin-bottom: 20px;
-}
-
-/* Contact Section */
-.contact {
-    padding: 40px 20px;
-    text-align: center;
-    background-color: #eaeaea;
 }
