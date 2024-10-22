@@ -27,38 +27,38 @@ header {
 }
 
 .header-content {
-    display: flex;                /* Use flexbox for layout */
-    align-items: center;          /* Center items vertically */
-    padding: 10px 20px;          /* Optional padding */
+    display: flex;            
+    align-items: center;          
+    padding: 10px 20px;          
 }
 
 .logo img {
-    height: 90px;                /* Set logo height */
-    margin-right: 15px;          /* Space between logo and text */
+    height: 90px;           
+    margin-right: 15px;       
 }
 
 .header-text {
     display: flex;
-    flex-direction: column;       /* Stack header text elements */
+    flex-direction: column;     
 }
 
 .header-text h1 {
-    font-size: 24px;              /* Adjust header text size as needed */
-    margin: 0;                    /* Remove default margin */
-    color: #fff;                  /* Text color */
+    font-size: 24px;              
+    margin: 0;               
+    color: #fff;           
 }
 
 .header-text p {
-    margin: 0;                    /* Remove default margin */
-    color: #fff;                  /* Text color */
+    margin: 0;                 
+    color: #fff;               
 }
 
 nav {
     background-color: #333;
     color: #ffffff;
-    display: flex;                 /* Use flexbox for layout */
-    justify-content: space-between; /* Space between items */
-    align-items: center;           /* Center items vertically */
+    display: flex;                
+    justify-content: space-between; 
+    align-items: center;           
     padding: 10px 20px;
 }
 
@@ -90,12 +90,12 @@ nav ul li .cta {
 /* Responsive Design */
 @media (max-width: 600px) {
     .header-content {
-        flex-direction: column;   /* Stack items vertically */
-        align-items: flex-start;  /* Align items to the left */
+        flex-direction: column;   
+        align-items: flex-start;  
     }
 
     .logo {
-        margin-bottom: 10px;      /* Space below logo when stacked */
+        margin-bottom: 10px;      
     }
 }
 
@@ -114,7 +114,7 @@ nav ul li .cta {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('HRNF Collage-1.png');  /* Update with the correct path */
+    background-image: url('hero-background.png');  /* Update with the correct path */
     background-size: cover;    /* Ensures the image covers the entire section */
     background-position: center;
     background-repeat: no-repeat;
