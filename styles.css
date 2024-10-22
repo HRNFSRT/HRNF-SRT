@@ -80,8 +80,8 @@ nav ul li .cta {
 
 /* Background for the Hero Section */
 .hero-background {
-    background-image: url('path-to-your-hero-background-image.png');  /* Replace with the correct image path */
-    background-size: cover;   /* Ensure the image covers the entire section */
+    background-image: url('hero-background.png');  
+    background-size: cover;   
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
@@ -89,7 +89,7 @@ nav ul li .cta {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;  /* Ensure background is behind content */
+    z-index: -1; 
 }
 
 /* Content in the Hero Section */
