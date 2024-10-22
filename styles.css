@@ -29,18 +29,30 @@ header {
 nav {
     background-color: #333;
     color: #ffffff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex;                 /* Use flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center;           /* Center items vertically */
     padding: 10px 20px;
 }
 
+nav .logo {
+    display: flex;                /* Flexbox for the logo */
+    align-items: center;          /* Center logo vertically */
+}
+
 nav .logo img {
-    height: 80px; /* Adjust as needed */
+    height: 80px;                 /* Adjust logo height */
+    margin-right: 15px;           /* Space between logo and text */
+}
+
+nav h1 {                         /* Assuming you want to add an h1 or similar for the header text */
+    font-size: 24px;             /* Adjust text size as needed */
+    margin: 0;                   /* Remove default margin */
+    color: #fff;                 /* Text color */
 }
 
 nav {
-    float: right;
+    float: right;                /* This may not be necessary with flexbox */
 }
 
 nav ul {
@@ -54,6 +66,7 @@ nav ul li {
     display: inline;
     margin-left: 15px;
 }
+
 nav ul li a {
     color: #fff;
     text-decoration: none;
@@ -65,6 +78,8 @@ nav ul li .cta {
     padding: 5px 10px;
     border-radius: 5px;
     color: #333;
+}
+
 }
 /* Hero Section Styling */
 .hero {
