@@ -71,53 +71,48 @@ nav ul li .cta {
     position: relative;
     height: 100vh;    /* Full viewport height */
     width: 100%;      /* Full width of the page */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ffffff;
-    text-align: center;
     overflow: hidden;
-    background-color: #333;  /* Fallback color */
 }
 
 /* Background for the Hero Section */
 .hero-background {
-    background-image: url('hero-background.png');  /* Update with the correct path */
-    background-size: cover;    /* Ensure image covers the entire section */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #333;    /* Fallback color in case image doesn't load */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-image: url('HRNF Collage-1.png');  /* Update with the correct path */
+    background-size: cover;    /* Ensures the image covers the entire section */
+    background-position: center;
+    background-repeat: no-repeat;
     z-index: -1;  /* Ensure background is behind the text */
-    opacity: 0.8;  /* Slight opacity for effect, adjust as needed */
+    background-color: #333;  /* Fallback color if image doesn't load */
 }
 
 /* Content in the Hero Section */
+.hero-content {
+    position: relative;
+    z-index: 1;  /* Content appears on top of background */
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Hero Text Styling */
 .hero h1 {
-    font-size: 3rem;  /* Adjust as needed */
+    font-size: 3rem;  /* Adjust font size as needed */
     margin-bottom: 0.5rem;
 }
 
 .hero p {
-    font-size: 1.5rem;  /* Adjust as needed */
+    font-size: 1.5rem;  /* Adjust font size as needed */
+    margin-top: 0;
 }
 
-.hero .btn {
-    padding: 10px 20px;
-    background: #f7941e;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.hero .btn.secondary {
-    background: #555;
-}
 
 /* About Section */
 .about, .features, .contact {
