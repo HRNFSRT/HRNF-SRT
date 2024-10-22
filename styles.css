@@ -79,7 +79,17 @@ nav ul li .cta {
     border-radius: 5px;
     color: #333;
 }
+/* Responsive Design */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;   /* Stack items vertically */
+        align-items: flex-start;  /* Align items to the left */
+    }
 
+    nav .logo {
+        margin-bottom: 10px;      /* Space below logo when stacked */
+    }
+}
 }
 /* Hero Section Styling */
 .hero {
