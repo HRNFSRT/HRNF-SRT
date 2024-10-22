@@ -106,7 +106,7 @@ nav ul li .cta {
 }
 
 .hero-background {
-    background-image: url('images/hero-background.png'); /* Correct path to your image */
+    background-image: url('HRNF Collage-1.png'); /* Correct path to your image */
     background-size: cover; /* Ensures the image covers the entire section */
     background-position: center; /* Centers the image */
     height: 100vh; /* Full viewport height */
