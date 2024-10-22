@@ -26,6 +26,33 @@ header {
     padding: 20px 0;
 }
 
+.header-content {
+    display: flex;                /* Use flexbox for layout */
+    align-items: center;          /* Center items vertically */
+    padding: 10px 20px;          /* Optional padding */
+}
+
+.logo img {
+    height: 90px;                /* Set logo height */
+    margin-right: 15px;          /* Space between logo and text */
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;       /* Stack header text elements */
+}
+
+.header-text h1 {
+    font-size: 24px;              /* Adjust header text size as needed */
+    margin: 0;                    /* Remove default margin */
+    color: #fff;                  /* Text color */
+}
+
+.header-text p {
+    margin: 0;                    /* Remove default margin */
+    color: #fff;                  /* Text color */
+}
+
 nav {
     background-color: #333;
     color: #ffffff;
@@ -33,26 +60,6 @@ nav {
     justify-content: space-between; /* Space between items */
     align-items: center;           /* Center items vertically */
     padding: 10px 20px;
-}
-
-nav .logo {
-    display: flex;                /* Flexbox for the logo */
-    align-items: center;          /* Center logo vertically */
-}
-
-nav .logo img {
-    height: 80px;                 /* Adjust logo height */
-    margin-right: 15px;           /* Space between logo and text */
-}
-
-nav h1 {                         /* Assuming you want to add an h1 or similar for the header text */
-    font-size: 24px;             /* Adjust text size as needed */
-    margin: 0;                   /* Remove default margin */
-    color: #fff;                 /* Text color */
-}
-
-nav {
-    float: right;                /* This may not be necessary with flexbox */
 }
 
 nav ul {
@@ -79,18 +86,19 @@ nav ul li .cta {
     border-radius: 5px;
     color: #333;
 }
+
 /* Responsive Design */
 @media (max-width: 600px) {
-    nav {
+    .header-content {
         flex-direction: column;   /* Stack items vertically */
         align-items: flex-start;  /* Align items to the left */
     }
 
-    nav .logo {
+    .logo {
         margin-bottom: 10px;      /* Space below logo when stacked */
     }
 }
-}
+
 /* Hero Section Styling */
 .hero {
     position: relative;
