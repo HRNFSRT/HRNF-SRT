@@ -1,3 +1,123 @@
+/* General Reset (remains unchanged) */
+body, h1, h2, h3, p, ul, li, a, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* General Body Styling */
+body {
+    color: #0262c4;  /* Default body text color */
+    background: #f4f4f4; /* Light background for contrast */
+}
+
+/* Navigation Styling */
+header {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* Keep items in a single line */
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 20px; /* Space between each link */
+}
+
+nav ul li a {
+    color: #0262c4;
+    text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #555; /* Darken on hover */
+    border-radius: 5px;     /* Rounded corners */
+}
+
+/* Hero Section */
+.hero {
+    background-image: url('HRNF Collage-1.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content {
+    color: #fff;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5); /* Optional dark overlay for better text readability */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Service Boxes (Features Section) */
+.features .feature-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+}
+
+.feature-item {
+    flex: 1 1 30%;
+    background: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.feature-item h3 {
+    color: #0262c4; /* Use the correct color for headers */
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    color: #333;
+}
+
+/* Contact Form Styling */
+.contact form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact form input, .contact form textarea, .contact form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact form button {
+    background: #333;
+    color: white;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background: #333;
+    color: #0262c4;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
 /* Dashboard Styles */
 body, html {
     margin: 0;
