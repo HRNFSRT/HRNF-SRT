@@ -1,0 +1,12 @@
+{
+  "name": "hrnf-srt",
+  "version": "1.0.0",
+  "description": "Search and Rescue Team website",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'No build script, just open index.html'",
+    "build": "echo 'No build process'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
