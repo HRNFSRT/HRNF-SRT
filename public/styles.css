@@ -105,7 +105,7 @@ nav {
 /* Hero Section */
 .hero {
     margin-top: 80px; /* Buffer for the sticky header */
-    background-image: url('/hrnf_collage.png');
+    background-image: url('images/hrnf_collage.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
