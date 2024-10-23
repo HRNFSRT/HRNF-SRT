@@ -8,206 +8,81 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
 
 /* General Body Text */
 body {
-    color: #0262c4;  /* Default body text color */
-}
-
-/* Hero Section Specific Text Change */
-.hero-content h1,
-.hero-content p {
     color: #0262c4;
+    background: #f4f4f4;
 }
 
 /* Navigation Links */
 nav a {
     color: #0262c4;
-    text-decoration: none;  /* Remove underline from links */
+    text-decoration: none;
 }
 
-/* Button Text Color */
-.btn {
-    color: #0262c4;
-    border: 2px solid #0262c4;  /* Add a blue border around the button */
-    background-color: transparent;  /* Transparent background */
-    padding: 10px 20px;
+/* Hero Section */
+.hero {
+    position: relative;
+}
+
+.hero-background {
+    background-image: url('HRNF Collage-1.png'); /* Ensure this path is correct */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: none;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Hero Content */
+.hero-content {
     text-align: center;
-    cursor: pointer;
-}
-
-/* Button Hover Effect */
-.btn:hover {
-    background-color: #0262c4;
-    color: #ffffff;  /* Change to white on hover */
-    transition: 0.3s;
-}
-
-
-/* Body and Container */
-body {
-    line-height: 1.6;
-    color: #333;
-    background: #f4f4f4;
-}
-
-.container {
-    width: 80%;
-    margin: 0 auto;
+    color: #0262c4; /* Ensure text color in hero is consistent */
     padding: 20px;
+    background: rgba(255, 255, 255, 0.7); /* Optional background for contrast */
+    border-radius: 8px;
 }
 
 /* Header Section */
 header {
     background: #333;
-    color: #fff;
+    color: #ffffff;
     padding: 20px 0;
 }
 
 .header-content {
-    display: flex;            
-    align-items: center;          
-    padding: 10px 20px;          
-}
-
-.logo img {
-    height: 90px;           
-    margin-right: 15px;       
-}
-
-.header-text {
     display: flex;
-    flex-direction: column;     
-}
-
-.header-text h1 {
-    font-size: 24px;              
-    margin: 0;               
-    color: #0262c4;           
-}
-
-.header-text p {
-    margin: 0;                 
-    color: #0262c4;               
-}
-
-nav {
-    background-color: #333;
-    color: #ffffff;
-    display: flex;                
-    justify-content: space-between; 
-    align-items: center;           
+    align-items: center;
     padding: 10px 20px;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
+.logo img {
+    height: 90px;
+    margin-right: 15px;
 }
 
-nav ul li {
-    display: inline;
-    margin-left: 15px;
-}
-
-nav ul li a {
+.header-text h1,
+.header-text p {
     color: #0262c4;
-    text-decoration: none;
-    padding: 5px 10px;
 }
 
-nav ul li .cta {
-    background: #f7941e;
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: #333;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .header-content {
-        flex-direction: column;   
-        align-items: flex-start;  
-    }
-
-    .logo {
-        margin-bottom: 10px;      
-    }
-}
-
-
-/* Hero Section */
-.hero {
-    position: relative; /* Maintain relative positioning for potential content */
-}
-
-.hero-background {
-    background-image: url('HRNF Collage-1.png'); /* Correct path to your image */
-    background-size: cover; /* Ensures the image covers the entire section */
-    background-position: center; /* Centers the image */
-    height: 100vh; /* Full viewport height */
-    display: flex; /* Use flexbox for centering if necessary */
-    justify-content: center; /* Center content horizontally (if added later) */
-    align-items: center; /* Center content vertically (if added later) */
-    
-    /* Ensures no filters are applied */
-    filter: none; 
-    -webkit-backface-visibility: hidden; /* Prevents backface visibility for performance */
-    backface-visibility: hidden; /* Prevents backface visibility for performance */
-
-    /* Image rendering properties for sharpness */
-    image-rendering: -webkit-optimize-contrast; /* For sharp rendering in webkit browsers */
-    image-rendering: crisp-edges; /* For sharp edges */
-}
-
-/* Optional: Add media queries for responsiveness */
-@media (max-width: 768px) {
-    .hero-background {
-        height: 60vh; /* Adjust height for smaller screens if necessary */
-    }
-}
-
-
-/* About Section */
-.about, .features, .contact {
-    background: white;
-    padding: 50px 0;
-    margin: 20px 0;
-    border-radius: 10px;
-}
-
-/* Features Section */
-.features .feature-list {
-    display: flex;
-    justify-content: space-between;
-}
-
-.feature-item {
-    flex: 1;
-    padding: 10px;
-    margin: 10px;
-    background: #f4f4f4;
-    border-radius: 5px;
-    text-align: center;
-}
-
-/* Contact Section */
-.contact form {
-    display: flex;
-    flex-direction: column;
-}
-
-.contact form input, .contact form textarea, .contact form button {
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.contact form button {
-    background: #333;
-    color: white;
+/* Button Styles */
+.btn {
+    color: #0262c4;
+    border: 2px solid #0262c4;
+    background-color: transparent;
+    padding: 10px 20px;
     cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0262c4;
+    color: #ffffff;
+    transition: 0.3s;
 }
 
 /* Footer */
@@ -218,6 +93,7 @@ footer {
     padding: 10px 0;
     margin-top: 20px;
 }
+
 /* Dashboard Styles */
 body, html {
     margin: 0;
