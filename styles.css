@@ -45,12 +45,12 @@ header {
 .header-text h1 {
     font-size: 24px;              
     margin: 0;               
-    color: #fff;           
+    color: #0262c4;           
 }
 
 .header-text p {
     margin: 0;                 
-    color: #fff;               
+    color: #0262c4;               
 }
 
 nav {
@@ -75,7 +75,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #0262c4;
     text-decoration: none;
     padding: 5px 10px;
 }
@@ -122,7 +122,6 @@ nav ul li .cta {
     /* Image rendering properties for sharpness */
     image-rendering: -webkit-optimize-contrast; /* For sharp rendering in webkit browsers */
     image-rendering: crisp-edges; /* For sharp edges */
-    image-rendering: pixelated; /* Useful for pixel art; might be unnecessary here */
 }
 
 /* Optional: Add media queries for responsiveness */
@@ -179,7 +178,7 @@ nav ul li .cta {
 /* Footer */
 footer {
     background: #333;
-    color: #fff;
+    color: #0262c4;
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
