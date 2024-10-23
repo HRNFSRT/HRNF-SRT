@@ -1,4 +1,4 @@
-/* Basic Reset */
+/* General Reset (remains unchanged) */
 body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     margin: 0;
     padding: 0;
@@ -6,83 +6,108 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     font-family: Arial, sans-serif;
 }
 
-/* General Body Text */
+/* General Body Styling */
 body {
-    color: #0262c4;
-    background: #f4f4f4;
+    color: #0262c4;  /* Default body text color */
+    background: #f4f4f4; /* Light background for contrast */
 }
 
-/* Navigation Links */
-nav a {
+/* Navigation Styling */
+header {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* Keep items in a single line */
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 20px; /* Space between each link */
+}
+
+nav ul li a {
     color: #0262c4;
     text-decoration: none;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #555; /* Darken on hover */
+    border-radius: 5px;     /* Rounded corners */
 }
 
 /* Hero Section */
 .hero {
-    position: relative;
-}
-
-.hero-background {
-    background-image: url('HRNF Collage-1.png'); /* Ensure this path is correct */
+    background-image: url('HRNF Collage-1.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    filter: none;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
 }
 
-/* Hero Content */
 .hero-content {
+    color: #fff;
     text-align: center;
-    color: #0262c4; /* Ensure text color in hero is consistent */
+    background: rgba(0, 0, 0, 0.5); /* Optional dark overlay for better text readability */
     padding: 20px;
-    background: rgba(255, 255, 255, 0.7); /* Optional background for contrast */
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
-/* Header Section */
-header {
-    background: #333;
-    color: #ffffff;
-    padding: 20px 0;
-}
-
-.header-content {
+/* Service Boxes (Features Section) */
+.features .feature-list {
     display: flex;
-    align-items: center;
-    padding: 10px 20px;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
 }
 
-.logo img {
-    height: 90px;
-    margin-right: 15px;
+.feature-item {
+    flex: 1 1 30%;
+    background: white;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.header-text h1,
-.header-text p {
-    color: #0262c4;
+.feature-item h3 {
+    color: #0262c4; /* Use the correct color for headers */
+    margin-bottom: 10px;
 }
 
-/* Button Styles */
-.btn {
-    color: #0262c4;
-    border: 2px solid #0262c4;
-    background-color: transparent;
-    padding: 10px 20px;
+.feature-item p {
+    color: #333;
+}
+
+/* Contact Form Styling */
+.contact form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact form input, .contact form textarea, .contact form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contact form button {
+    background: #333;
+    color: white;
     cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0262c4;
-    color: #ffffff;
-    transition: 0.3s;
 }
 
 /* Footer */
@@ -92,132 +117,4 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
-}
-
-/* Dashboard Styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-.dashboard-container {
-    display: flex;
-    height: 100vh;
-}
-
-/* Sidebar Navigation */
-.sidebar {
-    background-color: #2f4f4f;
-    color: #ffffff;
-    width: 250px;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.sidebar h3 {
-    text-align: center;
-    color: #ffffff;
-}
-
-.sidebar ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-.sidebar ul li {
-    margin-bottom: 15px;
-}
-
-.sidebar ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 16px;
-    display: block;
-    padding: 10px;
-    background-color: #3b5958;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.sidebar ul li a:hover {
-    background-color: #556e6d;
-}
-
-/* Main Content Area */
-.main-content {
-    padding: 20px;
-    flex: 1;
-    overflow-y: auto;
-}
-
-.main-content h2 {
-    color: #2f4f4f;
-    margin-bottom: 20px;
-}
-
-.main-content section {
-    margin-bottom: 40px;
-}
-
-.main-content section h3 {
-    margin-top: 20px;
-    color: #333;
-}
-/* Login Page Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.login-box {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: #2f4f4f;
-}
-
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.input-group label {
-    display: block;
-    font-size: 14px;
-    color: #333333;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #cccccc;
-}
-
-.login-btn {
-    background-color: #2f4f4f;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
 }
