@@ -12,38 +12,86 @@ body {
     background: #f4f4f4; /* Light background for contrast */
 }
 
-/* Navigation Styling */
-header {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
+/* General header styling */
+.header-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
 }
 
-nav ul {
-    list-style: none;
-    display: flex; /* Keep items in a single line */
+/* Logo styling */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+/* Header text styling - aligned inline with the logo */
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto; /* Keeps navigation to the far right */
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem; /* Adjust size to fit nicely inline */
+    white-space: nowrap; /* Prevents wrapping to a new line */
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #ccc;
+    white-space: nowrap; /* Prevents wrapping to a new line */
+}
+
+/* Navigation styling */
+nav {
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-nav ul li {
-    margin-left: 20px; /* Space between each link */
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
 }
 
-nav ul li a {
-    color: #0262c4;
-    text-decoration: none;
-    padding: 10px 15px;
+.nav-links li a:hover {
+    color: #f0a500;
+}
+
+/* Call to action button style */
+.cta {
+    padding: 8px 12px;
+    background-color: #f0a500;
+    color: white;
+    border-radius: 4px;
     transition: background-color 0.3s;
 }
 
-nav ul li a:hover {
-    background-color: #555; /* Darken on hover */
-    border-radius: 5px;     /* Rounded corners */
+.cta:hover {
+    background-color: #cc8500;
 }
+
 
 /* Hero Section */
 .hero {
