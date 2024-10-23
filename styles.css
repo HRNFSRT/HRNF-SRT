@@ -6,6 +6,41 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     font-family: Arial, sans-serif;
 }
 
+/* General Body Text */
+body {
+    color: #0262c4;  /* Default body text color */
+}
+
+/* Hero Section Specific Text Change */
+.hero-content h1,
+.hero-content p {
+    color: #0262c4;
+}
+
+/* Navigation Links */
+nav a {
+    color: #0262c4;
+    text-decoration: none;  /* Remove underline from links */
+}
+
+/* Button Text Color */
+.btn {
+    color: #0262c4;
+    border: 2px solid #0262c4;  /* Add a blue border around the button */
+    background-color: transparent;  /* Transparent background */
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Button Hover Effect */
+.btn:hover {
+    background-color: #0262c4;
+    color: #ffffff;  /* Change to white on hover */
+    transition: 0.3s;
+}
+
+
 /* Body and Container */
 body {
     line-height: 1.6;
