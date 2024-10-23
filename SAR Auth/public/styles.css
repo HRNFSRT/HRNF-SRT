@@ -47,7 +47,7 @@ nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-    background-image: url('HRNF Collage-1.png');
+    background-image: url('images/HRNF Collage-1.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -59,7 +59,6 @@ nav ul li a:hover {
 .hero-content {
     color: #fff;
     text-align: center;
-    background: rgba(0, 0, 0, 0.5); /* Optional dark overlay for better text readability */
     padding: 20px;
     border-radius: 10px;
 }
