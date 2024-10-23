@@ -95,13 +95,16 @@ nav {
 
 /* Hero Section */
 .hero {
-    background-image: url('images/HRNF Collage-1.png');
+    background-image: url('public/images/HRNF Collage-1.png');
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0; /* Ensure no margin affects the section */
+    padding: 0; /* Ensure no padding affects the section */
 }
 
 .hero-content {
