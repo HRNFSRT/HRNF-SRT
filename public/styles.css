@@ -13,6 +13,15 @@ body {
 }
 
 /* General header styling */
+header {
+    position: fixed; /* Fix the header to the top of the viewport */
+    top: 0; /* Align it to the top */
+    width: 100%; /* Make sure it spans the full width of the page */
+    z-index: 1000; /* Ensure the header stays above other content */
+    background-color: rgba(0, 0, 0, 0.8); /* Optional: add a background color to distinguish it */
+    padding: 10px 0; /* Optional: Adjust padding as needed */
+}
+
 .header-content {
     display: flex;
     align-items: center;
@@ -95,16 +104,15 @@ nav {
 
 /* Hero Section */
 .hero {
-    background-image: url('public/images/HRNF Collage-1.png');
+    margin-top: 80px; /* Buffer for the sticky header */
+    background-image: url('images/HRNF Collage-1.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: calc(100vh - 80px); /* Optional: Adjust for header height */
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0; /* Ensure no margin affects the section */
-    padding: 0; /* Ensure no padding affects the section */
 }
 
 .hero-content {
