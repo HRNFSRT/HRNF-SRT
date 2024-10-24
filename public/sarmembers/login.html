@@ -35,18 +35,17 @@
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
 
-                        // Check if user is authenticated and wait for Firebase to initialize
-                        auth.onAuthStateChanged(user => {
-                            if (user) {
-                                // User is logged in, you can add user-specific functionality here
-                                console.log("User is logged in:", user.email);
-                            } else {
-                                // User is not logged in, redirect to login page
-                                console.log("User is not authenticated, redirecting to login page.");
-                                window.location.href = 'login.html';
-                             }
-                        });
-
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // Redirect to dashboard or home page
+                        window.location.href = "dashboard.html"; // Change to your dashboard URL
+                    })
+                    .catch((error) => {
+                        const errorMessage = error.message;
+                        alert(errorMessage); // Show error message
+                    });
             });
         });
     </script>
