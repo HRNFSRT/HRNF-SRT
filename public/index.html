@@ -6,16 +6,16 @@
     <title>Highrock National Forest Search & Rescue Team</title>
     <link rel="icon" href="images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
-    <script>
+        <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
+  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+  authDomain: "hrnf-srt.firebaseapp.com",
+  projectId: "hrnf-srt",
+  storageBucket: "hrnf-srt.appspot.com",
+  messagingSenderId: "748926279394",
+  appId: "1:748926279394:web:1303b9000361b1d51808bb",
+  measurementId: "G-5PCZE3S5N5"
         };
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
@@ -38,63 +38,67 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#features">Services</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="sarmembers/login.html" class="cta">Member Login</a></li>
+                <li><a href="public/sarmembers/login.html" class="cta">Member Login</a></li>
+
             </ul>
         </nav>
     </div>
 </header>
 
+
 <!-- Hero Section -->
-<section class="hero"></section> <!-- Just the image, no text -->
+<section class="hero"></section>
 
 <!-- About Section -->
-<section class="about section">
-    <h2>Who We Are</h2>
-    <p>The Highrock National Forest Search and Rescue (HRNF S&R) Company is a specialized unit dedicated to providing high-quality search and rescue services within the expansive and challenging terrain of the Highrock National Forest. Our mission is to protect lives through rapid, effective response to emergencies, including wilderness rescues, technical rescues, and disaster response.</p>
-</section>
-
-<!-- Company Values Section -->
-<section class="values section">
-    <h2>Company Values</h2>
-    <p><strong>Safety:</strong> The safety of our team members and the individuals we rescue is our top priority. We adhere to strict protocols and continuously train to ensure that every operation is conducted with the utmost care.</p>
-    <p><strong>Professionalism:</strong> We operate with integrity, accountability, and respect. Every team member is expected to maintain the highest standards of conduct, both on and off the field.</p>
-    <p><strong>Excellence:</strong> We pursue excellence in every aspect of our work, from planning and training to execution and debriefing. Our commitment to quality drives us to constantly improve our skills and procedures.</p>
-    <p><strong>Teamwork:</strong> Collaboration is essential to our success. We work closely with each other and with partner agencies, fostering a culture of mutual support and effective communication.</p>
-</section>
-
-<!-- Recent Rescues Section -->
-<section class="rescues section">
-    <h2>Recent Rescue Operations</h2>
-    <div class="rescue-item">
-        <img src="path/to/image1.jpg" alt="Rescue Operation 1" class="rescue-image">
-        <div class="rescue-description">
-            <h3>Rescue Operation - October 10, 2024</h3>
-            <p>Details about the successful rescue of two hikers in Highrock National Forest...</p>
-        </div>
+<section class="about" id="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>We are a volunteer search and rescue team specializing in emergency response within the Highrock National Forest. Our team is dedicated to ensuring the safety of all visitors and residents, offering a wide range of rescue and emergency services.</p>
     </div>
-    <div class="rescue-item">
-        <img src="path/to/image2.jpg" alt="Rescue Operation 2" class="rescue-image">
-        <div class="rescue-description">
-            <h3>Rescue Operation - October 15, 2024</h3>
-            <p>Another operation where we assisted a family stranded due to sudden weather changes...</p>
+</section>
+
+<!-- Replaced Features section with Recent Rescues section -->
+<section class="rescues" id="rescues">
+    <div class="container">
+        <h2>Recent Rescue Operations</h2>
+        
+        <!-- Individual Rescue Item -->
+        <div class="rescue-item">
+            <img src="images/rescue1.jpg" alt="Rescue Operation Image" class="rescue-image">
+            <div class="rescue-description">
+                <h3>Operation Name</h3>
+                <p>Description of the rescue operation, including details of what happened, the team involved, and the outcome.</p>
+            </div>
         </div>
+
+        <!-- Add more rescue items as needed -->
     </div>
 </section>
 
 <!-- Contact Section -->
-<section class="contact section">
-    <h2>Contact Us</h2>
-    <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-    </form>
+<section class="section contact" id="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Your Name">
+            
+            <label for="email">Your Email</label>
+            <input type="email" id="email" placeholder="Your Email">
+
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Your Message"></textarea>
+            
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
 </section>
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
+    <div class="container">
+        <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
+    </div>
 </footer>
 </body>
 </html>
