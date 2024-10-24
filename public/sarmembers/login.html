@@ -6,43 +6,47 @@
     <title>Member Login - Highrock National Forest Search & Rescue</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
+    
     <!-- Firebase Integration -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-  authDomain: "hrnf-srt.firebaseapp.com",
-  projectId: "hrnf-srt",
-  storageBucket: "hrnf-srt.appspot.com",
-  messagingSenderId: "748926279394",
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-  measurementId: "G-5PCZE3S5N5"
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
 
-        // Function to handle login
-        function login() {
-            const email = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            // Function to handle login
+            document.querySelector('.login-btn').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
 
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    // Redirect to dashboard or home page
-                    window.location.href = "dashboard.html"; // Change to your dashboard URL
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert(errorMessage); // Show error message
-                });
-        }
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // Redirect to dashboard or home page
+                        window.location.href = "dashboard.html"; // Change to your dashboard URL
+                    })
+                    .catch((error) => {
+                        const errorMessage = error.message;
+                        alert(errorMessage); // Show error message
+                    });
+            });
+        });
     </script>
 </head>
 <body>
@@ -51,7 +55,8 @@
 <header>
     <div class="header-content">
         <div class="logo">
-            <img src="/images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+            <!-- Fixed logo path -->
+            <img src="../images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
         </div>
         <div class="header-text">
             <h1>Highrock National Forest Search & Rescue Team</h1>
@@ -82,11 +87,10 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <div class="input-group">
-                <!-- Align the checkbox and text -->
-                <label>
-                    <input type="checkbox" name="remember-me"> Remember Me
-                </label>
+            <div class="input-group checkbox-group">
+                <!-- Aligned checkbox with label -->
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me"> Remember Me</label>
             </div>
             <button type="submit" class="login-btn">Login</button>
         </form>
