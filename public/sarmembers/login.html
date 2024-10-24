@@ -69,28 +69,33 @@
     </div>
 </header>
 
-<!-- Login Page Container -->
+<!-- Login Form Example -->
 <div class="login-container">
     <div class="login-box">
         <h2>Login</h2>
-        <form onsubmit="event.preventDefault(); login();">
+        <form>
             <div class="input-group">
-                <label for="username">Username or Email:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
             </div>
             <div class="input-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="input-group">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember Me</label>
+                <!-- Align the checkbox and text -->
+                <label>
+                    <input type="checkbox" name="remember-me"> Remember Me
+                </label>
             </div>
             <button type="submit" class="login-btn">Login</button>
-            <p><a href="#">Forgot Password?</a></p>
         </form>
-        <p>Don't have an account? <a href="register.html">Sign Up</a></p>
-        <p><a href="index.html">Back to Home</a></p>
+        
+        <!-- Links at the Bottom -->
+        <div class="bottom-links">
+            <a href="#">Forgot Password?</a>
+            <a href="#">Create an Account</a>
+        </div>
     </div>
 </div>
 
