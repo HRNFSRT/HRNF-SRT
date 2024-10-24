@@ -75,13 +75,11 @@ nav {
     margin-left: auto;
 }
 
-
 .nav-links {
     display: flex;
     gap: 20px;
     list-style-type: none;
 }
-
 
 .nav-links li a {
     text-decoration: none;
@@ -90,11 +88,9 @@ nav {
     transition: color 0.3s;
 }
 
-
 .nav-links li a:hover {
     color: #f0a500;
 }
-
 
 /* Call to action button style */
 /* Updated CTA button to the same blue as other text */
@@ -109,6 +105,7 @@ nav {
 .cta:hover {
     background-color: #0055a4; /* Slightly darker blue on hover */
 }
+
 
 /* Hero Section */
 .hero {
@@ -129,7 +126,6 @@ nav {
     padding: 20px;
     border-radius: 10px;
 }
-
 /* About Section Styling */
 .about {
     background-color: white; /* White background for contrast */
@@ -139,7 +135,6 @@ nav {
     border-radius: 10px; /* Rounded corners */
     text-align: left; /* left-align text */
 }
-
 
 .about h2 {
     color: #0262c4; /* Heading in blue */
@@ -155,6 +150,7 @@ nav {
     margin: 0; /* Remove auto-centering */
     text-align: left; /* Align text to the left */
 }
+
 
 /* Shared Styling for rescues and contact Sections */
 .section {
@@ -182,47 +178,14 @@ nav {
     text-align: left; /* Left align text content */
 }
 
-/* Styling for the Recent Rescues Section */
-.rescues .container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+/* Specific Styling for Recent Rescues List */
+.recent-rescues .rescue-item {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0; /* Separator line for rescues */
 }
 
-.rescues h2 {
-    color: #0262c4; /* Use the same consistent blue color */
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-/* Individual Rescue Item Styling */
-.rescue-item {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-    margin-bottom: 30px;
-    border-bottom: 1px solid #ccc; /* Optional separator line */
-    padding-bottom: 20px;
-}
-
-.rescue-image {
-    max-width: 200px; /* Set a max-width for the image */
-    margin-right: 20px; /* Space between image and description */
-    border-radius: 8px; /* Optional rounded corners */
-}
-
-.rescue-description {
-    flex: 1; /* Allow the description to take remaining space */
-}
-
-.rescue-description h3 {
-    color: #0262c4; /* Use the same consistent blue color */
-    margin-bottom: 10px;
-}
-
-.rescue-description p {
-    color: #333333; /* Darker text for readability */
-    line-height: 1.6;
-    text-align: left;
+.recent-rescues .rescue-item:last-child {
+    border-bottom: none; /* Remove separator line for the last item */
 }
 
 /* Contact Form Adjustments */
@@ -250,6 +213,7 @@ nav {
     background-color: #024ca1; /* Darker blue on hover */
 }
 
+
 /* Dashboard Styles */
 .dashboard-container {
     display: flex;
@@ -268,7 +232,6 @@ nav {
     text-align: center;
     color: #ffffff;
 }
-
 
 .sidebar ul {
     list-style-type: none;
@@ -316,84 +279,54 @@ nav {
     color: #333;
 }
 
-/* Center the login page content */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-}
-
-
-/* Login container styling */
+/* Login Page Styles */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f0f0f0;
+    height: 100vh;
 }
 
-/* Login box styling */
 .login-box {
     background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 300px;
 }
 
-/* Header styling */
 h2 {
     margin-bottom: 20px;
-    color: #333333;
-    font-size: 1.5rem;
+    color: #2f4f4f;
 }
 
-/* Input group styling */
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: left;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    color: #666666;
+    font-size: 14px;
+    color: #333333;
 }
 
 .input-group input {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
+    margin-top: 5px;
     border-radius: 5px;
     border: 1px solid #cccccc;
-    font-size: 1rem;
-    background-color: #f9f9f9;
 }
 
-/* Button styling */
 .login-btn {
-    background-color: #0262c4;
+    background-color: #2f4f4f;
     color: #ffffff;
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-.login-btn:hover {
-    background-color: #004ea1;
-}
-
-/* Error message styling */
-#error-message {
-    color: red;
     margin-top: 10px;
-    font-size: 0.9rem;
 }
