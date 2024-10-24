@@ -93,7 +93,7 @@ header {
 .dashboard-container {
     display: grid; /* Use grid for layout */
     grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 20px; /* Space between boxes */
+    gap: 20px; /* 20px space between boxes */
     padding: 20px; /* Add padding for the feature section */
     margin-top: 20px; /* Margin on top of dashboard section */
     flex-grow: 1; /* Allow this section to grow and fill available space */
@@ -112,7 +112,6 @@ header {
 .feature-box:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
-
 /* Footer Styling */
 footer {
     background-color: #333; /* Light grey background for footer */
