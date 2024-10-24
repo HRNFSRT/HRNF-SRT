@@ -133,7 +133,7 @@ nav {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     margin: 40px 0; /* Margin above and below the section */
     border-radius: 10px; /* Rounded corners */
-    text-align: center; /* Center-align text */
+    text-align: left; /* left-align text */
 }
 
 .about h2 {
@@ -150,21 +150,43 @@ nav {
     margin: 0 auto; /* Center the paragraph content */
 }
 
-/* Recent Rescues Section - Adjusted Styles */
-.recent-rescues .rescues-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* Shared Styling for rescues and contact Sections */
+.section {
+    background-color: white; /* White background for contrast */
+    padding: 60px 20px; /* Uniform padding around the content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 40px 0; /* Margin above and below the section */
+    border-radius: 10px; /* Rounded corners */
 }
 
-.rescue-item {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
+.section h2 {
+    color: #0262c4; /* Blue heading color */
+    font-size: 2rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+    text-align: left; /* Left align the heading */
 }
-/* Contact Form Styling */
+
+.section p,
+.section form {
+    color: #333333; /* Darker text for readability */
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.6; /* Increased line height for readability */
+    max-width: 800px; /* Limit the max width for better readability */
+    margin: 0 auto; /* Center horizontally while content is left-aligned */
+    text-align: left; /* Left align text content */
+}
+
+/* Specific Styling for Recent Rescues List */
+.recent-rescues .rescue-item {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0; /* Separator line for rescues */
+}
+
+.recent-rescues .rescue-item:last-child {
+    border-bottom: none; /* Remove separator line for the last item */
+}
+
+/* Contact Form Adjustments */
 .contact form {
     display: flex;
     flex-direction: column;
@@ -179,19 +201,16 @@ nav {
 }
 
 .contact form button {
-    background: #333;
+    background: #0262c4; /* Blue button to match the theme */
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* Footer */
-footer {
-    background: #333;
-    color: #0262c4;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: 20px;
+.contact form button:hover {
+    background-color: #024ca1; /* Darker blue on hover */
 }
+
 
 /* Dashboard Styles */
 .dashboard-container {
