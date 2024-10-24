@@ -109,12 +109,10 @@ nav {
 
 /* Hero Section */
 .hero {
-    margin-top: 80px; /* Buffer for the sticky header */
     background-image: url('/images/hrnf_collage.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: calc(100vh - 80px); /* Adjust for header height */
     display: flex;
     justify-content: center;
     align-items: center;
