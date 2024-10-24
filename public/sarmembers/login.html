@@ -14,20 +14,26 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Your web app's Firebase configuration
+        <script type="module">
+            // Import Firebase modules as ES modules
+            import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+            import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+
+            // Firebase Configuration
             const firebaseConfig = {
-                apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-                authDomain: "hrnf-srt.firebaseapp.com",
-                projectId: "hrnf-srt",
-                storageBucket: "hrnf-srt.appspot.com",
-                messagingSenderId: "748926279394",
-                appId: "1:748926279394:web:1303b9000361b1d51808bb",
-                measurementId: "G-5PCZE3S5N5"
+              apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+              authDomain: "hrnf-srt.firebaseapp.com",
+              projectId: "hrnf-srt",
+              storageBucket: "hrnf-srt.appspot.com",
+              messagingSenderId: "748926279394",
+              appId: "1:748926279394:web:1303b9000361b1d51808bb",
+              measurementId: "G-5PCZE3S5N5"
+
             };
-
-            // Initialize Firebase
-            const app = firebase.initializeApp(firebaseConfig);
-            const auth = firebase.auth();
-
+    
+            // Initialize Firebase and Auth
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth();
             // Function to handle login
             document.getElementById('login-form').addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent form submission
