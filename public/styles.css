@@ -106,26 +106,32 @@ nav {
     background-color: #0055a4; /* Slightly darker blue on hover */
 }
 
-
-/* Hero Section */
+/* Hero Section Styling */
 .hero {
-    margin-top: 80px; /* Buffer for the sticky header */
-    background-image: url('/images/hrnf_collage.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: calc(100vh - 80px); /* Adjust for header height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-image: url('path/to/hero-image.jpg'); /* Full background image for the hero section */
+    background-size: cover; /* Cover the entire section */
+    background-position: center; /* Center the background image */
+    height: 100vh; /* Full viewport height */
+    display: flex; /* Flex to center the text */
+    flex-direction: column; /* Stack text vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    color: white; /* White text for contrast */
+    text-align: center; /* Center align text */
 }
 
-.hero-content {
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
+/* Hero Heading */
+.hero h1 {
+    font-size: 3rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
 }
+
+/* Hero Subheading */
+.hero p {
+    font-size: 1.5rem; /* Slightly larger font size for subheading */
+    margin-bottom: 30px; /* Space below subheading */
+}
+
 /* General Section Styles */
 .section {
     background-color: #ffffff; /* White background for contrast */
@@ -152,25 +158,21 @@ nav {
     margin: 0 0 20px; /* Margin for spacing */
 }
 
-/* About Section Specific Styles */
+/* Specific Styles for About Section */
 .about {
     padding: 40px 20px; /* Padding specifically for About section */
 }
 
-/* Styling for the Recent Rescues Section */
+/* Specific Styles for Recent Rescues Section */
 .rescues {
     padding: 20px; /* Padding for rescues section */
     background-color: #f9f9f9; /* Light grey background for differentiation */
     border: 1px solid #e0e0e0; /* Border for the rescues section */
 }
 
-.rescues h2 {
-    margin-bottom: 20px; /* Space below rescues heading */
-}
-
-/* Individual Rescue Item Styling */
+/* Rescue Item Styles */
 .rescue-item {
-    display: flex;
+    display: flex; /* Flexbox for alignment */
     align-items: flex-start; /* Align items to the top */
     margin-bottom: 20px; /* Space between rescue items */
     padding: 15px; /* Padding for individual rescue items */
@@ -190,7 +192,7 @@ nav {
     flex: 1; /* Allow the description to take remaining space */
 }
 
-/* Contact Form Adjustments */
+/* Specific Styles for Contact Section */
 .contact {
     padding: 40px 20px; /* Padding for contact section */
 }
