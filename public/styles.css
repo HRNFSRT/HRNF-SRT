@@ -1,4 +1,4 @@
-/* General Reset (remains unchanged) */
+/* General Reset */
 body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     margin: 0;
     padding: 0;
@@ -9,7 +9,7 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
 /* General Body Styling */
 body {
     color: #0262c4;  /* Default body text color */
-    background: #f4f4f4; /* Light background for contrast */
+    background: #f0f0f0; /* Unified light background */
 }
 
 /* General header styling */
@@ -18,10 +18,11 @@ header {
     top: 0; /* Align it to the top */
     width: 100%; /* Make sure it spans the full width of the page */
     z-index: 1000; /* Ensure the header stays above other content */
-    background-color: rgba(0, 0, 0, 0.8); /* Optional: add a background color to distinguish it */
-    padding: 10px 0; /* Optional: Adjust padding as needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Header background */
+    padding: 10px 0;
 }
 
+/* Header content styling */
 .header-content {
     display: flex;
     align-items: center;
@@ -47,13 +48,13 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: auto; /* Keeps navigation to the far right */
+    margin-right: auto;
 }
 
 .header-text h1 {
     margin: 0;
-    font-size: 1.3rem; /* Adjust size to fit nicely inline */
-    white-space: nowrap; /* Prevents wrapping to a new line */
+    font-size: 1.3rem;
+    white-space: nowrap;
 }
 
 .header-text p {
@@ -61,7 +62,7 @@ header {
     font-size: 0.9rem;
     font-style: italic;
     color: #ccc;
-    white-space: nowrap; /* Prevents wrapping to a new line */
+    white-space: nowrap;
 }
 
 /* Navigation styling */
@@ -73,8 +74,6 @@ nav {
     display: flex;
     gap: 20px;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 
 .nav-links li a {
@@ -101,7 +100,6 @@ nav {
     background-color: #cc8500;
 }
 
-
 /* Hero Section */
 .hero {
     margin-top: 80px; /* Buffer for the sticky header */
@@ -109,7 +107,7 @@ nav {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: calc(100vh - 80px); /* Optional: Adjust for header height */
+    height: calc(100vh - 80px); /* Adjust for header height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,11 +120,11 @@ nav {
     border-radius: 10px;
 }
 
-/* Service Boxes (Features Section) */
+/* Features Section */
 .features .feature-list {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
 .feature-item {
@@ -140,7 +138,7 @@ nav {
 }
 
 .feature-item h3 {
-    color: #0262c4; /* Use the correct color for headers */
+    color: #0262c4;
     margin-bottom: 10px;
 }
 
@@ -176,13 +174,8 @@ footer {
     padding: 10px 0;
     margin-top: 20px;
 }
-/* Dashboard Styles */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
 
+/* Dashboard Styles */
 .dashboard-container {
     display: flex;
     height: 100vh;
@@ -194,7 +187,6 @@ body, html {
     color: #ffffff;
     width: 250px;
     padding: 20px;
-    box-sizing: border-box;
 }
 
 .sidebar h3 {
@@ -247,12 +239,8 @@ body, html {
     margin-top: 20px;
     color: #333;
 }
-/* Login Page Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
 
+/* Login Page Styles */
 .login-container {
     display: flex;
     justify-content: center;
