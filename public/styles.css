@@ -245,7 +245,7 @@ nav {
 
 /* Footer Styling */
 footer {
-    background-color: #d3d3d3; /* Light grey background for footer */
+    background-color: #333; /* Light grey background for footer */
     text-align: center; /* Center the text */
     padding: 20px 0; /* Padding for spacing */
     position: relative; /* Ensure it doesn't overlap with content */
