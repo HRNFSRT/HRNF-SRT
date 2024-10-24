@@ -1,20 +1,23 @@
 /* General Reset */
-*,
-*::before,
-*::after {
+body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* Body Styling */
-body {
     font-family: Arial, sans-serif;
-    color: #0262c4; /* Blue text for body */
-    background: #f0f0f0; /* Light background */
 }
 
-/* Header Section */
+/* General Body Styling - Adjust text color */
+body {
+    color: #0262c4;  /* Blue text */
+    background: #f0f0f0;
+}
+
+/* Adjust all headings to blue */
+h1, h2, h3, h4, h5, h6 {
+    color: #0262c4;
+}
+
+/* General header styling */
 header {
     position: fixed; /* Fix the header to the top of the viewport */
     top: 0; /* Align it to the top */
@@ -24,14 +27,17 @@ header {
     padding: 10px 0;
 }
 
+/* Header content styling */
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    color: white; /* White text for header */
+    background-color: #333;
+    color: white;
 }
 
+/* Logo styling */
 .logo {
     display: flex;
     align-items: center;
@@ -42,6 +48,7 @@ header {
     margin-right: 10px;
 }
 
+/* Header text styling - aligned inline with the logo */
 .header-text {
     display: flex;
     flex-direction: column;
@@ -59,13 +66,15 @@ header {
     margin: 0;
     font-size: 0.9rem;
     font-style: italic;
-    color: #ccc; /* Gray text for subtitle */
+    color: #ccc;
     white-space: nowrap;
 }
 
+/* Navigation styling */
 nav {
     margin-left: auto;
 }
+
 
 .nav-links {
     display: flex;
@@ -73,128 +82,172 @@ nav {
     list-style-type: none;
 }
 
+
 .nav-links li a {
     text-decoration: none;
-    color: white; /* White text for links */
+    color: white;
     font-size: 1rem;
     transition: color 0.3s;
 }
 
+
 .nav-links li a:hover {
-    color: #f0a500; /* Hover color for links */
+    color: #f0a500;
 }
 
+
+/* Call to action button style */
+/* Updated CTA button to the same blue as other text */
 .cta {
     padding: 8px 12px;
-    background-color: #0262c4; /* CTA button background */
+    background-color: #0262c4;
     color: white;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
 .cta:hover {
-    background-color: #0055a4; /* Darker blue on hover */
+    background-color: #0055a4; /* Slightly darker blue on hover */
 }
 
 /* Hero Section */
 .hero {
-    background-image: url('images/hrnf_collage.png'); /* Full background image for the hero section */
-    background-size: cover; /* Cover the entire section */
-    background-position: center; /* Center the background image */
-    height: calc(100vh - 60px); /* Full viewport height minus header */
+    margin-top: 80px; /* Buffer for the sticky header */
+    background-image: url('/images/hrnf_collage.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: calc(100vh - 80px); /* Adjust for header height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* General Section Styling */
-.section {
-    display: block; /* Ensure sections are block-level elements */
-    margin: 20px auto; /* Center align with margin above and below */
-    padding: 40px; /* Padding around the content */
-    background-color: #ffffff; /* White background for sections */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+.hero-content {
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* About Section Styling */
+.about {
+    background-color: white; /* White background for contrast */
+    padding: 60px 20px; /* Padding to add space around the content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 40px 0; /* Margin above and below the section */
     border-radius: 10px; /* Rounded corners */
-    max-width: 900px; /* Set a max width for sections */
+    text-align: left; /* left-align text */
 }
 
-/* Section Headings */
-h2 {
+
+.about h2 {
+    color: #0262c4; /* Heading in blue */
+    font-size: 2rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.about p {
+    color: #333333; /* Darker text for readability */
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.6; /* Increase line height for better readability */
+    max-width: 800px; /* Limit max width for better readability */
+    margin: 0; /* Remove auto-centering */
+    text-align: left; /* Align text to the left */
+}
+
+/* Shared Styling for rescues and contact Sections */
+.section {
+    background-color: white; /* White background for contrast */
+    padding: 60px 20px; /* Uniform padding around the content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 40px 0; /* Margin above and below the section */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.section h2 {
     color: #0262c4; /* Blue heading color */
     font-size: 2rem; /* Larger font size for the heading */
-    margin-bottom: 15px; /* Space below the heading */
+    margin-bottom: 20px; /* Space below the heading */
+    text-align: left; /* Left align the heading */
 }
 
-/* Section Paragraphs */
-p {
+.section p,
+.section form {
     color: #333333; /* Darker text for readability */
     font-size: 1rem; /* Standard font size */
     line-height: 1.6; /* Increased line height for readability */
-    margin: 0 0 20px; /* Margin for spacing */
+    max-width: 800px; /* Limit the max width for better readability */
+    margin: 0 auto; /* Center horizontally while content is left-aligned */
+    text-align: left; /* Left align text content */
 }
 
-/* Recent Rescues Section */
-.rescues {
-    display: block; /* Ensure rescues section is block-level */
+/* Styling for the Recent Rescues Section */
+.rescues .container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Rescue Item Styles */
+.rescues h2 {
+    color: #0262c4; /* Use the same consistent blue color */
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Individual Rescue Item Styling */
 .rescue-item {
-    display: flex; /* Flexbox for alignment */
+    display: flex;
     align-items: flex-start; /* Align items to the top */
-    margin-bottom: 20px; /* Space between rescue items */
-    padding: 15px; /* Padding for individual rescue items */
-    background-color: #ffffff; /* White background for each rescue item */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
-    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc; /* Optional separator line */
+    padding-bottom: 20px;
 }
 
 .rescue-image {
-    max-width: 150px; /* Set a max-width for the image */
-    margin-right: 15px; /* Space between image and description */
+    max-width: 200px; /* Set a max-width for the image */
+    margin-right: 20px; /* Space between image and description */
     border-radius: 8px; /* Optional rounded corners */
-    object-fit: cover; /* Ensure the image covers the box */
 }
 
-/* Contact Section */
-.contact {
-    display: block; /* Ensure contact section is block-level */
+.rescue-description {
+    flex: 1; /* Allow the description to take remaining space */
 }
 
-/* Contact Form Styles */
+.rescue-description h3 {
+    color: #0262c4; /* Use the same consistent blue color */
+    margin-bottom: 10px;
+}
+
+.rescue-description p {
+    color: #333333; /* Darker text for readability */
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* Contact Form Adjustments */
 .contact form {
     display: flex;
-    flex-direction: column; /* Vertical stacking for form inputs */
+    flex-direction: column;
 }
 
-.contact form input,
-.contact form textarea,
-.contact form button {
-    margin-bottom: 15px; /* Space below inputs */
-    padding: 12px; /* Padding for form fields */
-    font-size: 1em; /* Standard font size */
-    border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners for inputs */
+.contact form input, .contact form textarea, .contact form button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .contact form button {
     background: #0262c4; /* Blue button to match the theme */
-    color: white; /* White text for the button */
-    cursor: pointer; /* Pointer cursor for button */
-    transition: background-color 0.3s; /* Transition effect */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .contact form button:hover {
     background-color: #024ca1; /* Darker blue on hover */
-}
-
-/* Footer */
-footer {
-    background-color: #333; /* Dark background for footer */
-    color: white; /* White text for footer */
-    text-align: center; /* Center-align text */
-    padding: 20px 0; /* Padding for footer */
-}
-
-footer p {
-    margin: 0; /* Remove margin for footer text */
 }
 
 /* Dashboard Styles */
@@ -215,6 +268,7 @@ footer p {
     text-align: center;
     color: #ffffff;
 }
+
 
 .sidebar ul {
     list-style-type: none;
@@ -270,6 +324,7 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0;
 }
+
 
 /* Login container styling */
 .login-container {
