@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-/* General Body Styling */
+/* Body Styling */
 body {
     font-family: Arial, sans-serif;
     color: #0262c4; /* Blue text for body */
@@ -104,7 +104,7 @@ nav {
     height: calc(100vh - 60px); /* Full viewport height minus header */
 }
 
-/* Section Styling to Ensure Vertical Alignment */
+/* General Section Styling */
 .section {
     display: block; /* Ensure sections are block-level elements */
     margin: 20px auto; /* Center align with margin above and below */
@@ -113,7 +113,6 @@ nav {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     border-radius: 10px; /* Rounded corners */
     max-width: 900px; /* Set a max width for sections */
-    clear: both; /* Clear floats to avoid overlap */
 }
 
 /* Section Headings */
@@ -197,7 +196,6 @@ footer {
 footer p {
     margin: 0; /* Remove margin for footer text */
 }
-
 
 /* Dashboard Styles */
 .dashboard-container {
