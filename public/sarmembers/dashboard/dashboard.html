@@ -5,43 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Highrock National Forest Search & Rescue</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase Integration -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
-    <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
-        
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
+    <link rel="icon" href="/images/logo.png" type="image/png">
+<!-- Firebase Integration -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+<script type="module">
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
+    };
 
-        // Check if user is authenticated
-        auth.onAuthStateChanged(user => {
-            if (!user) {
-                window.location.href = 'login.html'; // Redirect if not logged in
-            } else {
-                // Display user information here if needed
-            }
-        });
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    
+    // Import the getAuth function
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+    const auth = getAuth(app); // Initialize Auth
 
-        // Logout Function
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.href = '/index.html'; // Redirect after logout
-            }).catch((error) => {
-                console.error("Logout error:", error); // Handle errors if necessary
-            });
+    // Check if user is authenticated
+    onAuthStateChanged(auth, user => {
+        if (!user) {
+            window.location.href = 'login.html'; // Redirect if not logged in
+        } else {
+            // Display user information here if needed
         }
-    </script>
+    });
+
+    // Logout Function
+    function logout() {
+        auth.signOut().then(() => {
+            window.location.href = '/index.html'; // Redirect after logout
+        }).catch((error) => {
+            console.error("Logout error:", error); // Handle errors if necessary
+        });
+    }
+</script>
+
 </head>
 <body>
 
