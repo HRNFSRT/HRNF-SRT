@@ -1,23 +1,20 @@
 /* General Reset */
-body, h1, h2, h3, p, ul, li, a, input, textarea, button {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
-/* General Body Styling - Adjust text color */
+/* General Body Styling */
 body {
-    color: #0262c4;  /* Blue text */
-    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+    color: #0262c4; /* Blue text for body */
+    background: #f0f0f0; /* Light background */
 }
 
-/* Adjust all headings to blue */
-h1, h2, h3, h4, h5, h6 {
-    color: #0262c4;
-}
-
-/* General header styling */
+/* Header Section */
 header {
     position: fixed; /* Fix the header to the top of the viewport */
     top: 0; /* Align it to the top */
@@ -27,17 +24,14 @@ header {
     padding: 10px 0;
 }
 
-/* Header content styling */
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #333;
-    color: white;
+    color: white; /* White text for header */
 }
 
-/* Logo styling */
 .logo {
     display: flex;
     align-items: center;
@@ -48,7 +42,6 @@ header {
     margin-right: 10px;
 }
 
-/* Header text styling - aligned inline with the logo */
 .header-text {
     display: flex;
     flex-direction: column;
@@ -66,11 +59,10 @@ header {
     margin: 0;
     font-size: 0.9rem;
     font-style: italic;
-    color: #ccc;
+    color: #ccc; /* Gray text for subtitle */
     white-space: nowrap;
 }
 
-/* Navigation styling */
 nav {
     margin-left: auto;
 }
@@ -83,91 +75,80 @@ nav {
 
 .nav-links li a {
     text-decoration: none;
-    color: white;
+    color: white; /* White text for links */
     font-size: 1rem;
     transition: color 0.3s;
 }
 
 .nav-links li a:hover {
-    color: #f0a500;
+    color: #f0a500; /* Hover color for links */
 }
 
-/* Call to action button style */
-/* Updated CTA button to the same blue as other text */
 .cta {
     padding: 8px 12px;
-    background-color: #0262c4;
+    background-color: #0262c4; /* CTA button background */
     color: white;
     border-radius: 4px;
     transition: background-color 0.3s;
 }
 
 .cta:hover {
-    background-color: #0055a4; /* Slightly darker blue on hover */
+    background-color: #0055a4; /* Darker blue on hover */
 }
 
-/* Hero Section Styling */
+/* Hero Section */
 .hero {
-    background-image: url('path/to/hero-image.jpg'); /* Full background image for the hero section */
+    background-image: url('images/hrnf_collage.png'); /* Full background image for the hero section */
     background-size: cover; /* Cover the entire section */
     background-position: center; /* Center the background image */
-    height: 100vh; /* Full viewport height */
-    display: flex; /* Flex to center the text */
-    flex-direction: column; /* Stack text vertically */
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    color: white; /* White text for contrast */
-    text-align: center; /* Center align text */
+    height: calc(100vh - 60px); /* Full viewport height minus header */
 }
 
-/* Hero Heading */
-.hero h1 {
-    font-size: 3rem; /* Larger font size for the heading */
-    margin-bottom: 20px; /* Space below the heading */
-}
-
-/* Hero Subheading */
-.hero p {
-    font-size: 1.5rem; /* Slightly larger font size for subheading */
-    margin-bottom: 30px; /* Space below subheading */
-}
-
-/* General Section Styles */
-.section {
+/* About Section */
+.about {
     background-color: #ffffff; /* White background for contrast */
     padding: 40px; /* Padding around the content */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     margin: 20px auto; /* Margin above and below the section, center align */
     border-radius: 10px; /* Rounded corners */
-    text-align: left; /* Left-align text */
     max-width: 900px; /* Set a max width for sections */
+    text-align: left; /* Left-align text */
+}
+
+/* Company Values Section */
+.values {
+    background-color: #ffffff; /* White background for contrast */
+    padding: 40px; /* Padding around the content */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px auto; /* Margin above and below the section, center align */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 900px; /* Set a max width for sections */
+    text-align: left; /* Left-align text */
 }
 
 /* Section Headings */
-.section h2 {
+h2 {
     color: #0262c4; /* Blue heading color */
     font-size: 2rem; /* Larger font size for the heading */
     margin-bottom: 15px; /* Space below the heading */
 }
 
 /* Section Paragraphs */
-.section p {
+p {
     color: #333333; /* Darker text for readability */
     font-size: 1rem; /* Standard font size */
     line-height: 1.6; /* Increased line height for readability */
     margin: 0 0 20px; /* Margin for spacing */
 }
 
-/* Specific Styles for About Section */
-.about {
-    padding: 40px 20px; /* Padding specifically for About section */
-}
-
-/* Specific Styles for Recent Rescues Section */
+/* Recent Rescues Section */
 .rescues {
-    padding: 20px; /* Padding for rescues section */
-    background-color: #f9f9f9; /* Light grey background for differentiation */
-    border: 1px solid #e0e0e0; /* Border for the rescues section */
+    background-color: #ffffff; /* White background for contrast */
+    padding: 40px; /* Padding around the content */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px auto; /* Margin above and below the section, center align */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 900px; /* Set a max width for sections */
 }
 
 /* Rescue Item Styles */
@@ -188,13 +169,14 @@ nav {
     object-fit: cover; /* Ensure the image covers the box */
 }
 
-.rescue-description {
-    flex: 1; /* Allow the description to take remaining space */
-}
-
-/* Specific Styles for Contact Section */
+/* Contact Section */
 .contact {
-    padding: 40px 20px; /* Padding for contact section */
+    background-color: #ffffff; /* White background for contact section */
+    padding: 40px; /* Padding for contact section */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 20px auto; /* Margin above and below the section, center align */
+    border-radius: 10px; /* Rounded corners */
+    max-width: 900px; /* Set a max width for sections */
 }
 
 .contact form {
@@ -202,8 +184,8 @@ nav {
     flex-direction: column; /* Vertical stacking for form inputs */
 }
 
-.contact form input, 
-.contact form textarea, 
+.contact form input,
+.contact form textarea,
 .contact form button {
     margin-bottom: 15px; /* Space below inputs */
     padding: 12px; /* Padding for form fields */
@@ -221,6 +203,18 @@ nav {
 
 .contact form button:hover {
     background-color: #024ca1; /* Darker blue on hover */
+}
+
+/* Footer */
+footer {
+    background-color: #333; /* Dark background for footer */
+    color: white; /* White text for footer */
+    text-align: center; /* Center-align text */
+    padding: 20px 0; /* Padding for footer */
+}
+
+footer p {
+    margin: 0; /* Remove margin for footer text */
 }
 
 
