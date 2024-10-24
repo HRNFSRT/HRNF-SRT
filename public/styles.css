@@ -213,6 +213,16 @@ nav {
     background-color: #024ca1; /* Darker blue on hover */
 }
 
+/* Footer Styling */
+footer {
+    background-color: #d3d3d3; /* Light grey background for footer */
+    text-align: center; /* Center the text */
+    padding: 20px 0; /* Padding for spacing */
+    position: relative; /* Ensure it doesn't overlap with content */
+    bottom: 0; /* Align to the bottom of the page */
+    width: 100%; /* Full width */
+}
+
 
 /* Dashboard Styles */
 .dashboard-container {
