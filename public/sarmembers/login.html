@@ -6,73 +6,48 @@
     <title>Member Login - Highrock National Forest Search & Rescue</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Firebase Integration (Use non-module scripts) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
 
-    <script>
+    <!-- Firebase Integration (Use module scripts) -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Pass the app instance to getAuth
+
+        // Function to handle login
         document.addEventListener('DOMContentLoaded', () => {
-            // Your web app's Firebase configuration
-        <script type="module">
-            // Import Firebase modules as ES modules
-            import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
-            import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-
-            // Firebase Configuration
-            const firebaseConfig = {
-              apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-              authDomain: "hrnf-srt.firebaseapp.com",
-              projectId: "hrnf-srt",
-              storageBucket: "hrnf-srt.appspot.com",
-              messagingSenderId: "748926279394",
-              appId: "1:748926279394:web:1303b9000361b1d51808bb",
-              measurementId: "G-5PCZE3S5N5"
-
-            };
-    
-            // Initialize Firebase and Auth
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth();
-            // Function to handle login
             document.getElementById('login-form').addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent form submission
 
                 const email = document.getElementById('email').value;
                 const password = document.getElementById('password').value;
 
-                auth.signInWithEmailAndPassword(email, password)
+                console.log("Attempting to log in with:", email); // Debugging line
+
+                signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
-                        // Signed in 
+                        console.log("Login successful! Redirecting..."); // Debugging line
                         const user = userCredential.user;
-                        // Redirect to dashboard or home page
-                        window.location.href = "public/sarmembers/dashboard.html";
+                        window.location.href = "public/sarmembers/dashboard.html"; // Change to your dashboard URL
                     })
                     .catch((error) => {
-                        const errorMessage = error.message;
-                        alert(errorMessage); // Show error message
+                        console.error("Login error:", error.message); // Debugging line
+                        alert(error.message); // Show error message
                     });
-                // Function to handle login
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    console.log("Attempting to log in with:", email); // Debugging line
-
-    auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            console.log("Login successful! Redirecting..."); // Debugging line
-            const user = userCredential.user;
-            window.location.href = "dashboard.html"; // Change to your dashboard URL
-        })
-        .catch((error) => {
-            console.error("Login error:", error.message); // Debugging line
-            alert(error.message); // Show error message
-        });
-});
-
             });
         });
     </script>
