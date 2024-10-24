@@ -10,6 +10,9 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
 body {
     color: #0262c4;  /* Blue text */
     background: #f0f0f0;
+    display: flex;
+    flex-direction: column; /* Column layout */
+    min-height: 100vh; /* Minimum height of the viewport */
 }
 
 /* Adjust all headings to blue */
@@ -93,6 +96,7 @@ header {
     gap: 20px; /* Space between boxes */
     padding: 20px; /* Add padding for the feature section */
     margin-top: 20px; /* Margin on top of dashboard section */
+    flex-grow: 1; /* Allow this section to grow and fill available space */
 }
 
 .feature-box {
@@ -102,6 +106,7 @@ header {
     padding: 20px; /* Padding inside the box */
     cursor: pointer; /* Pointer cursor on hover */
     transition: box-shadow 0.3s; /* Smooth transition for box shadow */
+    height: 100%; /* Ensure boxes use full height */
 }
 
 .feature-box:hover {
