@@ -35,7 +35,9 @@
 
         function logout() {
             auth.signOut().then(() => {
-                window.location.href = 'login.html'; // Redirect after logout
+                window.location.href = '/index.html'; // Redirect after logout
+             }).catch((error) => {
+        console.error("Logout error:", error); // Handle errors if necessar
             });
         }
     </script>
@@ -52,6 +54,9 @@
             <h1>Highrock National Forest Search & Rescue Team</h1>
             <p>Saving Lives 365 Days a Year</p>
         </div>
+        <!-- Logout Button -->
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
 </header>
 
 <!-- Member Profile Section -->
