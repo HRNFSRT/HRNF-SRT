@@ -5,48 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Highrock National Forest Search & Rescue</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="/images/logo.png" type="image/png">
-<!-- Firebase Integration -->
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
-<script type="module">
-    // Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-        authDomain: "hrnf-srt.firebaseapp.com",
-        projectId: "hrnf-srt",
-        storageBucket: "hrnf-srt.appspot.com",
-        messagingSenderId: "748926279394",
-        appId: "1:748926279394:web:1303b9000361b1d51808bb",
-        measurementId: "G-5PCZE3S5N5"
-    };
+    <!-- Firebase Integration -->
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    
-    // Import the getAuth function
-    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
-    const auth = getAuth(app); // Initialize Auth
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
 
-    // Check if user is authenticated
-    onAuthStateChanged(auth, user => {
-        if (!user) {
-            window.location.href = 'login.html'; // Redirect if not logged in
-        } else {
-            // Display user information here if needed
-        }
-    });
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Initialize Auth
 
-    // Logout Function
-    function logout() {
-        auth.signOut().then(() => {
-            window.location.href = '/index.html'; // Redirect after logout
-        }).catch((error) => {
-            console.error("Logout error:", error); // Handle errors if necessary
+        // Check if user is authenticated
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+                window.location.href = 'login.html'; // Redirect if not logged in
+            } else {
+                // Display user information here if needed
+            }
         });
-    }
-</script>
 
+        // Logout Function
+        window.logout = function() {
+            auth.signOut().then(() => {
+                window.location.href = '/index.html'; // Redirect after logout
+            }).catch((error) => {
+                console.error("Logout error:", error); // Handle errors if necessary
+            });
+        };
+    </script>
 </head>
 <body>
 
@@ -61,14 +58,14 @@
             <p>Saving Lives 365 Days a Year</p>
         </div>
         <!-- Logout Button -->
-        <button onclick="logout()" class="logout-btn" style="background-color: #e94307; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+        <button onclick="logout()" class="logout-btn">Logout</button>
     </div>
 </header>
 
 <!-- Member Profile Section -->
 <div class="profile-section">
     <div class="profile-picture">
-        <img src="../images/profile.png" alt="Member Picture" width="100">
+        <img src="/images/profile.png" alt="Member Picture" width="100">
     </div>
     <div class="profile-info">
         <h2>John Doe</h2>
