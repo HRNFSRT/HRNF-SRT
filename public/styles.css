@@ -126,28 +126,50 @@ nav {
     padding: 20px;
     border-radius: 10px;
 }
-/* About Section Styling */
-.about {
+/* Who We Are Section Styles */
+.who-we-are {
     background-color: white; /* White background for contrast */
     padding: 60px 20px; /* Padding to add space around the content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     margin: 40px 0; /* Margin above and below the section */
     border-radius: 10px; /* Rounded corners */
-    text-align: left; /* left-align text */
 }
 
-.about h2 {
-    color: #0262c4; /* Heading in blue */
+/* Main Heading Style */
+.who-we-are h2 {
+    color: #0262c4; /* Blue heading color */
     font-size: 2rem; /* Larger font size for the heading */
     margin-bottom: 20px; /* Space below the heading */
+    text-align: center; /* Center align the heading */
 }
 
-.about p {
-    color: #333333; /* Darker text for readability */
+/* Subheading Style */
+.who-we-are h3 {
+    color: #0262c4; /* Blue color for subheadings */
+    font-size: 1.5rem; /* Font size for subheadings */
+    margin-top: 20px; /* Space above the subheading */
+}
+
+/* Paragraph Style */
+.who-we-are p {
+    color: #333; /* Darker text for readability */
     font-size: 1rem; /* Standard font size */
-    line-height: 1.6; /* Increase line height for better readability */
-    margin: 0; /* Remove auto-centering */
-    text-align: left; /* Align text to the left */
+    line-height: 1.6; /* Increased line height for better readability */
+    max-width: 800px; /* Limit max width for better readability */
+    margin: 0 auto; /* Center horizontally */
+}
+
+/* List Styles */
+.who-we-are ul {
+    list-style-type: disc; /* Use disc bullets */
+    padding-left: 20px; /* Add padding to the left */
+    margin-bottom: 20px; /* Space below the list */
+}
+
+/* List Item Style */
+.who-we-are ul li {
+    color: #333; /* Darker text for list items */
+    margin-bottom: 10px; /* Space between list items */
 }
 
 /* Company Values Section Styling */
