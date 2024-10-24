@@ -75,7 +75,7 @@ header {
 .profile-section {
     display: flex;
     align-items: center;
-    padding: 80px 20px 20px; /* Padding to adjust for fixed header */
+    padding: 120px 20px 20px; /* Padding to adjust for fixed header */
 }
 
 .profile-picture {
