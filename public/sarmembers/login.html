@@ -42,7 +42,7 @@
                     .then((userCredential) => {
                         console.log("Login successful! Redirecting..."); // Debugging line
                         const user = userCredential.user;
-                        window.location.href = "dashboard.html"; // Change to your dashboard URL
+                        window.location.href = "dashboard/dashboard.html"; // Change to your dashboard URL
                     })
                     .catch((error) => {
                         console.error("Login error:", error.message); // Debugging line
