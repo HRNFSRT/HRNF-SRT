@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Highrock National Forest Search & Rescue</title>
-    <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <!-- Firebase Integration -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
@@ -25,73 +24,80 @@
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-   // Check if user is authenticated
+        // Check if user is authenticated
         auth.onAuthStateChanged(user => {
             if (!user) {
-                // User is not logged in, redirect to login page
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Redirect if not logged in
+            } else {
+                // Display user information here if needed
             }
         });
 
-        // Logout function
         function logout() {
             auth.signOut().then(() => {
-                window.location.href = '/index.html';
+                window.location.href = 'login.html'; // Redirect after logout
             });
         }
     </script>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <img src="../images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
-            </div>
-            <div class="header-text">
-                <h1>Highrock National Forest Search & Rescue Team</h1>
-                <p>Saving Lives 365 Days a Year</p>
-            </div>
-        </div>
-    </header>
 
-    <!-- Member Profile Section -->
-    <div class="member-profile">
-        <img src="../images/member.jpg" alt="Member Profile Picture" class="profile-pic">
-        <div class="profile-info">
-            <h2>Member Name</h2>
-            <p>Rank: Team Leader</p>
-            <p>Role: Search & Rescue</p>
-            <p>Active Calls: 2</p>
+<!-- Header Section -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <img src="../images/logo.png" alt="Logo" width="90">
         </div>
+        <h1>Dashboard</h1>
+        <button onclick="logout()" class="logout-btn">Logout</button>
     </div>
+</header>
 
-    <!-- Interactive Boxes for Dashboard Features -->
-    <div class="dashboard-container">
-        <div class="feature-box" onclick="window.location.href='handbook.html';">
-            <h3>Handbook</h3>
-            <p>Access the team's handbook with guidelines and procedures.</p>
-        </div>
-        <div class="feature-box" onclick="window.location.href='cad.html';">
-            <h3>Computer Aided Dispatch</h3>
-            <p>Manage and track incidents effectively with CAD functionality.</p>
-        </div>
-        <div class="feature-box" onclick="window.location.href='aar.html';">
-            <h3>After Action Reports</h3>
-            <p>Submit and review AARs for continuous improvement.</p>
-        </div>
-        <div class="feature-box" onclick="window.location.href='shift_rotas.html';">
-            <h3>Shift Rotas</h3>
-            <p>View and manage shift schedules and duties.</p>
-        </div>
-        <div class="feature-box" onclick="window.location.href='vehicles.html';">
-            <h3>Vehicles and Equipment</h3>
-            <p>Record vehicle statuses and equipment checks.</p>
-        </div>
-        <div class="feature-box" onclick="window.location.href='ics.html';">
-            <h3>ICS Section</h3>
-            <p>Monitor resources and track activities during calls.</p>
-        </div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+<!-- Member Profile Section -->
+<div class="profile-section">
+    <div class="profile-picture">
+        <img src="../images/profile.png" alt="Member Picture" width="100">
     </div>
+    <div class="profile-info">
+        <h2>John Doe</h2>
+        <p>Rank: Team Leader</p>
+        <p>Role: Rescue Technician</p>
+        <p>Active Calls: 2</p>
+    </div>
+</div>
+
+<!-- Dashboard Features Section -->
+<div class="dashboard-container">
+    <div class="feature-box" onclick="window.location.href='handbook.html';">
+        <h3>Handbook</h3>
+        <p>Access the comprehensive handbook with guidelines and protocols.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='cad.html';">
+        <h3>Computer Aided Dispatch</h3>
+        <p>Manage and track calls efficiently with our dispatch system.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='aar.html';">
+        <h3>After Action Reports</h3>
+        <p>Submit and review after action reports for incidents.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='shift_rotas.html';">
+        <h3>Shift Rotas</h3>
+        <p>Manage and view shift assignments for team members.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='vehicles_equipment.html';">
+        <h3>Vehicles and Equipment</h3>
+        <p>Track vehicles and equipment status for operations.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='ics.html';">
+        <h3>ICS Section</h3>
+        <p>Monitor and track resources during calls and activities.</p>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
