@@ -6,94 +6,98 @@
     <title>Highrock National Forest Search & Rescue Team</title>
     <link rel="icon" href="images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
-        <script>
+    <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-  authDomain: "hrnf-srt.firebaseapp.com",
-  projectId: "hrnf-srt",
-  storageBucket: "hrnf-srt.appspot.com",
-  messagingSenderId: "748926279394",
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-  measurementId: "G-5PCZE3S5N5"
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
         };
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
     </script>
 </head>
 <body>
-<!-- Header Section -->
-<header>
-    <div class="header-content">
-        <div class="logo">
-            <img src="images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+            </div>
+            <div class="header-text">
+                <h1>Highrock National Forest Search & Rescue Team</h1>
+                <p>Saving Lives 365 Days a Year</p>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="sarmembers/login.html" class="cta">Member Login</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="header-text">
-            <h1>Highrock National Forest Search & Rescue Team</h1>
-            <p>Saving Lives 365 Days a Year</p>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero"></section> <!-- No text, just image -->
+
+    <!-- About Section -->
+    <section class="about section">
+        <h2>Who We Are</h2>
+        <p>The Highrock National Forest Search and Rescue (HRNF S&R) Company is a specialized unit dedicated to providing high-quality search and rescue services within the expansive and challenging terrain of the Highrock National Forest. Our mission is to protect lives through rapid, effective response to emergencies, including wilderness rescues, technical rescues, and disaster response.</p>
+    </section>
+
+    <!-- Company Values Section -->
+    <section class="values section">
+        <h2>Company Values</h2>
+        <p><strong>Safety:</strong> The safety of our team members and the individuals we rescue is our top priority. We adhere to strict protocols and continuously train to ensure that every operation is conducted with the utmost care.</p>
+        <p><strong>Professionalism:</strong> We operate with integrity, accountability, and respect. Every team member is expected to maintain the highest standards of conduct, both on and off the field.</p>
+        <p><strong>Excellence:</strong> We pursue excellence in every aspect of our work, from planning and training to execution and debriefing. Our commitment to quality drives us to constantly improve our skills and procedures.</p>
+        <p><strong>Teamwork:</strong> Collaboration is essential to our success. We work closely with each other and with partner agencies, fostering a culture of mutual support and effective communication.</p>
+    </section>
+
+    <!-- Recent Rescues Section -->
+    <section class="rescues section">
+        <h2>Recent Rescue Operations</h2>
+        <div class="rescue-item">
+            <img src="path/to/image1.jpg" alt="Rescue Operation 1" class="rescue-image">
+            <div class="rescue-description">
+                <h3>Rescue Operation - October 10, 2024</h3>
+                <p>Details about the successful rescue of two hikers in Highrock National Forest...</p>
+            </div>
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="sarmembers/login.html" class="cta">Member Login</a></li>
-
-            </ul>
-        </nav>
-    </div>
-</header>
-
-
-<!-- Hero Section -->
-<section class="hero">
-    <h1>Welcome to Our Organization</h1>
-    <p>Your help can make a difference. Join us in our mission!</p>
-</section>
-
-<!-- About Section -->
-<section class="about section">
-    <h2>About Us</h2>
-    <p>We are dedicated to providing assistance and support during emergencies. Our volunteers are highly trained and passionate about making a difference.</p>
-</section>
-
-<!-- Recent Rescues Section -->
-<section class="rescues section">
-    <h2>Recent Rescue Operations</h2>
-    <div class="rescue-item">
-        <img src="path/to/image1.jpg" alt="Rescue Operation 1" class="rescue-image">
-        <div class="rescue-description">
-            <h3>Rescue Operation - October 10, 2024</h3>
-            <p>Details about the successful rescue of two hikers in Highrock National Forest...</p>
+        <div class="rescue-item">
+            <img src="path/to/image2.jpg" alt="Rescue Operation 2" class="rescue-image">
+            <div class="rescue-description">
+                <h3>Rescue Operation - October 15, 2024</h3>
+                <p>Another operation where we assisted a family stranded due to sudden weather changes...</p>
+            </div>
         </div>
-    </div>
-    <div class="rescue-item">
-        <img src="path/to/image2.jpg" alt="Rescue Operation 2" class="rescue-image">
-        <div class="rescue-description">
-            <h3>Rescue Operation - October 15, 2024</h3>
-            <p>Another operation where we assisted a family stranded due to sudden weather changes...</p>
+        <!-- Add more rescue items as needed -->
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section">
+        <h2>Contact Us</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
         </div>
-    </div>
-    <!-- Add more rescue items as needed -->
-</section>
-
-<!-- Contact Section -->
-<section class="contact section">
-    <h2>Contact Us</h2>
-    <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-    </form>
-</section>
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
