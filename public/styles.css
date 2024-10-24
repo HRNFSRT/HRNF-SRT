@@ -140,7 +140,7 @@ nav {
     color: #0262c4; /* Blue heading color */
     font-size: 2rem; /* Larger font size for the heading */
     margin-bottom: 20px; /* Space below the heading */
-    text-align: center; /* Center align the heading */
+    text-align: left; /* Align the main heading to the left */
 }
 
 /* Subheading Style */
@@ -148,6 +148,8 @@ nav {
     color: #0262c4; /* Blue color for subheadings */
     font-size: 1.5rem; /* Font size for subheadings */
     margin-top: 20px; /* Space above the subheading */
+    margin-bottom: 10px; /* Space below the subheading to reduce gap */
+    text-align: left; /* Align subheadings to the left */
 }
 
 /* Paragraph Style */
@@ -156,7 +158,8 @@ nav {
     font-size: 1rem; /* Standard font size */
     line-height: 1.6; /* Increased line height for better readability */
     max-width: 800px; /* Limit max width for better readability */
-    margin: 0 auto; /* Center horizontally */
+    margin: 0; /* Remove automatic margin */
+    padding-left: 0; /* Ensure no padding on left */
 }
 
 /* List Styles */
