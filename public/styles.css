@@ -178,15 +178,49 @@ nav {
     text-align: left; /* Left align text content */
 }
 
-/* Specific Styling for Recent Rescues List */
-.recent-rescues .rescue-item {
-    padding: 15px;
-    border-bottom: 1px solid #e0e0e0; /* Separator line for rescues */
+/* Styling for the Recent Rescues Section */
+.rescues .container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-.recent-rescues .rescue-item:last-child {
-    border-bottom: none; /* Remove separator line for the last item */
+.rescues h2 {
+    color: #0262c4; /* Use the same consistent blue color */
+    margin-bottom: 20px;
+    text-align: left;
 }
+
+/* Individual Rescue Item Styling */
+.rescue-item {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc; /* Optional separator line */
+    padding-bottom: 20px;
+}
+
+.rescue-image {
+    max-width: 200px; /* Set a max-width for the image */
+    margin-right: 20px; /* Space between image and description */
+    border-radius: 8px; /* Optional rounded corners */
+}
+
+.rescue-description {
+    flex: 1; /* Allow the description to take remaining space */
+}
+
+.rescue-description h3 {
+    color: #0262c4; /* Use the same consistent blue color */
+    margin-bottom: 10px;
+}
+
+.rescue-description p {
+    color: #333333; /* Darker text for readability */
+    line-height: 1.6;
+    text-align: left;
+}
+
 
 /* Contact Form Adjustments */
 .contact form {
