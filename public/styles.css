@@ -146,7 +146,6 @@ nav {
     color: #333333; /* Darker text for readability */
     font-size: 1rem; /* Standard font size */
     line-height: 1.6; /* Increase line height for better readability */
-    max-width: 800px; /* Limit max width for better readability */
     margin: 0; /* Remove auto-centering */
     text-align: left; /* Align text to the left */
 }
