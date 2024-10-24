@@ -104,26 +104,16 @@ nav {
     height: calc(100vh - 60px); /* Full viewport height minus header */
 }
 
-/* About Section */
-.about {
-    background-color: #ffffff; /* White background for contrast */
+/* Section Styling to Ensure Vertical Alignment */
+.section {
+    display: block; /* Ensure sections are block-level elements */
+    margin: 20px auto; /* Center align with margin above and below */
     padding: 40px; /* Padding around the content */
+    background-color: #ffffff; /* White background for sections */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px auto; /* Margin above and below the section, center align */
     border-radius: 10px; /* Rounded corners */
     max-width: 900px; /* Set a max width for sections */
-    text-align: left; /* Left-align text */
-}
-
-/* Company Values Section */
-.values {
-    background-color: #ffffff; /* White background for contrast */
-    padding: 40px; /* Padding around the content */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px auto; /* Margin above and below the section, center align */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 900px; /* Set a max width for sections */
-    text-align: left; /* Left-align text */
+    clear: both; /* Clear floats to avoid overlap */
 }
 
 /* Section Headings */
@@ -143,12 +133,7 @@ p {
 
 /* Recent Rescues Section */
 .rescues {
-    background-color: #ffffff; /* White background for contrast */
-    padding: 40px; /* Padding around the content */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px auto; /* Margin above and below the section, center align */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 900px; /* Set a max width for sections */
+    display: block; /* Ensure rescues section is block-level */
 }
 
 /* Rescue Item Styles */
@@ -171,14 +156,10 @@ p {
 
 /* Contact Section */
 .contact {
-    background-color: #ffffff; /* White background for contact section */
-    padding: 40px; /* Padding for contact section */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px auto; /* Margin above and below the section, center align */
-    border-radius: 10px; /* Rounded corners */
-    max-width: 900px; /* Set a max width for sections */
+    display: block; /* Ensure contact section is block-level */
 }
 
+/* Contact Form Styles */
 .contact form {
     display: flex;
     flex-direction: column; /* Vertical stacking for form inputs */
