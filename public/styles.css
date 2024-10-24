@@ -131,9 +131,10 @@ nav {
     background-color: #ffffff; /* White background for contrast */
     padding: 40px; /* Padding around the content */
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 20px 0; /* Margin above and below the section */
+    margin: 20px auto; /* Margin above and below the section, center align */
     border-radius: 10px; /* Rounded corners */
     text-align: left; /* Left-align text */
+    max-width: 900px; /* Set a max width for sections */
 }
 
 /* Section Headings */
@@ -219,6 +220,7 @@ nav {
 .contact form button:hover {
     background-color: #024ca1; /* Darker blue on hover */
 }
+
 
 /* Dashboard Styles */
 .dashboard-container {
