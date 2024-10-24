@@ -69,11 +69,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 80px); /* Adjust for header height */
+    background-color: #f0f0f0; /* Background color */
 }
 
 .login-box {
-    background-color: #ffffff;
+    background-color: #ffffff; /* White background for the form */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -83,7 +84,7 @@
 
 h2 {
     margin-bottom: 20px;
-    color: #2f4f4f;
+    color: #2f4f4f; /* Consistent color with your theme */
 }
 
 .input-group {
@@ -106,12 +107,16 @@ h2 {
 }
 
 .login-btn {
-    background-color: #2f4f4f;
-    color: #ffffff;
+    background-color: #0262c4; /* Blue button to match the theme */
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #024ca1; /* Darker blue on hover */
 }
