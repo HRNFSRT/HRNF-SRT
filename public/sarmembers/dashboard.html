@@ -4,7 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Highrock National Forest Search & Rescue</title>
-    <link rel="stylesheet" href="SAR Auth/public/styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase Integration -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Check if user is authenticated
+        auth.onAuthStateChanged(user => {
+            if (!user) {
+                // User is not logged in, redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Logout function
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'login.html';
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="dashboard-container">
@@ -19,6 +51,7 @@
                 <li><a href="#vehicle-checklists">Vehicle Checklists</a></li>
                 <li><a href="#issue-reports">Issue Reports</a></li>
             </ul>
+            <button onclick="logout()" class="logout-btn">Logout</button>
         </div>
 
         <!-- Main Content Area -->
@@ -31,26 +64,7 @@
                 <h3>Handbook Pages</h3>
                 <p>Content for handbook pages will go here.</p>
             </section>
-            <section id="cad">
-                <h3>Computer Aided Dispatch (CAD)</h3>
-                <p>CAD tools and functionalities go here.</p>
-            </section>
-            <section id="aar">
-                <h3>After Action Reports</h3>
-                <p>Review and submit after action reports here.</p>
-            </section>
-            <section id="rotas">
-                <h3>Shift Rotas</h3>
-                <p>View and manage shift rotas here.</p>
-            </section>
-            <section id="vehicle-checklists">
-                <h3>Vehicle Checklists</h3>
-                <p>Access vehicle checklists and logs.</p>
-            </section>
-            <section id="issue-reports">
-                <h3>Issue Reports</h3>
-                <p>Report and track issues here.</p>
-            </section>
+            <!-- Add other sections as needed -->
         </div>
     </div>
 </body>
