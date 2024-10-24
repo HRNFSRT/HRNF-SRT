@@ -142,19 +142,19 @@ h2 {
     text-align: left;
 }
 
+/* Style for the checkbox and label */
 .input-group label {
-    display: block;
-    font-size: 14px;
+    display: inline-flex; /* Align the checkbox and text in a single line */
+    align-items: center; /* Vertically align items */
+    font-size: 14px; /* Adjust text size */
     color: #333333;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #cccccc;
+.input-group input[type="checkbox"] {
+    margin-right: 8px; /* Space between checkbox and label text */
+    vertical-align: middle; /* Vertically center the checkbox */
 }
+
 
 .login-btn {
     background-color: #0262c4; /* Blue button to match the theme */
@@ -170,6 +170,24 @@ h2 {
 .login-btn:hover {
     background-color: #024ca1; /* Darker blue on hover */
 }
+/* If links are in a container */
+.bottom-links {
+    display: flex;
+    justify-content: space-between; /* Equal space between links */
+    margin-top: 20px; /* Space above the links */
+}
+
+.bottom-links a {
+    margin-right: 10px; /* Space between each link */
+    color: #0262c4; /* Adjust link color if needed */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s;
+}
+
+.bottom-links a:hover {
+    color: #0055a4; /* Slightly darker on hover */
+}
+
 /* Dashboard Styles */
 .dashboard-container {
     display: flex;
