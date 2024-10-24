@@ -20,48 +20,84 @@
   appId: "1:748926279394:web:1303b9000361b1d51808bb",
   measurementId: "G-5PCZE3S5N5"
         };
+
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
+
+        // Function to handle login
+        function login() {
+            const email = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // Redirect to dashboard or home page
+                    window.location.href = "dashboard.html"; // Change to your dashboard URL
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage); // Show error message
+                });
+        }
     </script>
 </head>
 <body>
-    <!-- Login Section -->
-    <div class="login-container">
-        <div class="login-box">
-            <h2>Member Login</h2>
-            <form id="login-form">
-                <div class="input-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-btn">Login</button>
-            </form>
-            <div id="error-message"></div>
-        </div>
-    </div>
 
-    <script>
-        // Firebase Authentication Logic
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    // Successful login, redirect to dashboard
-                    window.location.href = 'dashboard.html';
-                })
-                .catch(error => {
-                    // Display error message
-                    document.getElementById('error-message').textContent = error.message;
-                });
-        });
-    </script>
+<!-- Header Section -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <img src="images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+        </div>
+        <div class="header-text">
+            <h1>Highrock National Forest Search & Rescue Team</h1>
+            <p>Saving Lives 365 Days a Year</p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="cta">Member Login</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Login Page Container -->
+<div class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <form onsubmit="event.preventDefault(); login();">
+            <div class="input-group">
+                <label for="username">Username or Email:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember Me</label>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <p><a href="#">Forgot Password?</a></p>
+        </form>
+        <p>Don't have an account? <a href="register.html">Sign Up</a></p>
+        <p><a href="index.html">Back to Home</a></p>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
