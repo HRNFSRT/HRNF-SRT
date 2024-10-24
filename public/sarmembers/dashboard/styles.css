@@ -48,6 +48,29 @@ header {
     margin-right: 10px;
 }
 
+/* Header text styling - aligned inline with the logo */
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #ccc;
+    white-space: nowrap;
+}
+
+
 /* Profile Section Styling */
 .profile-section {
     display: flex;
