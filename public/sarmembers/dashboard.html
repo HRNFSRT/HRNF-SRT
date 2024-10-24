@@ -11,14 +11,15 @@
     <script>
         // Firebase Configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-  authDomain: "hrnf-srt.firebaseapp.com",
-  projectId: "hrnf-srt",
-  storageBucket: "hrnf-srt.appspot.com",
-  messagingSenderId: "748926279394",
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-  measurementId: "G-5PCZE3S5N5"
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
         };
+        
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
@@ -26,47 +27,77 @@
         // Check if user is authenticated
         auth.onAuthStateChanged(user => {
             if (!user) {
-                // User is not logged in, redirect to login page
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Redirect if not logged in
+            } else {
+                // Display user information here if needed
             }
         });
 
-        // Logout function
         function logout() {
             auth.signOut().then(() => {
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Redirect after logout
             });
         }
     </script>
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar">
-            <h3>Dashboard</h3>
-            <ul>
-                <li><a href="#handbook">Handbook Pages</a></li>
-                <li><a href="#cad">Computer Aided Dispatch (CAD)</a></li>
-                <li><a href="#aar">After Action Reports</a></li>
-                <li><a href="#rotas">Shift Rotas</a></li>
-                <li><a href="#vehicle-checklists">Vehicle Checklists</a></li>
-                <li><a href="#issue-reports">Issue Reports</a></li>
-            </ul>
-            <button onclick="logout()" class="logout-btn">Logout</button>
-        </div>
 
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <h2>Welcome to the Dashboard</h2>
-            <p>Select an option from the sidebar to get started.</p>
-
-            <!-- Placeholder Sections -->
-            <section id="handbook">
-                <h3>Handbook Pages</h3>
-                <p>Content for handbook pages will go here.</p>
-            </section>
-            <!-- Add other sections as needed -->
+<!-- Header Section -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <img src="../images/logo.png" alt="Logo" width="90">
         </div>
+        <h1>Dashboard</h1>
+        <button onclick="logout()" class="logout-btn">Logout</button>
     </div>
+</header>
+
+<!-- Member Profile Section -->
+<div class="profile-section">
+    <div class="profile-picture">
+        <img src="../images/profile.png" alt="Member Picture" width="100">
+    </div>
+    <div class="profile-info">
+        <h2>John Doe</h2>
+        <p>Rank: Team Leader</p>
+        <p>Role: Rescue Technician</p>
+        <p>Active Calls: 2</p>
+    </div>
+</div>
+
+<!-- Dashboard Features Section -->
+<div class="dashboard-container">
+    <div class="feature-box" onclick="window.location.href='handbook.html';">
+        <h3>Handbook</h3>
+        <p>Access the comprehensive handbook with guidelines and protocols.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='cad.html';">
+        <h3>Computer Aided Dispatch</h3>
+        <p>Manage and track calls efficiently with our dispatch system.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='aar.html';">
+        <h3>After Action Reports</h3>
+        <p>Submit and review after action reports for incidents.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='shift_rotas.html';">
+        <h3>Shift Rotas</h3>
+        <p>Manage and view shift assignments for team members.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='vehicles_equipment.html';">
+        <h3>Vehicles and Equipment</h3>
+        <p>Track vehicles and equipment status for operations.</p>
+    </div>
+    <div class="feature-box" onclick="window.location.href='ics.html';">
+        <h3>ICS Section</h3>
+        <p>Monitor and track resources during calls and activities.</p>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
