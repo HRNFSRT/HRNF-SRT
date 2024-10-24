@@ -65,18 +65,18 @@ header {
 
 /* Dashboard Features Section */
 .dashboard-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow boxes to wrap to the next line */
+    display: grid; /* Use grid for layout */
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px; /* Space between boxes */
     padding: 20px; /* Add padding for the feature section */
+    margin-top: 20px; /* Margin on top of dashboard section */
 }
 
 .feature-box {
-    flex: 0 0 48%; /* Take up about half the width of the container */
     background-color: #ffffff; /* White background for boxes */
     border: 1px solid #ccc; /* Light grey border */
     border-radius: 5px; /* Slightly rounded corners */
     padding: 20px; /* Padding inside the box */
-    margin: 10px; /* Margin around the boxes */
     cursor: pointer; /* Pointer cursor on hover */
     transition: box-shadow 0.3s; /* Smooth transition for box shadow */
 }
