@@ -7,23 +7,24 @@
     <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     
-    <!-- Firebase Integration -->
+    <!-- Firebase Integration (Use non-module scripts) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
-    <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
 
-        // Initialize Firebase
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+                authDomain: "hrnf-srt.firebaseapp.com",
+                projectId: "hrnf-srt",
+                storageBucket: "hrnf-srt.appspot.com",
+                messagingSenderId: "748926279394",
+                appId: "1:748926279394:web:1303b9000361b1d51808bb",
+                measurementId: "G-5PCZE3S5N5"
+            };
+
+            // Initialize Firebase
             const app = firebase.initializeApp(firebaseConfig);
             const auth = firebase.auth();
 
