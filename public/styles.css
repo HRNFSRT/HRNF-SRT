@@ -233,14 +233,32 @@ nav {
     text-align: left; /* Left align text content */
 }
 
-/* Specific Styling for Recent Rescues List */
-.recent-rescues .rescue-item {
-    padding: 15px;
-    border-bottom: 1px solid #e0e0e0; /* Separator line for rescues */
+/* Recent Rescues Section Styles */
+.recent-rescues {
+    background-color: white; /* White background for contrast */
+    padding: 60px 20px; /* Padding to add space around the content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 40px 0; /* Margin above and below the section */
+    border-radius: 10px; /* Rounded corners */
 }
 
-.recent-rescues .rescue-item:last-child {
-    border-bottom: none; /* Remove separator line for the last item */
+/* Main Heading Style for Recent Rescues */
+.recent-rescues h2 {
+    color: #0262c4; /* Blue heading color */
+    font-size: 2rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+    text-align: left; /* Align the main heading to the left */
+}
+
+/* Paragraph Style for Recent Rescues */
+.recent-rescues p {
+    color: #333; /* Darker text for readability */
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.6; /* Increased line height for better readability */
+    max-width: 800px; /* Limit max width for better readability */
+    margin: 0; /* Remove automatic margin */
+    padding-left: 0; /* Ensure no padding on left */
+    text-align: left; /* Align text to the left */
 }
 
 /* Contact Form Adjustments */
