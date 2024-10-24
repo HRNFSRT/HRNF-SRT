@@ -73,6 +73,20 @@ header {
     white-space: nowrap;
 }
 
+/* Logout Button Styling */
+.logout-btn {
+    padding: 8px 12px;
+    background-color: #e94307; /* Same color as the login button */
+    color: white;
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth color transition */
+}
+
+.logout-btn:hover {
+    background-color: #b63101; /* Darker shade on hover */
+}
 
 /* Profile Section Styling */
 .profile-section {
