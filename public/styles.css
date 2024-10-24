@@ -150,6 +150,37 @@ nav {
     text-align: left; /* Align text to the left */
 }
 
+/* Company Values Section Styling */
+.values {
+    background-color: white; /* White background for contrast */
+    padding: 60px 20px; /* Uniform padding around the content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin: 40px 0; /* Margin above and below the section */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.values h2 {
+    color: #0262c4; /* Heading in blue */
+    font-size: 2rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+.value-item {
+    margin-bottom: 30px; /* Space between value items */
+}
+
+.value-item h3 {
+    color: #0262c4; /* Blue heading for each value */
+    font-size: 1.5rem; /* Slightly larger font size for value headings */
+    margin-bottom: 10px; /* Space below the value heading */
+}
+
+.value-item p {
+    color: #333333; /* Darker text for readability */
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.6; /* Increased line height for better readability */
+}
+
 
 /* Shared Styling for rescues and contact Sections */
 .section {
