@@ -38,15 +38,15 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
         // Load PDF from Firebase and render with PDF.js
-        async function loadPDF() {
-            try {
-                const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Correct way to get reference
-                const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
-                renderPDF(url); // Render the PDF
-            } catch (error) {
-                console.error("Error loading PDF:", error);
+            async function loadPDF() {
+                try {
+                    // Use the hardcoded download URL temporarily for testing
+                    const url = "https://firebasestorage.googleapis.com/v0/b/hrnf-srt.appspot.com/o/HRNF%20S%26R%20Handbook%20V2%20(1).pdf?alt=media&token=2235fb86-1a5a-4cb0-b2eb-3820c4ee4dd2"; 
+                    renderPDF(url); // Render the PDF
+                } catch (error) {
+                        console.error("Error loading PDF:", error);
+                }
             }
-        }
 
         // Render the PDF using PDF.js
         async function renderPDF(url) {
