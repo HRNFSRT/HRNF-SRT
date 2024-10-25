@@ -141,7 +141,6 @@ footer {
     width: 100%; /* Full width */
     color: white; /* White text color */
 }
-
 /* Container for Sidebar and PDF */
 .container {
     display: flex;
@@ -196,4 +195,3 @@ footer {
     width: 100%;
     max-width: 800px;
 }
-
