@@ -176,35 +176,24 @@ nav {
     margin-bottom: 10px; /* Space between list items */
 }
 
-/* Company Values Section Styling */
-.values {
-    background-color: white; /* White background for contrast */
-    padding: 60px 20px; /* Uniform padding around the content */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    margin: 40px 0; /* Margin above and below the section */
-    border-radius: 10px; /* Rounded corners */
+/* Styles for How We Started Section */
+.how-we-started {
+    background-color: #f5f5f5;  /* Light gray background */
+    padding: 40px;
+    border-radius: 10px;
+    margin: 40px 0;
 }
 
-.values h2 {
-    color: #0262c4; /* Heading in blue */
-    font-size: 2rem; /* Larger font size for the heading */
-    margin-bottom: 20px; /* Space below the heading */
+.how-we-started h2 {
+    color: #0262c4;  /* Blue color to match the site */
+    font-size: 2rem;
+    margin-bottom: 20px;
 }
 
-.value-item {
-    margin-bottom: 30px; /* Space between value items */
-}
-
-.value-item h3 {
-    color: #0262c4; /* Blue heading for each value */
-    font-size: 1.5rem; /* Slightly larger font size for value headings */
-    margin-bottom: 10px; /* Space below the value heading */
-}
-
-.value-item p {
-    color: #333333; /* Darker text for readability */
-    font-size: 1rem; /* Standard font size */
-    line-height: 1.6; /* Increased line height for better readability */
+.how-we-started p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #333;
 }
 
 
