@@ -73,7 +73,7 @@ header {
     white-space: nowrap;
 }
 
-/* Logout Button Styling */
+/* Home Button Styling */
 .logout-btn {
     padding: 8px 12px;
     background-color: #e94307; /* Same color as the login button */
@@ -88,63 +88,11 @@ header {
     background-color: #b63101; /* Darker shade on hover */
 }
 
-/* Profile Section Styling */
-.profile-section {
-    display: flex;
-    align-items: center;
-    padding: 120px 20px 20px; /* Padding to adjust for fixed header */
-}
-
-.profile-picture {
-    margin-right: 20px;
-}
-
-.profile-info {
-    color: #0262c4;
-}
-
-/* Dashboard Features Section */
-.dashboard-container {
-    display: grid; /* Use grid for layout */
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 20px; /* 20px space between boxes */
-    padding: 20px; /* Add padding for the feature section */
-    margin-top: 20px; /* Margin on top of dashboard section */
-    flex-grow: 1; /* Allow this section to grow and fill available space */
-    width: 100%; /* Ensure full width */
-    height: auto; /* Allow the height to adjust based on content */
-}
-
-/* Feature Box Style */
-.feature-box {
-    background-color: #ffffff; /* White background for boxes */
-    border: 1px solid #ccc; /* Light grey border */
-    border-radius: 5px; /* Slightly rounded corners */
-    padding: 20px; /* Padding inside the box */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: box-shadow 0.3s; /* Smooth transition for box shadow */
-    height: 150px; /* Set a fixed height for boxes */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for better visibility */
-}
-
-
-.feature-box:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
-}
-/* Footer Styling */
-footer {
-    background-color: #333; /* Light grey background for footer */
-    text-align: center; /* Center the text */
-    padding: 20px 0; /* Padding for spacing */
-    position: relative; /* Ensure it doesn't overlap with content */
-    bottom: 0; /* Align to the bottom of the page */
-    width: 100%; /* Full width */
-    color: white; /* White text color */
-}
 /* Container for Sidebar and PDF */
 .container {
     display: flex;
     height: 100vh;
+    margin-top: 60px; /* Add top margin to account for fixed header */
 }
 
 /* Sidebar Styles */
@@ -194,4 +142,58 @@ footer {
     border: 1px solid #ddd;
     width: 100%;
     max-width: 800px;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #333; /* Light grey background for footer */
+    text-align: center; /* Center the text */
+    padding: 20px 0; /* Padding for spacing */
+    position: relative; /* Ensure it doesn't overlap with content */
+    bottom: 0; /* Align to the bottom of the page */
+    width: 100%; /* Full width */
+    color: white; /* White text color */
+}
+
+/* Profile Section Styling */
+.profile-section {
+    display: flex;
+    align-items: center;
+    padding: 120px 20px 20px; /* Padding to adjust for fixed header */
+}
+
+.profile-picture {
+    margin-right: 20px;
+}
+
+.profile-info {
+    color: #0262c4;
+}
+
+/* Dashboard Features Section */
+.dashboard-container {
+    display: grid; /* Use grid for layout */
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px; /* 20px space between boxes */
+    padding: 20px; /* Add padding for the feature section */
+    margin-top: 20px; /* Margin on top of dashboard section */
+    flex-grow: 1; /* Allow this section to grow and fill available space */
+    width: 100%; /* Ensure full width */
+    height: auto; /* Allow the height to adjust based on content */
+}
+
+/* Feature Box Style */
+.feature-box {
+    background-color: #ffffff; /* White background for boxes */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 5px; /* Slightly rounded corners */
+    padding: 20px; /* Padding inside the box */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: box-shadow 0.3s; /* Smooth transition for box shadow */
+    height: 150px; /* Set a fixed height for boxes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for better visibility */
+}
+
+.feature-box:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
