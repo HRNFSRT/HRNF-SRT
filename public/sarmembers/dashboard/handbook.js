@@ -9,12 +9,11 @@ const firebaseConfig = {
     measurementId: "G-5PCZE3S5N5"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const storage = firebase.storage();
+// Ensure to include the following imports at the top of your handbook.js file
+import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
 
 // Load PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"; // Update to use CDN
 
 // Handbook Sections (Sample JSON for demonstration)
 const handbookSections = [
