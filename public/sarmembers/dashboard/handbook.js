@@ -13,7 +13,7 @@ const firebaseConfig = {
 import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
 
 // Load PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"; // Update to use CDN
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdfjs/pdf.worker.js';
 
 // Handbook Sections (Sample JSON for demonstration)
 const handbookSections = [
@@ -31,16 +31,19 @@ const handbookSections = [
     }
 ];
 
+
 // Load PDF from Firebase and render with PDF.js
 async function loadPDF() {
     try {
-        const pdfRef = storage.ref('gs://hrnf-srt.appspot.com/HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
-        const url = await pdfRef.getDownloadURL();
-        renderPDF(url);
+        // Use a reference to the PDF in Firebase Storage
+        const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF
+        const url = await pdfRef.getDownloadURL(); // Get the download URL for the PDF
+        renderPDF(url); // Render the PDF
     } catch (error) {
         console.error("Error loading PDF:", error);
     }
 }
+
 
 // Render the PDF using PDF.js
 async function renderPDF(url) {
@@ -62,7 +65,6 @@ async function renderPDF(url) {
     };
     await page.render(renderContext);
 }
-
 // Function to build the sidebar dynamically
 function buildSidebar() {
     const sidebarList = document.getElementById('sidebarList');
