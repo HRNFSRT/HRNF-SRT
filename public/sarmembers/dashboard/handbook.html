@@ -16,7 +16,7 @@
         // Import Firebase functions from the CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
+        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"; // Include ref and getDownloadURL
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -37,11 +37,11 @@
         // Load PDF.js Worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
-        // Load the PDF
+        // Load PDF from Firebase and render with PDF.js
         async function loadPDF() {
             try {
-                const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
-                const url = await pdfRef.getDownloadURL(); // Get the download URL for the PDF
+                const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Correct way to get reference
+                const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
                 renderPDF(url); // Render the PDF
             } catch (error) {
                 console.error("Error loading PDF:", error);
@@ -145,4 +145,3 @@
     </div>
 </body>
 </html>
-
