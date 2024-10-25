@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 
 // Load PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdfjs/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.js';
 
 // Handbook Sections (Sample JSON for demonstration)
 const handbookSections = [
@@ -35,7 +35,7 @@ const handbookSections = [
 // Load PDF from Firebase and render with PDF.js
 async function loadPDF() {
     try {
-        const pdfRef = storage.ref('handbooks/HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
+        const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
         const url = await pdfRef.getDownloadURL();
         renderPDF(url);
     } catch (error) {
