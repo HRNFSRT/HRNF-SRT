@@ -44,8 +44,8 @@
                 const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
                 const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
                 renderPDF(pdf); // Render the PDF
-                const headings = await extractHeadingsFromPDF(pdf); // Extract headings
-                buildSidebar(headings); // Build the sidebar with headings
+                const tocHeadings = await extractTOCHeadings(pdf); // Extract headings from the TOC
+                buildSidebar(tocHeadings); // Build the sidebar with headings
             } catch (error) {
                 console.error("Error loading PDF:", error);
             }
@@ -75,81 +75,33 @@
             }
         }
 
-        // Function to extract headings from the PDF
-        async function extractHeadingsFromPDF(pdf) {
-            const headings = [];
-            const numPages = pdf.numPages;
+        // Function to extract headings from the Table of Contents on page 2
+        async function extractTOCHeadings(pdf) {
+            const tocHeadings = [];
+            const page = await pdf.getPage(2); // Get the second page (TOC)
+            const textContent = await page.getTextContent();
 
-            for (let i = 1; i <= numPages; i++) {
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
+            textContent.items.forEach((item) => {
+                const text = item.str;
 
-                // Temporary array to hold headings for the current page
-                const pageHeadings = [];
-
-                textContent.items.forEach((item) => {
-                    const text = item.str;
-                    const fontSize = extractFontSize(item.transform);
-
-                    // Check for specific conditions to identify headings
-                    if (fontSize >= 14 && fontSize <= 18) { // Example font size range for headings
-                        const level = getHeadingLevel(fontSize); // Determine the heading level based on font size
-                        pageHeadings.push({ text, level });
-                    }
-                });
-
-                // Push the headings from the current page to the main headings array
-                headings.push(...pageHeadings);
-            }
-            return headings;
-        }
-
-        // Function to determine heading level based on font size
-        function getHeadingLevel(fontSize) {
-            if (fontSize === 18) return 1; // Heading 1
-            if (fontSize === 16) return 2; // Heading 2
-            if (fontSize === 14) return 3; // Heading 3
-            return 0; // Not a heading
-        }
-
-        // Function to build the sidebar dynamically with nested structure
-        function buildSidebar(headings) {
-            const outlineView = document.getElementById('outlineView');
-            const tree = createNestedStructure(headings);
-            
-            tree.forEach(item => {
-                const listItem = createTreeItem(item);
-                outlineView.appendChild(listItem);
-            });
-        }
-
-        // Function to create a nested structure from the headings
-        function createNestedStructure(headings) {
-            const tree = [];
-            const stack = [];
-
-            headings.forEach(item => {
-                const { text, level } = item;
-
-                const node = { text, level, children: [] };
-
-                // Adjust tree based on heading level
-                if (level === 1) {
-                    tree.push(node);
-                    stack.length = 0; // Clear the stack for new top-level headings
-                    stack.push(node);
-                } else {
-                    while (stack.length && stack[stack.length - 1].level >= level) {
-                        stack.pop(); // Pop items from the stack until the right level is found
-                    }
-                    if (stack.length) {
-                        stack[stack.length - 1].children.push(node);
-                    }
-                    stack.push(node); // Add current node to the stack
+                // Here we can add logic to identify which lines are headings
+                // Assuming headings follow a specific format, e.g., starting with a number or certain keywords
+                if (text.match(/^\d+\.\s/)) { // Match lines that start with a number followed by a dot (e.g., "1. Introduction")
+                    tocHeadings.push({ text });
                 }
             });
 
-            return tree;
+            return tocHeadings;
+        }
+
+        // Function to build the sidebar dynamically
+        function buildSidebar(headings) {
+            const outlineView = document.getElementById('outlineView');
+            
+            headings.forEach(item => {
+                const listItem = createTreeItem(item);
+                outlineView.appendChild(listItem);
+            });
         }
 
         // Function to create a tree item element
@@ -158,29 +110,16 @@
             div.classList.add('treeItem');
 
             const link = document.createElement('a');
-            link.href = `#section-${item.text.replace(/\s+/g, '-')}`; // Create a link based on the heading text
+            link.href = `#${item.text.replace(/\s+/g, '-')}`; // Create a link based on the heading text
             link.textContent = item.text;
 
             // Add click event to scroll to section (to be implemented)
             link.onclick = (e) => {
                 e.preventDefault();
-                scrollToSection(`section-${item.text.replace(/\s+/g, '-')}`); // Call scroll to section
+                scrollToSection(`${item.text.replace(/\s+/g, '-')}`); // Call scroll to section
             };
 
             div.appendChild(link);
-
-            // If the item has children, create a nested structure
-            if (item.children.length > 0) {
-                const childContainer = document.createElement('div');
-                childContainer.classList.add('treeItems'); // Add a class for styling
-
-                item.children.forEach(child => {
-                    const childItem = createTreeItem(child);
-                    childContainer.appendChild(childItem);
-                });
-
-                div.appendChild(childContainer); // Append child items to the parent
-            }
 
             return div;
         }
