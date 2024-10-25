@@ -1,12 +1,12 @@
 // Firebase Configuration (Replace with your credentials)
 const firebaseConfig = {
-        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-        authDomain: "hrnf-srt.firebaseapp.com",
-        projectId: "hrnf-srt",
-        storageBucket: "hrnf-srt.appspot.com",
-        messagingSenderId: "748926279394",
-        appId: "1:748926279394:web:1303b9000361b1d51808bb",
-        measurementId: "G-5PCZE3S5N5"
+    apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+    authDomain: "hrnf-srt.firebaseapp.com",
+    projectId: "hrnf-srt",
+    storageBucket: "hrnf-srt.appspot.com",
+    messagingSenderId: "748926279394",
+    appId: "1:748926279394:web:1303b9000361b1d51808bb",
+    measurementId: "G-5PCZE3S5N5"
 };
 
 // Initialize Firebase
@@ -35,7 +35,7 @@ const handbookSections = [
 // Load PDF from Firebase and render with PDF.js
 async function loadPDF() {
     try {
-        const pdfRef = storage.ref('handbooks/your-handbook.pdf'); // Path to your PDF in Firebase Storage
+        const pdfRef = storage.ref('handbooks/HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
         const url = await pdfRef.getDownloadURL();
         renderPDF(url);
     } catch (error) {
