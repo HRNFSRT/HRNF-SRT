@@ -76,7 +76,7 @@
             }
         }
 
-        // Function to extract headings from the PDF based on underline style
+        // Function to extract headings from the PDF based on size and underline style
         async function extractHeadings(pdf) {
             const sidebarList = document.getElementById('sidebarList');
             const headingSet = new Set(); // To keep track of added headings
@@ -89,16 +89,34 @@
                 textItems.forEach(item => {
                     const text = item.str.trim();
                     const underline = item.font && item.font.includes('underline'); // Check if text is underlined
+                    const fontSize = item.height; // Get the height of the font as size
 
-                    // Check if the text is underlined and not already added
+                    // Log each text item and its properties
+                    console.log(`Text: ${text}, Underlined: ${underline}, Font Size: ${fontSize}`);
+
+                    // Check for headings based on font size and underline
                     if (underline && !headingSet.has(text)) {
-                        headingSet.add(text); // Add to set to avoid duplicates
+                        let headingLevel = null;
 
-                        const sectionItem = document.createElement('li');
-                        sectionItem.textContent = text;
-                        sectionItem.classList.add('section-item');
-                        sectionItem.onclick = () => scrollToSection(text); // Implement the scrolling
-                        sidebarList.appendChild(sectionItem);
+                        // Determine heading level based on font size
+                        if (fontSize >= 18) { // Heading 1: 18 pt
+                            headingLevel = "Heading 1";
+                        } else if (fontSize >= 16) { // Heading 2: 16 pt
+                            headingLevel = "Heading 2";
+                        } else if (fontSize >= 14) { // Heading 3: 14 pt
+                            headingLevel = "Heading 3";
+                        }
+
+                        // Only add Heading 1, 2, and 3
+                        if (headingLevel) {
+                            headingSet.add(text); // Add to set to avoid duplicates
+
+                            const sectionItem = document.createElement('li');
+                            sectionItem.textContent = text;
+                            sectionItem.classList.add('section-item');
+                            sectionItem.onclick = () => scrollToSection(text); // Implement the scrolling
+                            sidebarList.appendChild(sectionItem);
+                        }
                     }
                 });
             }
