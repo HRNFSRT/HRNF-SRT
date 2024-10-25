@@ -1,4 +1,4 @@
-// Firebase Configuration (Replace with your credentials)
+// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
     authDomain: "hrnf-srt.firebaseapp.com",
@@ -9,8 +9,9 @@ const firebaseConfig = {
     measurementId: "G-5PCZE3S5N5"
 };
 
-// Ensure to include the following imports at the top of your handbook.js file
-import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
 
 // Load PDF.js
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdfjs/pdf.worker.js';
@@ -31,19 +32,16 @@ const handbookSections = [
     }
 ];
 
-
 // Load PDF from Firebase and render with PDF.js
 async function loadPDF() {
     try {
-        // Use a reference to the PDF in Firebase Storage
-        const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF
+        const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
         const url = await pdfRef.getDownloadURL(); // Get the download URL for the PDF
         renderPDF(url); // Render the PDF
     } catch (error) {
         console.error("Error loading PDF:", error);
     }
 }
-
 
 // Render the PDF using PDF.js
 async function renderPDF(url) {
@@ -65,6 +63,7 @@ async function renderPDF(url) {
     };
     await page.render(renderContext);
 }
+
 // Function to build the sidebar dynamically
 function buildSidebar() {
     const sidebarList = document.getElementById('sidebarList');
@@ -102,6 +101,6 @@ function scrollToSection(subtopic) {
 
 // Initialize everything when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    buildSidebar();
-    loadPDF();
+    buildSidebar(); // Build the sidebar
+    loadPDF(); // Load the PDF
 });
