@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
 
 // Load PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/libs/pdfjs/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.js';
 
 // Handbook Sections (Sample JSON for demonstration)
 const handbookSections = [
