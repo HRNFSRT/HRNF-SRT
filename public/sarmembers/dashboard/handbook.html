@@ -6,6 +6,91 @@
     <title>PDF Viewer</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script type="module">
+        // Import Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app); // Initialize Storage
+
+        // Load PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+        // Load PDF from Firebase and render with PDF.js
+        async function loadPDF() {
+            try {
+                const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
+                const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
+                const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
+                renderPDF(pdf); // Render the PDF
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+            }
+        }
+
+        // Render the PDF using PDF.js
+        async function renderPDF(pdf) {
+            const pdfViewerContainer = document.getElementById('pdfViewerContainer');
+            pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
+
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 });
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-page';
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                };
+                await page.render(renderContext);
+                pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
+            }
+        }
+
+        // Function to scroll to sections in the PDF
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                // Smoothly scroll to the section
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                console.warn("Section not found:", sectionId); // Debug log for missing section ID
+            }
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPDF(); // Load the PDF
+        });
+
+        // Add click event listener to toggle subheadings
+        document.addEventListener('click', (event) => {
+            if (event.target.closest('.sidebar > ul > li > div')) {
+                const subheadings = event.target.nextElementSibling;
+                if (subheadings) {
+                    subheadings.classList.toggle('show');
+                }
+            }
+        });
+    </script>
     <style>
         /* Container for Sidebar and PDF */
         .container {
@@ -170,7 +255,7 @@
             <li>
                 <div>Section 5: Urban Search and Rescue (USAR)</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('urbanSearchRescue')">Page 34</li>
+                    <li onclick="scrollToSection('urbanRescue')">Page 34</li>
                 </ul>
             </li>
             <li>
@@ -182,7 +267,7 @@
             <li>
                 <div>Section 7: Firefighting in Wildland Environments</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('firefighting')">Page 43</li>
+                    <li onclick="scrollToSection('firefightingWildland')">Page 43</li>
                 </ul>
             </li>
             <li>
@@ -200,7 +285,7 @@
             <li>
                 <div>Hypothermia Prevention and Treatment</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('hypothermiaTreatment')">Page 48</li>
+                    <li onclick="scrollToSection('hypothermiaPrevention')">Page 48</li>
                 </ul>
             </li>
             <li>
@@ -224,19 +309,16 @@
             <li>
                 <div>Co-Ordination With Other Public Services</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('coordinationWithServices')">Page 53</li>
+                    <li onclick="scrollToSection('coordinationPublicServices')">Page 53</li>
                 </ul>
             </li>
             <li>
                 <div>Search Theory</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('searchTheory')">Page 54</li>
-                    <ul class="subheadings">
-                        <li onclick="scrollToSection('searchTheoryPart1')">Part 1: Fundamentals of Search Theory</li>
-                        <li onclick="scrollToSection('searchTheoryPart2')">Part 2: Search Planning and Strategy</li>
-                        <li onclick="scrollToSection('searchTheoryPart3')">Part 3: Search Techniques</li>
-                        <li onclick="scrollToSection('searchTheoryPart4')">Part 4: Analyzing and Adapting Search Efforts</li>
-                    </ul>
+                    <li onclick="scrollToSection('searchTheoryPart1')">Part 1: Fundamentals of Search Theory</li>
+                    <li onclick="scrollToSection('searchTheoryPart2')">Part 2: Search Planning and Strategy</li>
+                    <li onclick="scrollToSection('searchTheoryPart3')">Part 3: Search Techniques</li>
+                    <li onclick="scrollToSection('searchTheoryPart4')">Part 4: Analyzing and Adapting Search Efforts</li>
                 </ul>
             </li>
             <li>
@@ -252,85 +334,6 @@
         <!-- The PDF pages will be dynamically loaded here -->
     </div>
 </div>
-
-<script type="module">
-    // Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-        authDomain: "hrnf-srt.firebaseapp.com",
-        projectId: "hrnf-srt",
-        storageBucket: "hrnf-srt.appspot.com",
-        messagingSenderId: "748926279394",
-        appId: "1:748926279394:web:1303b9000361b1d51808bb",
-        measurementId: "G-5PCZE3S5N5"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app); // Initialize Storage
-
-    // Load PDF.js Worker
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
-
-    // Load PDF from Firebase and render with PDF.js
-    async function loadPDF() {
-        try {
-            const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
-            const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
-            const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
-            renderPDF(pdf); // Render the PDF
-        } catch (error) {
-            console.error("Error loading PDF:", error);
-        }
-    }
-
-    // Render the PDF using PDF.js
-    async function renderPDF(pdf) {
-        const pdfViewerContainer = document.getElementById('pdfViewerContainer');
-        pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
-
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const viewport = page.getViewport({ scale: 1.5 });
-
-            const canvas = document.createElement('canvas');
-            canvas.className = 'pdf-page';
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport,
-            };
-            await page.render(renderContext);
-            pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
-        }
-    }
-
-    // Function to scroll to sections in the PDF
-    function scrollToSection(sectionId) {
-        // This is a placeholder function. You may want to implement functionality to scroll based on your page structure.
-        console.log("Scroll to section:", sectionId); // Debug log for section ID
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
-    // Initialize everything when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        loadPDF(); // Load the PDF
-    });
-
-    // Add click event listener to toggle subheadings
-    document.querySelectorAll('.sidebar > ul > li > div').forEach(item => {
-        item.addEventListener('click', function() {
-            const subheadings = this.nextElementSibling;
-            subheadings.classList.toggle('show');
-        });
-    });
-</script>
 
 </body>
 </html>
