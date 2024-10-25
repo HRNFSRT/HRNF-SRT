@@ -10,14 +10,122 @@
 
     <!-- PDF.js Library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    
-    <!-- Firebase Setup -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
 
-    <!-- JavaScript for Handbook Functionality -->
-    <script src="handbook.js" defer></script>
+    <!-- Firebase Integration -->
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { getStorage } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Initialize Auth
+        const storage = getStorage(app); // Initialize Storage
+
+        // Load PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+        // Load the PDF
+        async function loadPDF() {
+            try {
+                const pdfRef = storage.ref('HRNF S&R Handbook V2 (1).pdf'); // Path to your PDF in Firebase Storage
+                const url = await pdfRef.getDownloadURL(); // Get the download URL for the PDF
+                renderPDF(url); // Render the PDF
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+            }
+        }
+
+        // Render the PDF using PDF.js
+        async function renderPDF(url) {
+            const loadingTask = pdfjsLib.getDocument(url);
+            const pdf = await loadingTask.promise;
+
+            // Render the first page of the PDF
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({ scale: 1.5 });
+
+            const canvas = document.getElementById('pdfCanvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+            };
+            await page.render(renderContext);
+        }
+
+        // Handbook Sections (Sample JSON for demonstration)
+        const handbookSections = [
+            {
+                title: "Chapter 1: Introduction",
+                subtopics: ["Mission", "Overview", "History"]
+            },
+            {
+                title: "Chapter 2: Safety Procedures",
+                subtopics: ["General Safety", "Equipment Safety", "Emergency Protocols"]
+            },
+            {
+                title: "Chapter 3: Equipment Handling",
+                subtopics: ["Rope Systems", "Medical Gear", "Navigation Tools"]
+            }
+        ];
+
+        // Function to build the sidebar dynamically
+        function buildSidebar() {
+            const sidebarList = document.getElementById('sidebarList');
+            handbookSections.forEach((section) => {
+                // Create main section item
+                const sectionItem = document.createElement('li');
+                sectionItem.textContent = section.title;
+                sectionItem.classList.add('section-item');
+
+                // Create subtopics dropdown
+                const subtopicList = document.createElement('ul');
+                subtopicList.style.display = 'none';
+                section.subtopics.forEach((subtopic) => {
+                    const subtopicItem = document.createElement('li');
+                    subtopicItem.textContent = subtopic;
+                    subtopicItem.classList.add('subtopic-item');
+                    subtopicItem.onclick = () => scrollToSection(subtopic);
+                    subtopicList.appendChild(subtopicItem);
+                });
+
+                sectionItem.onclick = () => {
+                    // Toggle dropdown visibility
+                    subtopicList.style.display = (subtopicList.style.display === 'none') ? 'block' : 'none';
+                };
+                sectionItem.appendChild(subtopicList);
+                sidebarList.appendChild(sectionItem);
+            });
+        }
+
+        // Placeholder Function to Scroll to Sections (to be implemented)
+        function scrollToSection(subtopic) {
+            console.log(`Scroll to: ${subtopic}`);
+            // Implement scrolling to the specified section here
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            buildSidebar(); // Build the sidebar
+            loadPDF(); // Load the PDF
+        });
+    </script>
 </head>
 <body>
     <!-- Handbook Page Content -->
