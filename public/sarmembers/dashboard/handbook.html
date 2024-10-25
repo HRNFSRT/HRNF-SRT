@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handbook - HRNF SRT</title>
+    <title>PDF Viewer</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="/images/logo.png" type="image/png">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script type="module">
-        // Import Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
         import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
             authDomain: "hrnf-srt.firebaseapp.com",
@@ -42,8 +39,7 @@
             }
         }
 
-        // Initialize an array to store page positions
-        const pagePositions = [];
+        const pagePositions = []; // Store the top positions of each page
 
         // Render the PDF using PDF.js
         async function renderPDF(pdf) {
@@ -66,16 +62,15 @@
                 };
                 await page.render(renderContext);
                 
-                // Append the canvas to the viewer
-                pdfViewerContainer.appendChild(canvas);
+                pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
 
-                // Store the top position of each page
-                const pageTop = pdfViewerContainer.scrollHeight; // Get current height before adding the new page
+                // Store the top position of each page for scrolling
+                const pageTop = pdfViewerContainer.scrollHeight; // Current height before adding new page
                 pagePositions.push(pageTop);
             }
         }
 
-        // Function to scroll to sections in the PDF based on page number
+        // Scroll to the specific page
         function scrollToPage(pageNumber) {
             if (pageNumber >= 1 && pageNumber <= pagePositions.length) {
                 // Scroll to the top position of the specified page number (1-indexed)
@@ -92,12 +87,10 @@
 
         // Add click event listener to toggle subheadings
         document.addEventListener('click', (event) => {
-            const subheadingToggle = event.target.closest('.sidebar > ul > li > div');
-            if (subheadingToggle) {
-                const subheadings = subheadingToggle.nextElementSibling;
-                if (subheadings) {
-                    subheadings.classList.toggle('show');
-                }
+            const headingToggle = event.target.closest('.sidebar > ul > li > div');
+            if (headingToggle) {
+                const parentLi = headingToggle.parentElement; // Get the parent <li> element
+                parentLi.classList.toggle('active'); // Toggle active class to show/hide subheadings
             }
         });
     </script>
@@ -110,38 +103,48 @@
         <ul>
             <li>
                 <div>Who the HRNF Rescue Company are</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToPage(3)">Page 3</li>
-                </ul>
             </li>
             <li>
                 <div>Company Overview</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(4)">Page 4</li>
+                    <li onclick="scrollToPage(4)">Subheading 1</li>
+                    <li onclick="scrollToPage(5)">Subheading 2</li>
                 </ul>
             </li>
             <li>
                 <div>Standard HRNF Radio Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(5)">Page 5</li>
+                    <li onclick="scrollToPage(5)">General Communication Protocols</li>
+                    <li onclick="scrollToPage(7)">HRNF S&R Base Ops and Meteorological Radio QRS</li>
                 </ul>
             </li>
             <li>
                 <div>Vehicle Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(8)">Page 8</li>
+                    <li onclick="scrollToPage(8)">General Vehicle Operations</li>
                 </ul>
             </li>
             <li>
                 <div>Quick Reference Guide for Incident Response</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(11)">Page 11</li>
+                    <li onclick="scrollToPage(11)">Section 1: Search and Rescue</li>
+                    <li onclick="scrollToPage(20)">Section 2: Medical Interventions</li>
+                    <li onclick="scrollToPage(25)">Section 3: Technical Rescue</li>
+                    <li onclick="scrollToPage(29)">Section 4: Water Rescue</li>
+                    <li onclick="scrollToPage(34)">Section 5: Urban Search and Rescue (USAR)</li>
+                    <li onclick="scrollToPage(38)">Section 6: Mine/Cave Rescue</li>
+                    <li onclick="scrollToPage(43)">Section 7: Firefighting in Wildland Environments</li>
                 </ul>
             </li>
             <li>
                 <div>GARC Supplements</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(47)">Page 47</li>
+                    <li onclick="scrollToPage(47)">Tourniquet Conversions</li>
+                    <li onclick="scrollToPage(48)">Hypothermia Prevention and Treatment</li>
+                    <li onclick="scrollToPage(48)">Shock Management</li>
+                    <li onclick="scrollToPage(49)">Drone Team Operations</li>
+                    <li onclick="scrollToPage(50)">Crime Scene Preservation</li>
+                    <li onclick="scrollToPage(53)">Co-Ordination With Other Public Services</li>
                 </ul>
             </li>
             <li>
@@ -156,16 +159,17 @@
             <li>
                 <div>Off-Roading Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToPage(58)">Page 58</li>
+                    <li onclick="scrollToPage(58)">General Procedures and Best Practices</li>
                 </ul>
             </li>
         </ul>
     </div>
 
     <div class="pdf-viewer-container" id="pdfViewerContainer">
-        <!-- The PDF pages will be dynamically loaded here -->
+        <!-- PDF will be rendered here -->
     </div>
 </div>
 
 </body>
 </html>
+
