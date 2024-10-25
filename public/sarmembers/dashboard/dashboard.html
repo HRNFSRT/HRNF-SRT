@@ -36,7 +36,7 @@
     // Logout Function
     window.logout = function() {
         signOut(auth).then(() => {
-            window.location.href = '/index.html'; // Redirect after logout
+            window.location.href = '../index.html'; // Redirect after logout
         }).catch((error) => {
             console.error("Logout error:", error); // Handle errors if necessary
         });
