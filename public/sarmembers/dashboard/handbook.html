@@ -4,40 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handbook - Highrock National Forest Search & Rescue</title>
+    
+    <!-- Link to CSS Styles -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- PDF.js Library -->
+    <script src="/libs/pdfjs/pdf.js"></script>
+    
+    <!-- Firebase Setup -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+    
+    <!-- JavaScript for Handbook Functionality -->
+    <script src="handbook.js" defer></script>
 </head>
 <body>
-    <!-- Header for the Handbook Page -->
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <img src="/images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
-            </div>
-            <div class="header-text">
-                <h1>Handbook</h1>
-            </div>
-            <!-- Back Button to Dashboard -->
-            <button onclick="window.location.href='dashboard.html';" class="back-btn">Back to Dashboard</button>
+    <!-- Handbook Page Content -->
+    <div class="container">
+        <!-- Sidebar Section -->
+        <div class="sidebar">
+            <h2>Contents</h2>
+            <ul id="sidebarList">
+                <!-- Sections and Subtopics will be dynamically populated -->
+            </ul>
         </div>
-    </header>
 
-    <!-- Handbook Content Section -->
-    <section class="handbook-content">
-        <h2>Welcome to the Handbook</h2>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search Handbook...">
-            <button onclick="searchHandbook()">Search</button>
+        <!-- PDF Viewer Section -->
+        <div class="pdf-viewer-container">
+            <canvas id="pdfCanvas"></canvas>
         </div>
-        <div id="handbookSections">
-            <!-- Sections of the Handbook will be loaded here -->
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
-    </footer>
-
-    <script src="handbook.js"></script>
+    </div>
 </body>
 </html>
