@@ -42,9 +42,10 @@
             try {
                 const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
                 const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
-                const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF
+                const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
                 renderPDF(pdf); // Render the PDF
-                await extractTableOfContents(pdf); // Extract the table of contents from the second page
+                const headings = await extractHeadingsFromPDF(pdf); // Extract headings
+                buildSidebar(headings); // Build the sidebar with headings
             } catch (error) {
                 console.error("Error loading PDF:", error);
             }
@@ -57,13 +58,11 @@
 
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 1.5 }); // Adjust scale as necessary
+                const viewport = page.getViewport({ scale: 1.5 });
 
                 const canvas = document.createElement('canvas');
                 canvas.className = 'pdf-page';
                 const context = canvas.getContext('2d');
-
-                // Set the canvas dimensions
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
@@ -76,46 +75,122 @@
             }
         }
 
-        // Function to extract the Table of Contents from the second page of the PDF
-        async function extractTableOfContents(pdf) {
-            const sidebarList = document.getElementById('sidebarList');
+        // Function to extract headings from the PDF
+        async function extractHeadingsFromPDF(pdf) {
+            const headings = [];
+            const numPages = pdf.numPages;
 
-            // Extract text content from the second page (page 1 index-based)
-            const tocPageNum = 2; // Page 2 is index 1
-            const tocPage = await pdf.getPage(tocPageNum);
-            const textContent = await tocPage.getTextContent();
-            const textItems = textContent.items;
+            for (let i = 1; i <= numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
 
-            const headingSet = new Set(); // To keep track of added headings
+                // Temporary array to hold headings for the current page
+                const pageHeadings = [];
 
-            textItems.forEach(item => {
-                const text = item.str.trim();
-                const fontSize = item.height; // Get the height of the font as size
+                textContent.items.forEach((item) => {
+                    const text = item.str;
+                    const fontSize = extractFontSize(item.transform);
 
-                // Check if the text is a heading based on its size and the expected format of TOC
-                if (!headingSet.has(text)) {
-                    // Assuming typical TOC format: "Chapter Title    Page Number"
-                    // Modify this logic according to the actual structure of your TOC
-                    const match = text.match(/^(.*?)\s+(\d+)$/); // Capture title and page number
-
-                    if (match) {
-                        const title = match[1]; // Chapter title
-                        headingSet.add(title); // Add to set to avoid duplicates
-
-                        const sectionItem = document.createElement('li');
-                        sectionItem.textContent = title;
-                        sectionItem.classList.add('section-item');
-                        sectionItem.onclick = () => scrollToSection(title); // Implement the scrolling
-                        sidebarList.appendChild(sectionItem);
+                    // Check for specific conditions to identify headings
+                    if (fontSize >= 14 && fontSize <= 18) { // Example font size range for headings
+                        const level = getHeadingLevel(fontSize); // Determine the heading level based on font size
+                        pageHeadings.push({ text, level });
                     }
-                }
+                });
+
+                // Push the headings from the current page to the main headings array
+                headings.push(...pageHeadings);
+            }
+            return headings;
+        }
+
+        // Function to determine heading level based on font size
+        function getHeadingLevel(fontSize) {
+            if (fontSize === 18) return 1; // Heading 1
+            if (fontSize === 16) return 2; // Heading 2
+            if (fontSize === 14) return 3; // Heading 3
+            return 0; // Not a heading
+        }
+
+        // Function to build the sidebar dynamically with nested structure
+        function buildSidebar(headings) {
+            const outlineView = document.getElementById('outlineView');
+            const tree = createNestedStructure(headings);
+            
+            tree.forEach(item => {
+                const listItem = createTreeItem(item);
+                outlineView.appendChild(listItem);
             });
         }
 
+        // Function to create a nested structure from the headings
+        function createNestedStructure(headings) {
+            const tree = [];
+            const stack = [];
+
+            headings.forEach(item => {
+                const { text, level } = item;
+
+                const node = { text, level, children: [] };
+
+                // Adjust tree based on heading level
+                if (level === 1) {
+                    tree.push(node);
+                    stack.length = 0; // Clear the stack for new top-level headings
+                    stack.push(node);
+                } else {
+                    while (stack.length && stack[stack.length - 1].level >= level) {
+                        stack.pop(); // Pop items from the stack until the right level is found
+                    }
+                    if (stack.length) {
+                        stack[stack.length - 1].children.push(node);
+                    }
+                    stack.push(node); // Add current node to the stack
+                }
+            });
+
+            return tree;
+        }
+
+        // Function to create a tree item element
+        function createTreeItem(item) {
+            const div = document.createElement('div');
+            div.classList.add('treeItem');
+
+            const link = document.createElement('a');
+            link.href = `#section-${item.text.replace(/\s+/g, '-')}`; // Create a link based on the heading text
+            link.textContent = item.text;
+
+            // Add click event to scroll to section (to be implemented)
+            link.onclick = (e) => {
+                e.preventDefault();
+                scrollToSection(`section-${item.text.replace(/\s+/g, '-')}`); // Call scroll to section
+            };
+
+            div.appendChild(link);
+
+            // If the item has children, create a nested structure
+            if (item.children.length > 0) {
+                const childContainer = document.createElement('div');
+                childContainer.classList.add('treeItems'); // Add a class for styling
+
+                item.children.forEach(child => {
+                    const childItem = createTreeItem(child);
+                    childContainer.appendChild(childItem);
+                });
+
+                div.appendChild(childContainer); // Append child items to the parent
+            }
+
+            return div;
+        }
+
         // Placeholder Function to Scroll to Sections (to be implemented)
-        function scrollToSection(subtopic) {
-            console.log(`Scroll to: ${subtopic}`);
-            // Implement scrolling to the specified section here
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Initialize everything when the page loads
@@ -130,9 +205,11 @@
         <!-- Sidebar Section -->
         <div class="sidebar">
             <h2>Contents</h2>
-            <ul id="sidebarList">
-                <!-- Sections will be dynamically populated -->
-            </ul>
+            <div id="sidebarContainer">
+                <div id="outlineView" class="treeWithDeepNesting">
+                    <!-- Headings will be dynamically populated -->
+                </div>
+            </div>
         </div>
 
         <!-- PDF Viewer Section -->
@@ -140,6 +217,9 @@
             <!-- Individual canvases for each page will be added here -->
         </div>
     </div>
+
+    <!-- External CSS File -->
+    <link rel="stylesheet" href="styles.css">
+
 </body>
 </html>
-
