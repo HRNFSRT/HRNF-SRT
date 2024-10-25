@@ -61,6 +61,10 @@
                     viewport: viewport,
                 };
                 await page.render(renderContext);
+                
+                // Add an ID to the canvas based on page number
+                canvas.id = `page-${pageNum}`; // Assign ID for scrolling
+
                 pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
             }
         }
@@ -101,52 +105,52 @@
             <li>
                 <div>Who the HRNF Rescue Company are</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('whoHRNF')">Page 3</li>
+                    <li onclick="scrollToSection('page-3')">Page 3</li>
                 </ul>
             </li>
             <li>
                 <div>Company Overview</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('companyOverview')">Page 4</li>
+                    <li onclick="scrollToSection('page-4')">Page 4</li>
                 </ul>
             </li>
             <li>
                 <div>Standard HRNF Radio Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('radioGuide')">Page 5</li>
+                    <li onclick="scrollToSection('page-5')">Page 5</li>
                 </ul>
             </li>
             <li>
                 <div>Vehicle Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('vehicleGuide')">Page 8</li>
+                    <li onclick="scrollToSection('page-8')">Page 8</li>
                 </ul>
             </li>
             <li>
                 <div>Quick Reference Guide for Incident Response</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('quickReference')">Page 11</li>
+                    <li onclick="scrollToSection('page-11')">Page 11</li>
                 </ul>
             </li>
             <li>
                 <div>GARC Supplements</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('garcSupplements')">Page 47</li>
+                    <li onclick="scrollToSection('page-47')">Page 47</li>
                 </ul>
             </li>
             <li>
                 <div>Search Theory</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('searchTheory')">Part 1: Fundamentals of Search Theory</li>
-                    <li onclick="scrollToSection('searchPlanning')">Part 2: Search Planning and Strategy</li>
-                    <li onclick="scrollToSection('searchTechniques')">Part 3: Search Techniques</li>
-                    <li onclick="scrollToSection('analyzingSearch')">Part 4: Analyzing and Adapting Search Efforts</li>
+                    <li onclick="scrollToSection('page-54')">Part 1: Fundamentals of Search Theory</li>
+                    <li onclick="scrollToSection('page-55')">Part 2: Search Planning and Strategy</li>
+                    <li onclick="scrollToSection('page-56')">Part 3: Search Techniques</li>
+                    <li onclick="scrollToSection('page-57')">Part 4: Analyzing and Adapting Search Efforts</li>
                 </ul>
             </li>
             <li>
                 <div>Off-Roading Guide</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('offRoadingGuide')">Page 58</li>
+                    <li onclick="scrollToSection('page-58')">Page 58</li>
                 </ul>
             </li>
         </ul>
