@@ -221,9 +221,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Show subheadings when the parent li is active */
-.sidebar li.active .subheadings {
+.subheadings.active {
     display: block; /* Show subheadings when active */
 }
+
+/* Other existing styles remain unchanged... */
+
 
 /* PDF Viewer Styles */
 .pdf-viewer-container {
