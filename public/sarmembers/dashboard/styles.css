@@ -214,6 +214,17 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold; /* Bold font for active item */
 }
 
+/* Subheadings (initially hidden) */
+.subheadings {
+    display: none; /* Hide subheadings by default */
+    padding-left: 15px; /* Indent subheadings */
+}
+
+/* Show subheadings when the parent li is active */
+.sidebar li.active .subheadings {
+    display: block; /* Show subheadings when active */
+}
+
 /* PDF Viewer Styles */
 .pdf-viewer-container {
     flex: 1; /* Take up remaining space */
