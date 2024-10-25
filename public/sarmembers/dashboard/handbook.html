@@ -57,11 +57,13 @@
 
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 1.5 }); // Scale can be adjusted for size
+                const viewport = page.getViewport({ scale: 1.5 }); // Adjust scale as necessary
 
                 const canvas = document.createElement('canvas');
                 canvas.className = 'pdf-page';
                 const context = canvas.getContext('2d');
+
+                // Set the canvas dimensions
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
 
@@ -74,10 +76,17 @@
             }
         }
 
-        // Extract headings from the PDF
+        // Extract headings from the PDF based on font size and style
         async function extractHeadings(pdf) {
             const sidebarList = document.getElementById('sidebarList');
-            const headingRegex = /^(Chapter|Section|Article) \d+:/; // Adjust regex based on your PDF headings
+            const headingSet = new Set(); // To keep track of added headings
+
+            // Define font size thresholds (you may need to adjust these based on your document)
+            const headingSizes = {
+                'Heading 1': 18,  // Assuming Heading 1 has a font size of 18px
+                'Heading 2': 16,  // Assuming Heading 2 has a font size of 16px
+                'Heading 3': 14   // Assuming Heading 3 has a font size of 14px
+            };
 
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
@@ -85,12 +94,27 @@
                 const textItems = textContent.items;
 
                 textItems.forEach(item => {
-                    const text = item.str;
-                    if (headingRegex.test(text)) { // If text matches the heading pattern
+                    const text = item.str.trim();
+                    const fontSize = item.transform[0]; // Assuming the font size can be inferred from the transformation matrix
+
+                    // Determine the heading level based on font size
+                    let headingLevel = null;
+                    if (fontSize >= headingSizes['Heading 1']) {
+                        headingLevel = 'Heading 1';
+                    } else if (fontSize >= headingSizes['Heading 2']) {
+                        headingLevel = 'Heading 2';
+                    } else if (fontSize >= headingSizes['Heading 3']) {
+                        headingLevel = 'Heading 3';
+                    }
+
+                    // If it's a heading and not already added, add it to the sidebar
+                    if (headingLevel && !headingSet.has(text)) {
+                        headingSet.add(text); // Add to set to avoid duplicates
+
                         const sectionItem = document.createElement('li');
                         sectionItem.textContent = text;
                         sectionItem.classList.add('section-item');
-                        sectionItem.onclick = () => scrollToSection(text);
+                        sectionItem.onclick = () => scrollToSection(text); // Implement the scrolling
                         sidebarList.appendChild(sectionItem);
                     }
                 });
