@@ -163,62 +163,72 @@ h1, h2, h3, h4, h5, h6 {
     color: #0262c4;
 }
 
-
 /* Container for Sidebar and PDF */
 .container {
     display: flex;
-    height: 100vh;
+    height: 100vh; /* Full height of the viewport */
 }
 
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
     padding: 20px;
-    background-color: #ffffff; /* White background */
-    border-right: 1px solid #ddd;
-    overflow-y: auto;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    background-color: #f4f4f4; /* Light gray background for the sidebar */
+    border-right: 1px solid #ddd; /* Light border for separation */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
 }
 
 .sidebar h2 {
-    color: #0262c4;
-    margin-bottom: 15px;
-    font-size: 20px;
+    color: #0262c4; /* Custom color for heading */
+    margin-bottom: 20px; /* Increased margin for better spacing */
+    font-size: 22px; /* Slightly larger font size */
 }
 
+/* Style for the list */
 .sidebar ul {
-    list-style-type: none;
-    padding: 0;
+    list-style-type: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
 }
 
+/* Sidebar item styles */
 .sidebar li {
-    margin-bottom: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 8px 10px; /* Increased padding for a button-like feel */
-    background-color: #f7f7f7; /* Light gray background */
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 10px; /* Space between items */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 16px; /* Slightly larger font for better readability */
+    padding: 10px 15px; /* Increased padding for a button-like feel */
+    background-color: #f7f7f7; /* Light background for items */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition effects */
 }
 
+/* Hover effect for sidebar items */
 .sidebar li:hover {
-    background-color: #e0e0e0; /* Slightly darker gray */
+    background-color: #e0e0e0; /* Slightly darker gray on hover */
+}
+
+/* Active item style */
+.sidebar li.active {
+    background-color: #d0e1f9; /* Highlight active item */
+    font-weight: bold; /* Bold font for active item */
 }
 
 /* PDF Viewer Styles */
 .pdf-viewer-container {
-    flex: 1;
-    padding: 20px;
+    flex: 1; /* Take up remaining space */
+    padding: 20px; /* Padding for viewer */
     display: flex;
     flex-direction: column; /* Stack pages vertically */
     justify-content: flex-start; /* Align items to the start */
+    align-items: center; /* Center the pages horizontally */
     overflow-y: auto; /* Allow scrolling */
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff; /* White background for viewer */
 }
 
 .pdf-page {
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    max-width: 100%;
+    border: 1px solid #ddd; /* Border for each page */
+    margin-bottom: 20px; /* Space between pages */
+    max-width: 100%; /* Maximum width */
     height: auto; /* Let the height adjust based on content */
 }
