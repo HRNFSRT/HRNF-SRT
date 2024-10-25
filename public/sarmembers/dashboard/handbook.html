@@ -42,17 +42,16 @@
             try {
                 const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
                 const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
-                renderPDF(url); // Render the PDF
+                const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF
+                renderPDF(pdf); // Render the PDF
+                extractHeadings(pdf); // Extract headings for the sidebar
             } catch (error) {
                 console.error("Error loading PDF:", error);
             }
         }
 
         // Render the PDF using PDF.js
-        async function renderPDF(url) {
-            const loadingTask = pdfjsLib.getDocument(url);
-            const pdf = await loadingTask.promise;
-
+        async function renderPDF(pdf) {
             const pdfViewerContainer = document.getElementById('pdfViewerContainer');
             pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
 
@@ -75,49 +74,27 @@
             }
         }
 
-        // Handbook Sections (Sample JSON for demonstration)
-      //  const handbookSections = [
-     //       {
-    //            title: "Chapter 1: Introduction",
-    //            subtopics: ["Mission", "Overview", "History"]
-    //        },
-   //         {
-    //            title: "Chapter 2: Safety Procedures",
-    //            subtopics: ["General Safety", "Equipment Safety", "Emergency Protocols"]
-    ///        },
-    //        {
-      //          title: "Chapter 3: Equipment Handling",
-     //           subtopics: ["Rope Systems", "Medical Gear", "Navigation Tools"]
-      //      }
-     //   ];
-
-        // Function to build the sidebar dynamically
-        function buildSidebar() {
+        // Extract headings from the PDF
+        async function extractHeadings(pdf) {
             const sidebarList = document.getElementById('sidebarList');
-            handbookSections.forEach((section) => {
-                // Create main section item
-                const sectionItem = document.createElement('li');
-                sectionItem.textContent = section.title;
-                sectionItem.classList.add('section-item');
+            const headingRegex = /^(Chapter|Section|Article) \d+:/; // Adjust regex based on your PDF headings
 
-                // Create subtopics dropdown
-                const subtopicList = document.createElement('ul');
-                subtopicList.style.display = 'none';
-                section.subtopics.forEach((subtopic) => {
-                    const subtopicItem = document.createElement('li');
-                    subtopicItem.textContent = subtopic;
-                    subtopicItem.classList.add('subtopic-item');
-                    subtopicItem.onclick = () => scrollToSection(subtopic);
-                    subtopicList.appendChild(subtopicItem);
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const textItems = textContent.items;
+
+                textItems.forEach(item => {
+                    const text = item.str;
+                    if (headingRegex.test(text)) { // If text matches the heading pattern
+                        const sectionItem = document.createElement('li');
+                        sectionItem.textContent = text;
+                        sectionItem.classList.add('section-item');
+                        sectionItem.onclick = () => scrollToSection(text);
+                        sidebarList.appendChild(sectionItem);
+                    }
                 });
-
-                sectionItem.onclick = () => {
-                    // Toggle dropdown visibility
-                    subtopicList.style.display = (subtopicList.style.display === 'none') ? 'block' : 'none';
-                };
-                sectionItem.appendChild(subtopicList);
-                sidebarList.appendChild(sectionItem);
-            });
+            }
         }
 
         // Placeholder Function to Scroll to Sections (to be implemented)
@@ -128,7 +105,6 @@
 
         // Initialize everything when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            buildSidebar(); // Build the sidebar
             loadPDF(); // Load the PDF
         });
     </script>
@@ -140,7 +116,7 @@
         <div class="sidebar">
             <h2>Contents</h2>
             <ul id="sidebarList">
-                <!-- Sections and Subtopics will be dynamically populated -->
+                <!-- Sections will be dynamically populated -->
             </ul>
         </div>
 
