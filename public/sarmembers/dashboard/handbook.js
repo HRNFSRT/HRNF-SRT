@@ -1,12 +1,12 @@
 // Firebase Configuration (Replace with your credentials)
 const firebaseConfig = {
-    apiKey: "your-api-key",
-    authDomain: "your-auth-domain",
-    projectId: "your-project-id",
-    storageBucket: "your-storage-bucket",
-    messagingSenderId: "your-messaging-sender-id",
-    appId: "your-app-id",
-    measurementId: "your-measurement-id"
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
 };
 
 // Initialize Firebase
