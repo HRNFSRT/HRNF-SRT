@@ -47,25 +47,32 @@
                 console.error("Error loading PDF:", error);
             }
         }
+
         // Render the PDF using PDF.js
         async function renderPDF(url) {
             const loadingTask = pdfjsLib.getDocument(url);
             const pdf = await loadingTask.promise;
 
-            // Render the first page of the PDF
-            const page = await pdf.getPage(1);
-            const viewport = page.getViewport({ scale: 1.5 });
+            const pdfViewerContainer = document.getElementById('pdfViewerContainer');
+            pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
 
-            const canvas = document.getElementById('pdfCanvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1.5 });
 
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport,
-            };
-            await page.render(renderContext);
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-page';
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport,
+                };
+                await page.render(renderContext);
+                pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
+            }
         }
 
         // Handbook Sections (Sample JSON for demonstration)
@@ -127,22 +134,16 @@
     </script>
 </head>
 <body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <button class="home-btn" onclick="window.location.href='dashboard.html';">Home</button>
+            <h1>Highrock National Forest Search & Rescue Handbook</h1>
+        </div>
+    </header>
+
     <!-- Handbook Page Content -->
     <div class="container">
-        <!-- Header Section -->
-        <header>
-            <div class="header-content">
-                <div class="logo">
-                    <img src="your-logo.png" alt="Logo" width="50">
-                </div>
-                <div class="header-text">
-                    <h1>Handbook</h1>
-                    <p>Highrock National Forest Search & Rescue</p>
-                </div>
-                <button class="logout-btn" onclick="window.location.href='dashboard.html'">Home</button>
-            </div>
-        </header>
-
         <!-- Sidebar Section -->
         <div class="sidebar">
             <h2>Contents</h2>
@@ -152,8 +153,8 @@
         </div>
 
         <!-- PDF Viewer Section -->
-        <div class="pdf-viewer-container">
-            <canvas id="pdfCanvas"></canvas>
+        <div class="pdf-viewer-container" id="pdfViewerContainer">
+            <!-- Individual canvases for each page will be added here -->
         </div>
     </div>
 </body>
