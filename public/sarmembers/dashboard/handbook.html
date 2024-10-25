@@ -28,10 +28,7 @@
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
 
         let pdfDoc = null;
-        let pageNum = 1;
         const scale = 1.5; // Adjust scale for zoom level
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
         const pagePositions = []; // Store the top positions of each page
 
         // Load PDF from Firebase and render with PDF.js
@@ -85,9 +82,23 @@
             }
         }
 
+        // Toggle subheadings visibility
+        function toggleSubheadings(event) {
+            const subheadings = event.target.nextElementSibling; // Get the next sibling (subheadings)
+            if (subheadings && subheadings.classList.contains('subheadings')) {
+                subheadings.classList.toggle('active'); // Toggle active class to show/hide subheadings
+            }
+        }
+
         // Initialize everything when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             loadPDF(); // Load the PDF
+
+            // Add click event listeners to sidebar items
+            const sidebarItems = document.querySelectorAll('.sidebar > ul > li > div');
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', toggleSubheadings);
+            });
         });
     </script>
 </head>
