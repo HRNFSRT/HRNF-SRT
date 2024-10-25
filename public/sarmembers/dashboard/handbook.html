@@ -76,21 +76,7 @@
             }
         }
 
-        // RGB color mapping for headings
-        const headingColors = {
-            'Heading 1': [5, 110, 58],   // RGB(5,110,58)
-            'Heading 2': [255, 51, 0],    // RGB(255,51,0)
-            'Heading 3': [16, 42, 235],    // RGB(16,42,235)
-            'Heading 4': [18, 79, 26],     // RGB(18,79,26)
-            'Heading 5': [166, 6, 12]      // RGB(166,6,12)
-        };
-
-        // Function to check if two RGB colors are equal
-        function colorsMatch(color1, color2) {
-            return color1[0] === color2[0] && color1[1] === color2[1] && color1[2] === color2[2];
-        }
-
-        // Extract headings from the PDF based on text color
+        // Function to extract headings from the PDF based on underline style
         async function extractHeadings(pdf) {
             const sidebarList = document.getElementById('sidebarList');
             const headingSet = new Set(); // To keep track of added headings
@@ -102,20 +88,17 @@
 
                 textItems.forEach(item => {
                     const text = item.str.trim();
-                    const color = item.fillColor; // Extract the fill color
+                    const underline = item.font && item.font.includes('underline'); // Check if text is underlined
 
-                    // Check if the color matches any defined heading colors
-                    for (const [heading, rgb] of Object.entries(headingColors)) {
-                        if (colorsMatch(color, rgb) && !headingSet.has(text)) {
-                            headingSet.add(text); // Add to set to avoid duplicates
+                    // Check if the text is underlined and not already added
+                    if (underline && !headingSet.has(text)) {
+                        headingSet.add(text); // Add to set to avoid duplicates
 
-                            const sectionItem = document.createElement('li');
-                            sectionItem.textContent = text;
-                            sectionItem.classList.add('section-item');
-                            sectionItem.onclick = () => scrollToSection(text); // Implement the scrolling
-                            sidebarList.appendChild(sectionItem);
-                            break; // Exit the loop once we find a match
-                        }
+                        const sectionItem = document.createElement('li');
+                        sectionItem.textContent = text;
+                        sectionItem.classList.add('section-item');
+                        sectionItem.onclick = () => scrollToSection(text); // Implement the scrolling
+                        sidebarList.appendChild(sectionItem);
                     }
                 });
             }
