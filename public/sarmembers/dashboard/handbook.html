@@ -3,162 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handbook - Highrock National Forest Search & Rescue</title>
-    
-    <!-- Link to CSS Styles -->
+    <title>PDF Viewer</title>
     <link rel="stylesheet" href="styles.css">
-
-    <!-- PDF.js Library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-
-    <!-- Firebase Integration -->
-    <script type="module">
-        // Import Firebase functions from the CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js";
-
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app); // Initialize Auth
-        const storage = getStorage(app); // Initialize Storage
-
-        // Load PDF.js Worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
-
-        // Load PDF from Firebase and render with PDF.js
-        async function loadPDF() {
-            try {
-                const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
-                const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
-                const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
-                renderPDF(pdf); // Render the PDF
-                const tocHeadings = await extractTOCHeadings(pdf); // Extract headings from the TOC
-                buildSidebar(tocHeadings); // Build the sidebar with headings
-            } catch (error) {
-                console.error("Error loading PDF:", error);
-            }
+    <style>
+        /* Container for Sidebar and PDF */
+        .container {
+            display: flex;
+            height: 100vh;
         }
 
-        // Render the PDF using PDF.js
-        async function renderPDF(pdf) {
-            const pdfViewerContainer = document.getElementById('pdfViewerContainer');
-            pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
-
-            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 1.5 });
-
-                const canvas = document.createElement('canvas');
-                canvas.className = 'pdf-page';
-                const context = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport,
-                };
-                await page.render(renderContext);
-                pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
-            }
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #ffffff; /* White background */
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
         }
 
-        // Function to extract headings from the Table of Contents on page 2
-        async function extractTOCHeadings(pdf) {
-            const tocHeadings = [];
-            const page = await pdf.getPage(2); // Get the second page (TOC)
-            const textContent = await page.getTextContent();
-
-            textContent.items.forEach((item) => {
-                const text = item.str;
-
-                // Here we can add logic to identify which lines are headings
-                // Assuming headings follow a specific format, e.g., starting with a number or certain keywords
-                if (text.match(/^\d+\.\s/)) { // Match lines that start with a number followed by a dot (e.g., "1. Introduction")
-                    tocHeadings.push({ text });
-                }
-            });
-
-            return tocHeadings;
+        .sidebar h2 {
+            color: #0262c4;
+            margin-bottom: 15px;
+            font-size: 20px;
+            cursor: pointer;
         }
 
-        // Function to build the sidebar dynamically
-        function buildSidebar(headings) {
-            const outlineView = document.getElementById('outlineView');
-            
-            headings.forEach(item => {
-                const listItem = createTreeItem(item);
-                outlineView.appendChild(listItem);
-            });
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
 
-        // Function to create a tree item element
-        function createTreeItem(item) {
-            const div = document.createElement('div');
-            div.classList.add('treeItem');
-
-            const link = document.createElement('a');
-            link.href = `#${item.text.replace(/\s+/g, '-')}`; // Create a link based on the heading text
-            link.textContent = item.text;
-
-            // Add click event to scroll to section (to be implemented)
-            link.onclick = (e) => {
-                e.preventDefault();
-                scrollToSection(`${item.text.replace(/\s+/g, '-')}`); // Call scroll to section
-            };
-
-            div.appendChild(link);
-
-            return div;
+        .sidebar li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            padding: 8px 10px; /* Increased padding for a button-like feel */
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        // Placeholder Function to Scroll to Sections (to be implemented)
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
+        .sidebar .subheadings {
+            display: none; /* Hide subheadings by default */
+            margin-left: 15px; /* Indent subheadings */
         }
 
-        // Initialize everything when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPDF(); // Load the PDF
-        });
-    </script>
+        .sidebar .subheadings.show {
+            display: block; /* Show subheadings when toggled */
+        }
+
+        /* PDF Viewer Styles */
+        .pdf-viewer-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Stack pages vertically */
+            justify-content: flex-start; /* Align items to the start */
+            overflow-y: auto; /* Allow scrolling */
+            background-color: #ffffff; /* White background */
+        }
+
+        .pdf-page {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            max-width: 100%;
+            height: auto; /* Let the height adjust based on content */
+        }
+    </style>
 </head>
 <body>
-    <!-- Handbook Page Content -->
-    <div class="container">
-        <!-- Sidebar Section -->
-        <div class="sidebar">
-            <h2>Contents</h2>
-            <div id="sidebarContainer">
-                <div id="outlineView" class="treeWithDeepNesting">
-                    <!-- Headings will be dynamically populated -->
-                </div>
-            </div>
-        </div>
 
-        <!-- PDF Viewer Section -->
-        <div class="pdf-viewer-container" id="pdfViewerContainer">
-            <!-- Individual canvases for each page will be added here -->
-        </div>
+<div class="container">
+    <div class="sidebar">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li>
+                <div>Who the HRNF Rescue Company are</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('whoHRNF')">Page 3</li>
+                </ul>
+            </li>
+            <li>
+                <div>Company Overview</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('companyOverview')">Page 4</li>
+                </ul>
+            </li>
+            <li>
+                <div>Command Structure</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('commandStructure')">Page 4</li>
+                </ul>
+            </li>
+            <li>
+                <div>Qualifications</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('qualifications')">Page 4</li>
+                </ul>
+            </li>
+            <li>
+                <div>Roles at the Station</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('rolesStation')">Page 4</li>
+                </ul>
+            </li>
+            <li>
+                <div>Disciplinary Actions</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('disciplinaryActions')">Page 5</li>
+                </ul>
+            </li>
+            <li>
+                <div>Standard HRNF Radio Guide</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('radioGuide')">Page 5</li>
+                </ul>
+            </li>
+            <li>
+                <div>General Communication Protocols</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('communicationProtocols')">Page 5</li>
+                </ul>
+            </li>
+            <li>
+                <div>HRNF S&R Base Ops and Meteorological Radio QRS</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('baseOps')">Page 7</li>
+                </ul>
+            </li>
+            <li>
+                <div>Vehicle Guide</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('vehicleGuide')">Page 8</li>
+                </ul>
+            </li>
+            <li>
+                <div>Quick Reference Guide for Incident Response</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('quickReference')">Page 11</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 1: Search and Rescue</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('searchAndRescue')">Page 11</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 2: Medical Interventions</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('medicalInterventions')">Page 20</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 3: Technical Rescue</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('technicalRescue')">Page 25</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 4: Water Rescue</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('waterRescue')">Page 29</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 5: Urban Search and Rescue (USAR)</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('urbanSearchRescue')">Page 34</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 6: Mine/Cave Rescue</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('mineCaveRescue')">Page 38</li>
+                </ul>
+            </li>
+            <li>
+                <div>Section 7: Firefighting in Wildland Environments</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('firefighting')">Page 43</li>
+                </ul>
+            </li>
+            <li>
+                <div>GARC Supplements</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('garcSupplements')">Page 47</li>
+                </ul>
+            </li>
+            <li>
+                <div>Tourniquet Conversions</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('tourniquetConversions')">Page 47</li>
+                </ul>
+            </li>
+            <li>
+                <div>Hypothermia Prevention and Treatment</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('hypothermiaTreatment')">Page 48</li>
+                </ul>
+            </li>
+            <li>
+                <div>Shock Management</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('shockManagement')">Page 48</li>
+                </ul>
+            </li>
+            <li>
+                <div>Drone Team Operations</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('droneOperations')">Page 49</li>
+                </ul>
+            </li>
+            <li>
+                <div>Crime Scene Preservation</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('crimeScenePreservation')">Page 50</li>
+                </ul>
+            </li>
+            <li>
+                <div>Co-Ordination With Other Public Services</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('coordinationWithServices')">Page 53</li>
+                </ul>
+            </li>
+            <li>
+                <div>Search Theory</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('searchTheory')">Page 54</li>
+                    <ul class="subheadings">
+                        <li onclick="scrollToSection('searchTheoryPart1')">Part 1: Fundamentals of Search Theory</li>
+                        <li onclick="scrollToSection('searchTheoryPart2')">Part 2: Search Planning and Strategy</li>
+                        <li onclick="scrollToSection('searchTheoryPart3')">Part 3: Search Techniques</li>
+                        <li onclick="scrollToSection('searchTheoryPart4')">Part 4: Analyzing and Adapting Search Efforts</li>
+                    </ul>
+                </ul>
+            </li>
+            <li>
+                <div>Off-Roading Guide: General Procedures and Best Practices</div>
+                <ul class="subheadings">
+                    <li onclick="scrollToSection('offRoadingGuide')">Page 58</li>
+                </ul>
+            </li>
+        </ul>
     </div>
 
-    <!-- External CSS File -->
-    <link rel="stylesheet" href="styles.css">
+    <div class="pdf-viewer-container" id="pdfViewerContainer">
+        <!-- The PDF pages will be dynamically loaded here -->
+    </div>
+</div>
+
+<script type="module">
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app); // Initialize Storage
+
+    // Load PDF.js Worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+
+    // Load PDF from Firebase and render with PDF.js
+    async function loadPDF() {
+        try {
+            const pdfRef = ref(storage, 'HRNF S&R Handbook V2 (1).pdf'); // Reference to the PDF
+            const url = await getDownloadURL(pdfRef); // Get the download URL for the PDF
+            const pdf = await pdfjsLib.getDocument(url).promise; // Load PDF document
+            renderPDF(pdf); // Render the PDF
+        } catch (error) {
+            console.error("Error loading PDF:", error);
+        }
+    }
+
+    // Render the PDF using PDF.js
+    async function renderPDF(pdf) {
+        const pdfViewerContainer = document.getElementById('pdfViewerContainer');
+        pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 1.5 });
+
+            const canvas = document.createElement('canvas');
+            canvas.className = 'pdf-page';
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+            };
+            await page.render(renderContext);
+            pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
+        }
+    }
+
+    // Function to scroll to sections in the PDF
+    function scrollToSection(sectionId) {
+        // This is a placeholder function. You may want to implement functionality to scroll based on your page structure.
+        console.log("Scroll to section:", sectionId); // Debug log for section ID
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPDF(); // Load the PDF
+    });
+
+    // Add click event listener to toggle subheadings
+    document.querySelectorAll('.sidebar > ul > li > div').forEach(item => {
+        item.addEventListener('click', function() {
+            const subheadings = this.nextElementSibling;
+            subheadings.classList.toggle('show');
+        });
+    });
+</script>
 
 </body>
 </html>
