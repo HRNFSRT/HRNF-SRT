@@ -69,10 +69,9 @@
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
-                // Smoothly scroll to the section
                 section.scrollIntoView({ behavior: 'smooth' });
             } else {
-                console.warn("Section not found:", sectionId); // Debug log for missing section ID
+                console.warn("Section not found:", sectionId);
             }
         }
 
@@ -83,78 +82,15 @@
 
         // Add click event listener to toggle subheadings
         document.addEventListener('click', (event) => {
-            if (event.target.closest('.sidebar > ul > li > div')) {
-                const subheadings = event.target.nextElementSibling;
+            const subheadingToggle = event.target.closest('.sidebar > ul > li > div');
+            if (subheadingToggle) {
+                const subheadings = subheadingToggle.nextElementSibling;
                 if (subheadings) {
                     subheadings.classList.toggle('show');
                 }
             }
         });
     </script>
-    <style>
-        /* Container for Sidebar and PDF */
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            padding: 20px;
-            background-color: #ffffff; /* White background */
-            border-right: 1px solid #ddd;
-            overflow-y: auto;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
-        }
-
-        .sidebar h2 {
-            color: #0262c4;
-            margin-bottom: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 10px;
-            font-size: 14px;
-            padding: 8px 10px; /* Increased padding for a button-like feel */
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .sidebar .subheadings {
-            display: none; /* Hide subheadings by default */
-            margin-left: 15px; /* Indent subheadings */
-        }
-
-        .sidebar .subheadings.show {
-            display: block; /* Show subheadings when toggled */
-        }
-
-        /* PDF Viewer Styles */
-        .pdf-viewer-container {
-            flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column; /* Stack pages vertically */
-            justify-content: flex-start; /* Align items to the start */
-            overflow-y: auto; /* Allow scrolling */
-            background-color: #ffffff; /* White background */
-        }
-
-        .pdf-page {
-            border: 1px solid #ddd;
-            margin-bottom: 20px;
-            max-width: 100%;
-            height: auto; /* Let the height adjust based on content */
-        }
-    </style>
 </head>
 <body>
 
@@ -175,45 +111,9 @@
                 </ul>
             </li>
             <li>
-                <div>Command Structure</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('commandStructure')">Page 4</li>
-                </ul>
-            </li>
-            <li>
-                <div>Qualifications</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('qualifications')">Page 4</li>
-                </ul>
-            </li>
-            <li>
-                <div>Roles at the Station</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('rolesStation')">Page 4</li>
-                </ul>
-            </li>
-            <li>
-                <div>Disciplinary Actions</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('disciplinaryActions')">Page 5</li>
-                </ul>
-            </li>
-            <li>
                 <div>Standard HRNF Radio Guide</div>
                 <ul class="subheadings">
                     <li onclick="scrollToSection('radioGuide')">Page 5</li>
-                </ul>
-            </li>
-            <li>
-                <div>General Communication Protocols</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('communicationProtocols')">Page 5</li>
-                </ul>
-            </li>
-            <li>
-                <div>HRNF S&R Base Ops and Meteorological Radio QRS</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('baseOps')">Page 7</li>
                 </ul>
             </li>
             <li>
@@ -229,100 +129,22 @@
                 </ul>
             </li>
             <li>
-                <div>Section 1: Search and Rescue</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('searchAndRescue')">Page 11</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 2: Medical Interventions</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('medicalInterventions')">Page 20</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 3: Technical Rescue</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('technicalRescue')">Page 25</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 4: Water Rescue</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('waterRescue')">Page 29</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 5: Urban Search and Rescue (USAR)</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('urbanRescue')">Page 34</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 6: Mine/Cave Rescue</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('mineCaveRescue')">Page 38</li>
-                </ul>
-            </li>
-            <li>
-                <div>Section 7: Firefighting in Wildland Environments</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('firefightingWildland')">Page 43</li>
-                </ul>
-            </li>
-            <li>
                 <div>GARC Supplements</div>
                 <ul class="subheadings">
                     <li onclick="scrollToSection('garcSupplements')">Page 47</li>
                 </ul>
             </li>
             <li>
-                <div>Tourniquet Conversions</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('tourniquetConversions')">Page 47</li>
-                </ul>
-            </li>
-            <li>
-                <div>Hypothermia Prevention and Treatment</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('hypothermiaPrevention')">Page 48</li>
-                </ul>
-            </li>
-            <li>
-                <div>Shock Management</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('shockManagement')">Page 48</li>
-                </ul>
-            </li>
-            <li>
-                <div>Drone Team Operations</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('droneOperations')">Page 49</li>
-                </ul>
-            </li>
-            <li>
-                <div>Crime Scene Preservation</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('crimeScenePreservation')">Page 50</li>
-                </ul>
-            </li>
-            <li>
-                <div>Co-Ordination With Other Public Services</div>
-                <ul class="subheadings">
-                    <li onclick="scrollToSection('coordinationPublicServices')">Page 53</li>
-                </ul>
-            </li>
-            <li>
                 <div>Search Theory</div>
                 <ul class="subheadings">
-                    <li onclick="scrollToSection('searchTheoryPart1')">Part 1: Fundamentals of Search Theory</li>
-                    <li onclick="scrollToSection('searchTheoryPart2')">Part 2: Search Planning and Strategy</li>
-                    <li onclick="scrollToSection('searchTheoryPart3')">Part 3: Search Techniques</li>
-                    <li onclick="scrollToSection('searchTheoryPart4')">Part 4: Analyzing and Adapting Search Efforts</li>
+                    <li onclick="scrollToSection('searchTheory')">Part 1: Fundamentals of Search Theory</li>
+                    <li onclick="scrollToSection('searchPlanning')">Part 2: Search Planning and Strategy</li>
+                    <li onclick="scrollToSection('searchTechniques')">Part 3: Search Techniques</li>
+                    <li onclick="scrollToSection('analyzingSearch')">Part 4: Analyzing and Adapting Search Efforts</li>
                 </ul>
             </li>
             <li>
-                <div>Off-Roading Guide: General Procedures and Best Practices</div>
+                <div>Off-Roading Guide</div>
                 <ul class="subheadings">
                     <li onclick="scrollToSection('offRoadingGuide')">Page 58</li>
                 </ul>
