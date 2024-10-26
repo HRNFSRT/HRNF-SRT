@@ -225,29 +225,26 @@ h1, h2, h3, h4, h5, h6 {
     display: block; /* Show subheadings when active */
 }
 
-/* Other existing styles remain unchanged... */
-
-
 /* PDF Viewer Container Styles */
 .pdf-viewer-container {
-    flex: 1; /* Take up remaining space */
-    padding: 20px; /* Padding for viewer */
+    flex: 1;
+    padding: 20px;
     display: flex;
-    flex-direction: column; /* Stack pages vertically */
-    justify-content: flex-start; /* Align items to the start */
-    align-items: center; /* Center the pages horizontally */
-    overflow-y: auto; /* Allow scrolling */
-    height: 100vh; /* Ensure it has a fixed height */
-    background-color: #ffffff; /* White background for viewer */
-    scroll-behavior: smooth; /* Smooth scrolling */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    height: 100vh;
+    background-color: #ffffff;
+    scroll-behavior: smooth; /* Ensures smooth scroll behavior */
 }
 
 /* Individual PDF Page Styles */
 .pdf-page {
-    border: 1px solid #ddd; /* Border for each page */
-    margin-bottom: 20px; /* Space between pages */
-    max-width: 100%; /* Maximum width */
-    height: auto; /* Let the height adjust based on content */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for visibility */
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    scroll-margin-top: 20px; /* Adds space when using scrollIntoView */
 }
-
