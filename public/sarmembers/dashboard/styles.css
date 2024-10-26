@@ -228,7 +228,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Other existing styles remain unchanged... */
 
 
-/* PDF Viewer Styles */
+/* PDF Viewer Container Styles */
 .pdf-viewer-container {
     flex: 1; /* Take up remaining space */
     padding: 20px; /* Padding for viewer */
@@ -237,12 +237,17 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: flex-start; /* Align items to the start */
     align-items: center; /* Center the pages horizontally */
     overflow-y: auto; /* Allow scrolling */
+    height: 100vh; /* Ensure it has a fixed height */
     background-color: #ffffff; /* White background for viewer */
+    scroll-behavior: smooth; /* Smooth scrolling */
 }
 
+/* Individual PDF Page Styles */
 .pdf-page {
     border: 1px solid #ddd; /* Border for each page */
     margin-bottom: 20px; /* Space between pages */
     max-width: 100%; /* Maximum width */
     height: auto; /* Let the height adjust based on content */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for visibility */
 }
+
