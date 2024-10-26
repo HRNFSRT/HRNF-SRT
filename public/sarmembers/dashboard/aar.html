@@ -73,21 +73,20 @@
             margin: 10px 0; /* Space above and below paragraphs */
         }
 
-        /* Button Container to hold buttons in a column */
+        /* Button Container to hold buttons in a row */
         .button-container {
-            display: flex;
-            flex-direction: column; /* Arrange buttons in a column */
+            display: flex; /* Use flexbox for alignment */
+            justify-content: center; /* Center align buttons */
             width: 100%; /* Full width */
-            align-items: center; /* Center align buttons */
+            margin-top: 20px; /* Margin above buttons */
         }
 
         /* Button Styles */
         .full-width-button {
             display: block; /* Make the button a block element */
-            width: 100%; /* Full width */
-            max-width: 300px; /* Optional: Limit max width */
+            width: 150px; /* Set fixed width for each button */
             padding: 15px; /* Padding for the button */
-            margin: 10px 0; /* Space between buttons */
+            margin: 0 10px; /* Space between buttons */
             background-color: #e94307; /* Button background color */
             color: white; /* Button text color */
             border: none; /* Remove border */
@@ -102,7 +101,7 @@
             background-color: #b63101; /* Darker shade on hover */
         }
 
-        /* Footer styling (optional, if you have a footer) */
+        /* Footer styling */
         footer {
             margin-top: auto; /* Push footer to the bottom */
             padding: 20px; /* Padding for the footer */
