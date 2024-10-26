@@ -41,24 +41,35 @@
             display: flex;
             flex-direction: column;
             align-items: center; /* Center content horizontally */
-            justify-content: center; /* Center content vertically */
+            justify-content: flex-start; /* Align to the top */
             min-height: 100vh; /* Full viewport height */
             background-color: #f0f0f0; /* Light background color */
             color: #0262c4; /* Text color */
             text-align: center; /* Center text */
-            padding: 20px; /* Add some padding around the body */
+            padding-top: 100px; /* Padding to account for the fixed header */
+        }
+
+        /* Fixed Header */
+        header {
+            position: fixed; /* Fix the header to the top */
+            top: 0; /* Align it to the top */
+            width: 100%; /* Make sure it spans the full width of the page */
+            background-color: rgba(51, 51, 51, 0.8); /* Header background */
+            color: white; /* White text color */
+            padding: 10px 0; /* Padding for the header */
+            z-index: 1000; /* Ensure the header stays above other content */
+            text-align: center; /* Center header text */
         }
 
         /* Centered Heading */
         h1 {
-            margin-bottom: 10px; /* Space below heading */
+            margin: 20px 0; /* Space above and below heading */
             font-size: 2rem; /* Font size for the heading */
         }
 
         /* Paragraph Styling */
         p {
             font-style: italic; /* Make text italic */
-            text-align: center; /* Center the text */
             margin: 10px 0; /* Space above and below paragraphs */
         }
 
