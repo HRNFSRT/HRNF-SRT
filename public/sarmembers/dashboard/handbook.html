@@ -47,13 +47,14 @@
         async function renderPDF(pdf) {
             const pdfViewerContainer = document.getElementById('pdfViewerContainer');
             pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
-        
+
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
                 const viewport = page.getViewport({ scale });
-        
+
                 const canvas = document.createElement('canvas');
                 canvas.className = 'pdf-page';
+                canvas.id = `pageCanvas-${pageNum}`; // Assign unique ID to each canvas
                 const context = canvas.getContext('2d');
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
@@ -65,23 +66,18 @@
                 await page.render(renderContext);
 
                 pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
-
-                // Capture top offset of each canvas after appending
-                const pageTop = canvas.offsetTop;
-                pagePositions.push(pageTop);
             }
         }
 
-        // Scroll to the specific page
-        function scrollToPage(pageNumber) {
-            const pdfViewerContainer = document.getElementById('pdfViewerContainer'); // Get the container element
-            if (pageNumber >= 1 && pageNumber <= pagePositions.length) {
-                // Set scrollTop of the container to the stored top position of the specified page
-                pdfViewerContainer.scrollTop = pagePositions[pageNumber - 1];
-            } else {
-                console.warn("Page not found:", pageNumber);
-            }
-        }
+// Scroll to the specific page using scrollIntoView
+function scrollToPage(pageNumber) {
+    const pageCanvas = document.getElementById(`pageCanvas-${pageNumber}`); // Select canvas by ID
+    if (pageCanvas) {
+        pageCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        console.warn("Page not found:", pageNumber);
+    }
+}
 
         // Toggle subheadings visibility
         function toggleSubheadings(event) {
