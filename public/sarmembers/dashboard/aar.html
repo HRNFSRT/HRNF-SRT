@@ -26,21 +26,62 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
-    <script type="module">
-        // Import Firebase functions from the CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-
-        function redirectToPage(userType) {
-            if (userType === 'command') {
-                window.location.href = 'aarcommand.html'; // Redirect to Command page
-            } else {
-                window.location.href = 'aarsar.html'; // Redirect to SAR Member page
-            }
-        }
     </script>
+    <style>
+        /* Basic Reset */
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            justify-content: center; /* Center content vertically */
+            min-height: 100vh; /* Full viewport height */
+            background-color: #f0f0f0; /* Light background color */
+            color: #0262c4; /* Text color */
+            text-align: center; /* Center text */
+        }
+
+        /* Centered Heading */
+        h1 {
+            margin-bottom: 20px; /* Space below heading */
+            font-size: 2rem; /* Font size for the heading */
+        }
+        
+        /* Paragraph Styling */
+        p {
+            font-style: italic; /* Make text italic */
+            text-align: center; /* Center the text */
+            margin: 10px 0; /* Space above and below paragraphs */
+        }
+        
+        /* Button Styles */
+        .full-width-button {
+            display: block; /* Make the button a block element */
+            width: 100%; /* Full width */
+            max-width: 300px; /* Optional: Limit max width */
+            padding: 15px; /* Padding for the button */
+            margin: 10px 0; /* Space between buttons */
+            background-color: #e94307; /* Button background color */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            font-size: 1rem; /* Font size for the button text */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        /* Button Hover Effect */
+        .full-width-button:hover {
+            background-color: #b63101; /* Darker shade on hover */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -61,15 +102,15 @@
     </header>
     
     <div class="container">
-        <h2>Select User Type</h2>
-        <div class="user-type-selection">
-            <button onclick="redirectToPage('command')">Command</button>
-            <button onclick="redirectToPage('sar')">SAR Member</button>
+        <h1>Highrock National Forest SRT After Action Reports.</h1>
+        <p>Helping Your Voice to be Heard</p>
+    <button class="full-width-button" onclick="location.href='aarsar.html'">Submit Report (SAR Member)</button>
+    <button class="full-width-button" onclick="location.href='aarcommand.html'">Review Reports (Command)</button>
         </div>
     </div>
     
     <footer>
-        <p>&copy; 2024 HRNF-SRT. All rights reserved.</p>
+        <p>&copy; 2024 Highrock National Forest SRT. All rights reserved.</p>
     </footer>
 </body>
 </html>
