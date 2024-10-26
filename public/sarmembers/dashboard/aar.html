@@ -46,21 +46,30 @@
             background-color: #f0f0f0; /* Light background color */
             color: #0262c4; /* Text color */
             text-align: center; /* Center text */
+            padding: 20px; /* Add some padding around the body */
         }
 
         /* Centered Heading */
         h1 {
-            margin-bottom: 20px; /* Space below heading */
+            margin-bottom: 10px; /* Space below heading */
             font-size: 2rem; /* Font size for the heading */
         }
-        
+
         /* Paragraph Styling */
         p {
             font-style: italic; /* Make text italic */
             text-align: center; /* Center the text */
             margin: 10px 0; /* Space above and below paragraphs */
         }
-        
+
+        /* Button Container to hold buttons in a column */
+        .button-container {
+            display: flex;
+            flex-direction: column; /* Arrange buttons in a column */
+            width: 100%; /* Full width */
+            align-items: center; /* Center align buttons */
+        }
+
         /* Button Styles */
         .full-width-button {
             display: block; /* Make the button a block element */
@@ -80,6 +89,16 @@
         /* Button Hover Effect */
         .full-width-button:hover {
             background-color: #b63101; /* Darker shade on hover */
+        }
+
+        /* Footer styling (optional, if you have a footer) */
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            padding: 20px; /* Padding for the footer */
+            background-color: #333; /* Dark background */
+            color: white; /* White text color */
+            text-align: center; /* Center text in footer */
+            width: 100%; /* Full width */
         }
     </style>
 </head>
