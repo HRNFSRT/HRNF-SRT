@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAR Command Review</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
+
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Fetch reports and display them
+        window.fetchReports = async () => {
+            const reportList = document.getElementById("reportList");
+            reportList.innerHTML = ""; // Clear previous results
+
+            const querySnapshot = await getDocs(collection(db, "reports"));
+            querySnapshot.forEach((doc) => {
+                const reportData = doc.data();
+                const reportElement = document.createElement("div");
+                reportElement.className = "report-item";
+                reportElement.innerHTML = `
+                    <h3>${reportData.title}</h3>
+                    <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
+                    <button onclick="viewReport('${doc.id}')">View Report</button>
+                    <button onclick="downloadReport('${doc.id}')">Download</button>
+                    <button onclick="deleteReport('${doc.id}')">Delete</button>
+                `;
+                reportList.appendChild(reportElement);
+            });
+        };
+
+        // View report
+        window.viewReport = (reportId) => {
+            alert(`Viewing report ID: ${reportId}`);
+            // Implement logic to show report details
+        };
+
+        // Download report
+        window.downloadReport = (reportId) => {
+            alert(`Download functionality for report ID: ${reportId} is not implemented yet.`);
+            // Create downloadable file logic here
+        };
+
+        // Delete report
+        window.deleteReport = async (reportId) => {
+            if (confirm("Are you sure you want to delete this report?")) {
+                await deleteDoc(doc(db, "reports", reportId));
+                alert("Report deleted successfully.");
+                fetchReports(); // Refresh the report list
+            }
+        };
+
+        // Call fetchReports on page load
+        fetchReports();
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Command Review Page</h1>
+    </header>
+
+    <div class="container">
+        <h2>Reports to Review</h2>
+        <div id="reportList"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Highrock National Forest SRT</p>
+    </footer>
+</body>
+</html>
