@@ -47,11 +47,11 @@
         async function renderPDF(pdf) {
             const pdfViewerContainer = document.getElementById('pdfViewerContainer');
             pdfViewerContainer.innerHTML = ''; // Clear the container before rendering
-
+        
             for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
                 const page = await pdf.getPage(pageNum);
                 const viewport = page.getViewport({ scale });
-
+        
                 const canvas = document.createElement('canvas');
                 canvas.className = 'pdf-page';
                 const context = canvas.getContext('2d');
@@ -63,11 +63,11 @@
                     viewport: viewport,
                 };
                 await page.render(renderContext);
-                
+
                 pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
 
-                // Store the top position of each page for scrolling
-                const pageTop = pdfViewerContainer.scrollHeight; // Current height before adding new page
+                // Capture top offset of each canvas after appending
+                const pageTop = canvas.offsetTop;
                 pagePositions.push(pageTop);
             }
         }
