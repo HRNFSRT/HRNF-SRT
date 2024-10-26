@@ -68,16 +68,19 @@
                 pdfViewerContainer.appendChild(canvas); // Append the canvas to the viewer
             }
         }
+        // Scroll to the specific page
+        function scrollToPage(pageNumber) {
+            const pdfViewerContainer = document.getElementById('pdfViewerContainer'); // Container for PDF pages
+            const pages = pdfViewerContainer.querySelectorAll('.pdf-page'); // NodeList of all canvas pages
+    
+            if (pageNumber >= 1 && pageNumber <= pages.length) {
+                // Use scrollIntoView to bring the selected page into view
+                pages[pageNumber - 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                console.warn("Page not found:", pageNumber);
+            }
+        }
 
-// Scroll to the specific page using scrollIntoView
-function scrollToPage(pageNumber) {
-    const pageCanvas = document.getElementById(`pageCanvas-${pageNumber}`); // Select canvas by ID
-    if (pageCanvas) {
-        pageCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-        console.warn("Page not found:", pageNumber);
-    }
-}
 
         // Toggle subheadings visibility
         function toggleSubheadings(event) {
