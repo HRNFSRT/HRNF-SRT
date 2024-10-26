@@ -42,7 +42,7 @@
             flex-direction: column;
             align-items: center; /* Center content horizontally */
             justify-content: flex-start; /* Align to the top */
-            min-height: 100vh; /* Full viewport height */
+            min-height: calc(100vh - 100px); /* Adjust for the fixed header height */
             background-color: #f0f0f0; /* Light background color */
             color: #0262c4; /* Text color */
             text-align: center; /* Center text */
@@ -63,14 +63,14 @@
 
         /* Centered Heading */
         h1 {
-            margin: 20px 0; /* Space above and below heading */
+            margin: 10px 0; /* Space above and below heading */
             font-size: 2rem; /* Font size for the heading */
         }
 
         /* Paragraph Styling */
         p {
             font-style: italic; /* Make text italic */
-            margin: 10px 0; /* Space above and below paragraphs */
+            margin: 5px 0; /* Space above and below paragraphs */
         }
 
         /* Container for the main content */
@@ -78,22 +78,25 @@
             display: flex; /* Use flexbox for alignment */
             flex-direction: column; /* Stack children vertically */
             align-items: center; /* Center align children */
-            justify-content: center; /* Center vertically */
+            justify-content: flex-start; /* Align to the top */
             flex-grow: 1; /* Allow the container to grow */
-            padding: 20px; /* Padding around the container */
+            padding: 10px; /* Reduced padding around the container */
+            margin-top: 20px; /* Margin to provide some space below the header */
         }
 
         /* Button Styles */
         .full-width-button {
             display: block; /* Make the button a block element */
-            width: 200px; /* Set fixed width for each button */
+            width: 1000px; /* Set fixed width for each button */
+            height: 500px:
             padding: 15px; /* Padding for the button */
             margin: 10px 0; /* Space between buttons */
             background-color: #e94307; /* Button background color */
             color: white; /* Button text color */
             border: none; /* Remove border */
-            border-radius: 5px; /* Rounded corners */
-            font-size: 1rem; /* Font size for the button text */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 2rem; /* Font size for the button text */
+            font-weight: bold; /* Make text bold */
             cursor: pointer; /* Pointer cursor on hover */
             transition: background-color 0.3s; /* Smooth transition */
         }
