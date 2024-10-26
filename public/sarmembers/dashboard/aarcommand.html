@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AAR Command Review</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
+    
+    <!-- Include SheetJS Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script type="module">
         // Import Firebase functions from the CDN
@@ -56,9 +59,36 @@
         };
 
         // Download report
-        window.downloadReport = (reportId) => {
-            alert(`Download functionality for report ID: ${reportId} is not implemented yet.`);
-            // Create downloadable file logic here
+        window.downloadReport = async (reportId) => {
+            const reportDoc = await doc(db, "reports", reportId).get();
+            const reportData = reportDoc.data();
+
+            if (reportData) {
+                // Create a workbook and a worksheet
+                const wb = XLSX.utils.book_new();
+                const wsData = [
+                    ["Title", "Submitted By", "Incident Overview", "H&S Issues", "Casualties", "Communication Issues", "Other Issues", "Future Suggestions", "Persons of Merit"],
+                    [
+                        reportData.title,
+                        reportData.teamLead,
+                        reportData.incidentOverview,
+                        reportData.hsIssues,
+                        reportData.casualties,
+                        reportData.communicationIssues,
+                        reportData.otherIssues,
+                        reportData.futureSuggestions,
+                        reportData.personsOfMerit,
+                    ]
+                ];
+                const ws = XLSX.utils.aoa_to_sheet(wsData);
+                XLSX.utils.book_append_sheet(wb, ws, "Report");
+
+                // Generate a downloadable file
+                const filename = `${reportData.title.replace(/ /g, "_")}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+                XLSX.writeFile(wb, filename);
+            } else {
+                alert("Error: Report not found.");
+            }
         };
 
         // Delete report
@@ -85,7 +115,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2024 Highrock National Forest SRT</p>
+        <p>&copy; 2024 Your Organization</p>
     </footer>
 </body>
 </html>
