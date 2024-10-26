@@ -13,6 +13,7 @@ body {
     display: flex;
     flex-direction: column; /* Column layout */
     min-height: 100vh; /* Minimum height of the viewport */
+    padding-top: 80px; /* Add padding to account for fixed header */
 }
 
 /* Adjust all headings to blue */
