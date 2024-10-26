@@ -127,10 +127,10 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for better visibility */
 }
 
-
 .feature-box:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
+
 /* Footer Styling */
 footer {
     background-color: #333; /* Light grey background for footer */
@@ -140,27 +140,6 @@ footer {
     bottom: 0; /* Align to the bottom of the page */
     width: 100%; /* Full width */
     color: white; /* White text color */
-}
-/* General Reset */
-body, h1, h2, h3, p, ul, li, a, input, textarea, button {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-/* General Body Styling - Adjust text color */
-body {
-    color: #0262c4;  /* Blue text */
-    background: #f0f0f0;
-    display: flex;
-    flex-direction: column; /* Column layout */
-    min-height: 100vh; /* Minimum height of the viewport */
-}
-
-/* Adjust all headings to blue */
-h1, h2, h3, h4, h5, h6 {
-    color: #0262c4;
 }
 
 /* Container for Sidebar and PDF */
@@ -262,4 +241,48 @@ h1, h2, h3, h4, h5, h6 {
 
 .cta:hover {
     background-color: #b63101; /* Darker blue on hover */
+}
+
+/* After Action Reports Section */
+.after-action-reports {
+    background-color: #fff; /* White background for contrast */
+    padding: 40px 20px; /* Padding to add space around the content */
+    margin: 40px 0; /* Margin above and below the section */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* After Action Reports Heading */
+.after-action-reports h2 {
+    color: #0262c4; /* Blue heading color */
+    font-size: 2rem; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+/* After Action Reports List */
+.after-action-reports ul {
+    list-style-type: disc; /* Bulleted list */
+    margin-left: 20px; /* Indent list items */
+}
+
+/* Individual Report Item */
+.after-action-reports li {
+    margin-bottom: 10px; /* Space between items */
+    font-size: 1rem; /* Standard font size */
+    color: #333; /* Dark text for readability */
+}
+
+/* Button to Add New Report */
+.add-report-btn {
+    display: inline-block; /* Display as a button */
+    padding: 10px 15px; /* Padding for the button */
+    background-color: #007bff; /* Primary color for the button */
+    color: white; /* White text */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.add-report-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
 }
