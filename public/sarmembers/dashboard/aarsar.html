@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAR SAR Member Submission</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
+
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Handle form submission
+        window.handleFormSubmission = async (event) => {
+            event.preventDefault();
+
+            // Get form values
+            const reportTitle = document.getElementById("report_title").value;
+            const teamMembers = document.getElementById("team_members").value;
+            const teamLead = document.getElementById("team_lead").value;
+            const incidentOverview = document.getElementById("incident_overview").value;
+            const hsIssues = document.getElementById("hs_issues").value;
+            const casualties = document.getElementById("casualties").value;
+            const communicationIssues = document.getElementById("communication_issues").value;
+            const otherIssues = document.getElementById("other_issues").value;
+            const futureSuggestions = document.getElementById("future_suggestions").value;
+            const personsOfMerit = document.getElementById("persons_of_merit").value;
+
+            try {
+                // Add report to Firestore
+                await addDoc(collection(db, "reports"), {
+                    title: reportTitle,
+                    teamMembers,
+                    teamLead,
+                    incidentOverview,
+                    hsIssues,
+                    casualties,
+                    communicationIssues,
+                    otherIssues,
+                    futureSuggestions,
+                    personsOfMerit,
+                    createdAt: serverTimestamp() // Timestamp when the report is created
+                });
+
+                alert("Report submitted successfully!");
+                document.getElementById("reportForm").reset(); // Reset the form
+            } catch (error) {
+                console.error("Error submitting report: ", error);
+                alert("Failed to submit report. Please try again.");
+            }
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <h1>SAR Member Submission</h1>
+    </header>
+
+    <div class="container">
+        <form id="reportForm" onsubmit="handleFormSubmission(event)">
+            <label for="report_title">Title of the Report:</label>
+            <input type="text" id="report_title" name="report_title" required>
+
+            <label for="team_members">Team Members on Call:</label>
+            <input type="text" id="team_members" name="team_members" required>
+
+            <label for="team_lead">Team Lead:</label>
+            <input type="text" id="team_lead" name="team_lead" required>
+
+            <label for="incident_overview">Brief Overview of Incident:</label>
+            <textarea id="incident_overview" name="incident_overview" required></textarea>
+
+            <label for="hs_issues">Any H&S issues or near misses:</label>
+            <textarea id="hs_issues" name="hs_issues" required></textarea>
+
+            <label for="casualties">Any Team Casualties:</label>
+            <textarea id="casualties" name="casualties" required></textarea>
+
+            <label for="communication_issues">Issues with Communication:</label>
+            <textarea id="communication_issues" name="communication_issues" required></textarea>
+
+            <label for="other_issues">Any Other Issues:</label>
+            <textarea id="other_issues" name="other_issues"></textarea>
+
+            <label for="future_suggestions">Suggestions for Future Incidents:</label>
+            <textarea id="future_suggestions" name="future_suggestions"></textarea>
+
+            <label for="persons_of_merit">Person(s) of Merit (optional):</label>
+            <input type="text" id="persons_of_merit" name="persons_of_merit">
+
+            <button type="submit">Submit Report</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Hignrock National Forest SRT</p>
+    </footer>
+</body>
+</html>
