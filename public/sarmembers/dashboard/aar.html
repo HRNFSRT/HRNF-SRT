@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>After Action Reports</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to submit a report
+        async function submitReport() {
+            const content = document.getElementById('reportContent').value;
+            const user = auth.currentUser;
+
+            if (user) {
+                try {
+                    await addDoc(collection(db, "reports"), {
+                        userId: user.email,
+                        userRole: user.email === 'command@hrnf-srt.org' ? 'command' : 'standard',
+                        content: content,
+                        timestamp: serverTimestamp(),
+                        status: 'submitted',
+                    });
+                    console.log('Report submitted');
+                    document.getElementById('reportContent').value = ''; // Clear the textarea
+                } catch (error) {
+                    console.error("Error submitting report:", error);
+                }
+            } else {
+                console.log("User is not logged in");
+            }
+        }
+
+        // Function to fetch reports for command users
+        async function fetchReports() {
+            const user = auth.currentUser;
+            const reportsList = document.getElementById('reportsList');
+            reportsList.innerHTML = ''; // Clear previous reports
+
+            if (user && user.email === 'command@hrnf-srt.org') {
+                const querySnapshot = await getDocs(collection(db, "reports"));
+                querySnapshot.forEach(doc => {
+                    const report = doc.data();
+                    const reportItem = document.createElement('div');
+                    reportItem.className = 'report-item';
+                    reportItem.innerHTML = `<strong>${report.userId}</strong>: ${report.content} <br> <small>Submitted on: ${new Date(report.timestamp.seconds * 1000).toLocaleString()}</small>`;
+                    reportsList.appendChild(reportItem);
+                });
+            }
+        }
+
+        // Auth state listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                fetchReports(); // Fetch reports if command user
+            } else {
+                console.log("No user is signed in");
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo.png" alt="Logo" width="50" height="50"> <!-- Replace with your logo -->
+                <div class="header-text">
+                    <h1>HRNF-SRT Dashboard</h1>
+                    <p>Your action reports</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="cta">Dashboard</a></li>
+                    <li><a href="sarmembers/login.html" class="cta">Member Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="report-form">
+            <h2>Submit After Action Report</h2>
+            <textarea id="reportContent" placeholder="Enter your report here..." required></textarea>
+            <button id="submitReport" class="cta" onclick="submitReport()">Submit Report</button>
+        </div>
+
+        <div class="report-review">
+            <h2>Review After Action Reports</h2>
+            <div id="reportsList"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 HRNF-SRT. All rights reserved.</p>
+    </footer>
+</body>
+</html>
