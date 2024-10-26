@@ -73,20 +73,22 @@
             margin: 10px 0; /* Space above and below paragraphs */
         }
 
-        /* Button Container to hold buttons in a row */
-        .button-container {
+        /* Container for the main content */
+        .container {
             display: flex; /* Use flexbox for alignment */
-            justify-content: center; /* Center align buttons */
-            width: 100%; /* Full width */
-            margin-top: 20px; /* Margin above buttons */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center align children */
+            justify-content: center; /* Center vertically */
+            flex-grow: 1; /* Allow the container to grow */
+            padding: 20px; /* Padding around the container */
         }
 
         /* Button Styles */
         .full-width-button {
             display: block; /* Make the button a block element */
-            width: 150px; /* Set fixed width for each button */
+            width: 200px; /* Set fixed width for each button */
             padding: 15px; /* Padding for the button */
-            margin: 0 10px; /* Space between buttons */
+            margin: 10px 0; /* Space between buttons */
             background-color: #e94307; /* Button background color */
             color: white; /* Button text color */
             border: none; /* Remove border */
@@ -131,13 +133,14 @@
     </header>
     
     <div class="container">
-        <h1>Highrock National Forest SRT After Action Reports.</h1>
+        <h1>Highrock National Forest SRT After Action Reports</h1>
         <p>Helping Your Voice to be Heard</p>
-    <button class="full-width-button" onclick="location.href='aarsar.html'">Submit Report (SAR Member)</button>
-    <button class="full-width-button" onclick="location.href='aarcommand.html'">Review Reports (Command)</button>
+        <div class="button-container">
+            <button class="full-width-button" onclick="location.href='aarsar.html'">Submit Report (SAR Member)</button>
+            <button class="full-width-button" onclick="location.href='aarcommand.html'">Review Reports (Command)</button>
         </div>
     </div>
-    
+
     <footer>
         <p>&copy; 2024 Highrock National Forest SRT. All rights reserved.</p>
     </footer>
