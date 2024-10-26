@@ -74,9 +74,10 @@
 
         // Scroll to the specific page
         function scrollToPage(pageNumber) {
+            const pdfViewerContainer = document.getElementById('pdfViewerContainer'); // Get the container element
             if (pageNumber >= 1 && pageNumber <= pagePositions.length) {
-                // Scroll to the top position of the specified page number (1-indexed)
-                window.scrollTo({ top: pagePositions[pageNumber - 1], behavior: 'smooth' });
+                // Set scrollTop of the container to the stored top position of the specified page
+                pdfViewerContainer.scrollTop = pagePositions[pageNumber - 1];
             } else {
                 console.warn("Page not found:", pageNumber);
             }
