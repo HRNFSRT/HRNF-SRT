@@ -40,20 +40,57 @@ console.log("none");
         }
     });
 
-        // Function to update shift
-        window.updateShift = () => {
-            const day = document.getElementById("day").value;
-            const member = document.getElementById("member").value;
-            const time = document.getElementById("time").value;
+// Function to fetch shifts from Firestore
+async function fetchShifts() {
+    const shiftsCollection = collection(db, "shifts");
+    const shiftsSnapshot = await getDocs(shiftsCollection);
+    const shiftsList = document.getElementById("shiftsList");
+    shiftsList.innerHTML = ""; // Clear existing shifts
+    shiftsSnapshot.forEach((doc) => {
+        const shiftData = doc.data();
+        const shiftItem = document.createElement("li");
+        shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
+        
+        // Create a delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "X";
+        deleteButton.onclick = () => deleteShift(doc.id);
+        
+        shiftItem.appendChild(deleteButton);
+        shiftsList.appendChild(shiftItem);
+    });
+}
 
-            if (member && time) {
-                alert(`Shift updated: ${day} - ${member} (${time})`);
-                // Logic to update shift in the system
-            } else {
-                alert("Please fill out all fields for the shift update.");
-            }
-        };
+// Function to add a shift
+async function addShift() {
+    const day = document.getElementById("shiftDay").value;
+    const member = document.getElementById("shiftMember").value;
+    const time = document.getElementById("shiftTime").value;
 
+    if (day && member && time) {
+        await addDoc(collection(db, "shifts"), {
+            day: day,
+            member: member,
+            time: time,
+            createdAt: serverTimestamp()
+        });
+        alert("Shift added successfully.");
+        fetchShifts(); // Refresh the list
+    } else {
+        alert("Please fill out all fields for the shift.");
+    }
+}
+
+// Function to delete a shift
+async function deleteShift(shiftId) {
+    await deleteDoc(doc(db, "shifts", shiftId));
+    alert("Shift deleted successfully.");
+    fetchShifts(); // Refresh the list
+}
+
+// Call fetchShifts on page load to display shifts
+window.onload = fetchShifts;
+        
     // Function to fetch jobs from Firestore and display them
     async function fetchJobs() {
         const jobList = document.getElementById("jobList");
@@ -304,60 +341,34 @@ nav {
 <!-- Main Content -->
 <main class="main-content">
     <!-- Week View of Shifts -->
-    <section class="shift-week-view">
-        <h2>This Week's Shifts</h2>
-        <div class="week-grid">
-            <div class="day" id="monday">
-                <h3>Monday</h3>
-                <ul>
-                    <li>John Doe - 08:00 - 16:00</li>
-                    <li>Jane Smith - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <div class="day" id="tuesday">
-                <h3>Tuesday</h3>
-                <ul>
-                    <li>Mike Lee - 08:00 - 16:00</li>
-                    <li>Sarah Kim - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <!-- Additional days... -->
-        </div>
-    </section>
+<section class="shift-week-view">
+    <h2>This Week's Shifts</h2>
+    <ul id="shiftsList"></ul> <!-- This will dynamically display shifts -->
+</section>
 
-    <!-- Jobs Section -->
-    <section class="jobs-section">
-        <h2>Job Management</h2>
-        <form id="jobUpdateForm" onsubmit="event.preventDefault(); addJob();">
-            <label for="job">Add Job Description:</label>
-            <input type="text" id="job" placeholder="Enter job description" required>
-            <button type="submit">Add Job</button>
-        </form>
-        <ul id="jobList">
-            <!-- Job items will be appended here -->
-        </ul>
-    </section>
+<!-- Jobs to be Completed -->
+<section class="jobs-section">
+    <h2>Jobs to be Completed</h2>
+    <ul id="jobList">
+        <!-- Jobs will be dynamically populated here -->
+    </ul>
+</section>
+
 
     <!-- Commander Update Section -->
-    <section id="commanderUpdateSection" class="commander-update" style="display: none;">
-        <h2>Commander Shift Update</h2>
-        <form id="shiftUpdateForm" onsubmit="event.preventDefault(); updateShift();">
-            <label for="day">Day:</label>
-            <select id="day">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <!-- Additional days... -->
-            </select>
-
-            <label for="member">Member:</label>
-            <input type="text" id="member" placeholder="Enter member name" required>
-
-            <label for="time">Time:</label>
-            <input type="text" id="time" placeholder="Enter shift time" required>
-
-            <button type="submit">Update Shift</button>
-        </form>
-    </section>
+<!-- Form to add a shift -->
+<section class="add-shift-section">
+    <h3>Add Shift</h3>
+    <form id="addShiftForm" onsubmit="event.preventDefault(); addShift();">
+        <label for="shiftDay">Day:</label>
+        <input type="text" id="shiftDay" placeholder="Enter day">
+        <label for="shiftMember">Member:</label>
+        <input type="text" id="shiftMember" placeholder="Enter member name">
+        <label for="shiftTime">Time:</label>
+        <input type="text" id="shiftTime" placeholder="e.g., 08:00 - 16:00">
+        <button type="submit">Add Shift</button>
+    </form>
+</section>
 </main>
 
 <!-- Footer -->
