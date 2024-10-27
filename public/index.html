@@ -3,324 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift Rotas</title>
-
-    <!-- Firebase Configuration and Imports -->
-    <script type="module">
-        // Import Firebase functions from the CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-
-        // Firebase Configuration
+    <title>Highrock National Forest Search & Rescue Team</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+        <script>
+        // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID
         };
-
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Function to show or hide the commander section based on the logged-in user's email
-        onAuthStateChanged(auth, (user) => {
-            const commanderSection = document.getElementById("commanderUpdateSection");
-            if (user && user.email === "command@hrnf-srt.org") {
-                commanderSection.style.display = "block";
-            } else {
-                commanderSection.style.display = "none";
-            }
-        });
-
-        // Function to update shift
-        window.updateShift = () => {
-            const day = document.getElementById("day").value;
-            const member = document.getElementById("member").value;
-            const time = document.getElementById("time").value;
-
-            if (member && time) {
-                alert(`Shift updated: ${day} - ${member} (${time})`);
-                // Logic to update shift in the system
-            } else {
-                alert("Please fill out all fields for the shift update.");
-            }
-        };
-
-        // Function to add a job
-        window.addJob = () => {
-            const jobDescription = document.getElementById("job").value;
-
-            if (jobDescription) {
-                const jobList = document.getElementById("jobList");
-                const newJobItem = document.createElement("li");
-                newJobItem.textContent = jobDescription;
-                jobList.appendChild(newJobItem);
-                alert("Job added successfully.");
-                document.getElementById("jobUpdateForm").reset();
-            } else {
-                alert("Please enter a job description.");
-            }
-        };
+        const app = firebase.initializeApp(firebaseConfig);
     </script>
-
-    <style>
-        /* General Reset */
-        body, h1, h2, h3, p, ul, li, a, input, textarea, button {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        /* General Body Styling */
-        body {
-            color: #0262c4; /* Blue text */
-            background: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Ensures the body takes full height */
-        }
-
-        /* General header styling */
-        header {
-            position: fixed; /* Fix the header to the top of the viewport */
-            top: 0; /* Align it to the top */
-            width: 100%; /* Make sure it spans the full width of the page */
-            z-index: 1000; /* Ensure the header stays above other content */
-            background-color: rgba(51, 51, 51, 0.8); /* Header background */
-            padding: 0px 0;
-        }
-
-        /* Header content styling */
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            background-color: rgba(51, 51, 51, 0.8);
-            color: white;
-        }
-
-        /* Logo styling */
-        .header-content img {
-            height: 80px; /* Limit the height of the logo to 80 pixels */
-            width: auto; /* Maintain aspect ratio */
-        }
-
-        /* Navigation styling */
-        nav {
-            margin-left: auto;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style-type: none;
-        }
-
-        .nav-links li a {
-            text-decoration: none;
-            color: white;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links li a:hover {
-            color: #f0a500;
-        }
-
-        /* Main Content Layout */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 80px 20px 20px; /* Space for header and bottom padding */
-            flex-grow: 1; /* Allow content to grow and take available space */
-        }
-
-        /* Week View of Shifts */
-        .shift-week-view,
-        .jobs-section,
-        .commander-update {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .shift-week-view h2,
-        .jobs-section h2,
-        .commander-update h2 {
-            margin-bottom: 15px;
-            color: #0262c4; /* Adjusted heading color */
-        }
-
-        /* Shift Week View */
-        .week-grid {
-            display: flex;
-            gap: 10px;
-        }
-
-        .day {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .day h3 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* Update Forms */
-        .update-forms {
-            display: flex;
-            gap: 20px;
-        }
-
-        .shift-update,
-        .job-update {
-            flex: 1;
-            background-color: #f3f3f3;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Form Styles */
-        form label {
-            display: block;
-            margin: 8px 0 4px;
-            font-weight: bold;
-        }
-
-        form input, form select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        }
-
-        form button {
-            background-color: #e94307; /* CTA button color */
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-
-        form button:hover {
-            background-color: #b63101; /* Darker blue on hover */
-        }
-
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            width: 100%;
-        }
-
-    </style>
 </head>
 <body>
-
-<!-- Header -->
+<!-- Header Section -->
 <header>
     <div class="header-content">
         <div class="logo">
-            <img src="/images/logo.png" alt="Logo" />
-            <div class="header-text">
-                <h1>Shift Rotas</h1>
-                <p>Keeping You Informed and Ready for Duty</p>
-            </div>
+            <img src="images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+        </div>
+        <div class="header-text">
+            <h1>Highrock National Forest Search & Rescue Team</h1>
+            <p>Saving Lives 365 Days a Year</p>
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/logout" class="cta">Log Out</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="sarmembers/login.html" class="cta">Member Login</a></li>
+
             </ul>
         </nav>
     </div>
 </header>
 
-<!-- Main Content -->
-<main class="main-content">
-    <!-- Week View of Shifts -->
-    <section class="shift-week-view">
-        <h2>This Week's Shifts</h2>
-        <div class="week-grid">
-            <div class="day" id="monday">
-                <h3>Monday</h3>
-                <ul>
-                    <li>John Doe - 08:00 - 16:00</li>
-                    <li>Jane Smith - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <div class="day" id="tuesday">
-                <h3>Tuesday</h3>
-                <ul>
-                    <li>Mike Lee - 08:00 - 16:00</li>
-                    <li>Sarah Kim - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <!-- Additional days... -->
+
+<!-- Hero Section -->
+<section class="hero"></section>
+
+<!-- Who We Are Section -->
+<section class="who-we-are" id="who-we-are">
+    <h2>Highrock National Forest Search and Rescue Team</h2>
+    <p>
+        At the Highrock National Forest Search and Rescue Team, we are dedicated to saving lives 365 days a year, regardless of conditions, circumstances, or challenges. Established in 2024 through a collaboration between the Springfield and River City Fire Departments and the Liberty County Fire Commission, our organization was formed in response to the increasing number of incidents within the Highrock National Forest. Recognizing the urgent need for a specialized rescue team, we strive to provide exceptional service and support in the face of adversity.
+    </p>
+    
+    <h3>Our Mission</h3>
+    <p>
+        Our mission is clear: to save lives and provide assistance to those in need within the wilderness areas surrounding Highrock National Forest. We operate under the core values of professionalism, safety, teamwork, and excellence, ensuring that every operation is conducted with the highest standards of care and efficiency.
+    </p>
+
+    <h3>Operational Capabilities</h3>
+    <ul>
+        <li><strong>Wilderness Search and Rescue:</strong> Our team is highly skilled in navigating and operating in the rugged, often unforgiving terrain of Highrock National Forest. We conduct ground searches, high-angle rescues, and provide emergency medical care in remote locations.</li>
+        <li><strong>Technical Rescue:</strong> We are equipped and trained to perform complex rescues in challenging environments, including confined spaces, collapsed structures, and hazardous material incidents. Our technical rescue team is proficient in rope rescue, water rescue, and vehicle extrication.</li>
+        <li><strong>Medical Support:</strong> We provide advanced wilderness EMS, ensuring that victims receive critical medical care in the field. Our team members are trained in trauma care, including the use of the MARCH and PAWS protocols, to stabilize patients until they can be transported to a medical facility.</li>
+    </ul>
+
+    <h3>Our Commitment</h3>
+    <p>
+        Our team is composed of highly trained professionals committed to maintaining the highest standards of safety and expertise. We understand the unpredictable nature of the wilderness and are prepared to face any situation head-on. With a focus on teamwork and community engagement, we are here to ensure that everyone who ventures into the great outdoors can do so with confidence.
+    </p>
+
+    <p>
+        Join us in our mission to protect lives and enhance the safety of our community. Together, we can navigate the challenges of the wilderness and ensure that help is always available.
+    </p>
+</section>
+
+
+<!-- How We Started Section -->
+<section class="how-we-started">
+    <h2>How We Started</h2>
+    <p>
+        The Highrock National Forest Search and Rescue Team was founded in early 2024 in response to a growing need for specialized search and rescue services in Liberty County. As outdoor recreational activities surged in popularity, so did the number of incidents requiring emergency assistance within the picturesque yet challenging terrain of Highrock National Forest.
+    </p>
+    <p>
+        Recognizing the limitations of existing resources, the Springfield and River City Fire Departments, alongside the Liberty County Fire Commission, convened to address the increasing demand for a dedicated search and rescue team. Their discussions highlighted the urgent need for a comprehensive response capability, especially in scenarios where traditional emergency services struggled to reach individuals in remote and rugged environments.
+    </p>
+    <p>
+        The State Fire Commission also identified the necessity for a specialist rescue team to serve the region effectively. This collaborative effort laid the groundwork for the formation of the Highrock National Forest Search and Rescue Team, bringing together experienced professionals from various backgrounds in emergency services, wilderness survival, and medical support.
+    </p>
+    <p>
+        Since our inception, we have been committed to training, equipping, and enhancing our capabilities to respond to a wide range of emergencies. Our team is built on a foundation of teamwork, dedication, and a shared mission to protect and serve our community. We remain steadfast in our commitment to providing the highest level of care and expertise, ensuring that help is always available for those who explore the beauty of Highrock National Forest.
+    </p>
+</section>
+
+    
+<!-- Replaced Features section with Recent Rescues section -->
+<section class="section recent-rescues" id="rescues">
+    <div class="container">
+        <h2>Recent Rescues</h2>
+        <div class="rescue-item">
+            <h3>October 10th, Riverside Drive, Major Incident on the Water</h3>
+            <p>
+A major incident was declared following a boating accident on Riverside Drive, where a vessel collided with a bridge. Emergency services responded swiftly to the scene, ensuring the safety of all individuals involved.
+
+Despite the severity of the accident, there were only two reported injuries, and thankfully, all persons on board survived. First responders, including the Highrock National Forest Search and Rescue Team (HRNF SRT), arrived promptly to provide medical assistance and assess the situation.
+
+Emergency personnel worked collaboratively to secure the area and ensure that those injured received immediate care. The quick response and coordination among the rescue teams were crucial in preventing further incidents and ensuring the safety of bystanders.
+
+Following thorough assessments and medical evaluations, both individuals were transported to local medical facilities for further treatment. The incident underscores the importance of safety measures on the water and the readiness of our emergency services to respond to unexpected events.
+
+Thanks to the diligence of all responders, everyone involved in this boating accident returned to safety.   
+            </p>
         </div>
-    </section>
+        <div class="rescue-item">
+            <h3>October 20th, Springfield Town, Missing Elderly Person</h3>
+<p>
+On Tuesday, an elderly resident from a local care home went missing during a walk. Reported missing at 1:36 PM, the Highrock National Forest Search and Rescue Team (HRNF SRT) was called at 6:24 AM Wednesday.
 
-    <!-- Jobs Section -->
-    <section class="jobs-section">
-        <h2>Job Management</h2>
-        <form id="jobUpdateForm" onsubmit="event.preventDefault(); addJob();">
-            <label for="job">Add Job Description:</label>
-            <input type="text" id="job" placeholder="Enter job description" required>
-            <button type="submit">Add Job</button>
+Upon arrival, the team learned that the individual, who suffers from dementia, had not been found despite extensive searches. A police K9 unit identified a scent near a popular hiking trail to Liberty Peak.
+
+The team was quickly divided into two units: one for grid searching the trail and surrounding areas, and another utilizing the K9 to track the scent. At 12:25 PM, the K9 team discovered clothing matching the missing person's description.
+
+Finally, at 2:37 PM, they located the man resting against a tree, approximately 0.5 km from the trail. He reported being lost but expressed a desire to experience the peak one last time. He was safely transported to the hospital via an off-road ambulance, and all units were later released.
+
+Thanks to the swift action and coordination of the HRNF SRT and local authorities, the individual was brought back to safety.
+</p>
+        </div>
+        <!-- Add more rescue items as needed -->
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section contact" id="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Your Name">
+            
+            <label for="email">Your Email</label>
+            <input type="email" id="email" placeholder="Your Email">
+
+            <label for="message">Message</label>
+            <textarea id="message" placeholder="Your Message"></textarea>
+            
+            <button type="submit">Send Message</button>
         </form>
-        <ul id="jobList">
-            <!-- Job items will be appended here -->
-        </ul>
-    </section>
-
-    <!-- Commander Update Section -->
-    <section id="commanderUpdateSection" class="commander-update" style="display: none;">
-        <h2>Commander Shift Update</h2>
-        <form id="shiftUpdateForm" onsubmit="event.preventDefault(); updateShift();">
-            <label for="day">Day:</label>
-            <select id="day">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday">Tuesday</option>
-                <!-- Additional days... -->
-            </select>
-
-            <label for="member">Member:</label>
-            <input type="text" id="member" placeholder="Enter member name" required>
-
-            <label for="time">Time:</label>
-            <input type="text" id="time" placeholder="Enter shift time" required>
-
-            <button type="submit">Update Shift</button>
-        </form>
-    </section>
-</main>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2024 Shift Rotas. All rights reserved.</p>
+    <div class="container">
+        <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
+    </div>
 </footer>
-
 </body>
 </html>
