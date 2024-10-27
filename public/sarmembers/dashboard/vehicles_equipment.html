@@ -5,123 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicles and Equipment</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
-    <script type="module">
-        // Firebase initialization
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
+ <script type="module">
+    // Firebase initialization
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
+    };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-const auth = getAuth();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
 
-// Listen for authentication state changes
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("User is signed in:", user);
-        // You can fetch the user's role from your database here and set it in the token
-    } else {
-        console.log("No user is signed in.");
+    // Allowed emails for reporting issues
+    const allowedEmails = ['admin@example.com', 'mechanic@example.com'];
+
+    // Listen for authentication state changes
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User is signed in:", user);
+            // You can fetch the user's role from your database here and set it in the token
+        } else {
+            console.log("No user is signed in.");
+        }
+    });
+
+    // Sample vehicles data
+    const vehicles = [
+        { id: 1, name: "2020 Ford F350 Technical", issues: false },
+        { id: 2, name: "2020 Ford F250 Brush", issues: false },
+        { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
+        { id: 4, name: "2018 Ford F250 Utility", issues: false },
+        { id: 5, name: "2018 Ford F250 Utility", issues: false },
+        { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
+        { id: 7, name: "2018 Ford F250 Command", issues: false },
+        { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
+        { id: 9, name: "1982 Landrover Defender 110", issues: false },
+        { id: 10, name: "HeliMed 99", issues: false },
+    ];
+
+    // Function to render the vehicle list
+    function renderVehicleList() {
+        const vehicleList = document.getElementById("vehicleList");
+        vehicles.forEach(vehicle => {
+            const vehicleItem = document.createElement("li");
+            vehicleItem.className = "vehicle-item";
+            vehicleItem.textContent = vehicle.name;
+            if (vehicle.issues) {
+                vehicleItem.classList.add("not-in-service");
+                vehicleItem.textContent += " (Not In Service)";
+            }
+            vehicleItem.onclick = () => showChecklists(vehicle.id);
+            vehicleList.appendChild(vehicleItem);
+        });
     }
-});
-        // Sample vehicles data
-        const vehicles = [
-            { id: 1, name: "2020 Ford F350 Technical", issues: false },
-            { id: 2, name: "2020 Ford F250 Brush", issues: false },
-            { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
-            { id: 4, name: "2018 Ford F250 Utility", issues: false },
-            { id: 5, name: "2018 Ford F250 Utility", issues: false },
-            { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
-            { id: 7, name: "2018 Ford F250 Command", issues: false },
-            { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
-            { id: 9, name: "1982 Landrover Defender 110", issues: false },
-            { id: 10, name: "HeliMed 99", issues: false },
+
+    // Function to show checklists for the selected vehicle
+    function showChecklists(vehicleId) {
+        const checklistsContainer = document.getElementById("checklistsContainer");
+        checklistsContainer.innerHTML = ""; // Clear previous checklists
+
+        // Example checklists for the vehicle
+        const checklists = [
+            { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass /Windshield", "Standard Lights"] },
+            { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
+            { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
         ];
 
-        // Function to render the vehicle list
-        function renderVehicleList() {
-            const vehicleList = document.getElementById("vehicleList");
-            vehicles.forEach(vehicle => {
-                const vehicleItem = document.createElement("li");
-                vehicleItem.className = "vehicle-item";
-                vehicleItem.textContent = vehicle.name;
-                if (vehicle.issues) {
-                    vehicleItem.classList.add("not-in-service");
-                    vehicleItem.textContent += " (Not In Service)";
-                }
-                vehicleItem.onclick = () => showChecklists(vehicle.id);
-                vehicleList.appendChild(vehicleItem);
+        checklists.forEach(checklist => {
+            const checklistDiv = document.createElement("div");
+            checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
+            checklist.items.forEach(item => {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = item;
+                checklistDiv.appendChild(checkbox);
+                checklistDiv.appendChild(document.createTextNode(item));
+                checklistDiv.appendChild(document.createElement("br"));
             });
+            checklistsContainer.appendChild(checklistDiv);
+        });
+
+        document.getElementById("checklistSection").style.display = "block";
+        document.getElementById("reportIssueSection").style.display = "block"; // Show issue reporting section
+    }
+
+    // Function to report an issue
+    window.reportIssue = async function() { // Attach to the window object
+        const user = auth.currentUser;
+        const issueDescription = document.getElementById("issueDescription").value;
+
+        // Check if an issue description is provided
+        if (!issueDescription) {
+            alert("Please provide a description of the issue.");
+            return;
         }
 
-        // Function to show checklists for the selected vehicle
-        function showChecklists(vehicleId) {
-            const checklistsContainer = document.getElementById("checklistsContainer");
-            checklistsContainer.innerHTML = ""; // Clear previous checklists
-
-            // Example checklists for the vehicle
-            const checklists = [
-                { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass /Windshield", "Standard Lights"] },
-                { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
-                { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
-            ];
-
-            checklists.forEach(checklist => {
-                const checklistDiv = document.createElement("div");
-                checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
-                checklist.items.forEach(item => {
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.id = item;
-                    checklistDiv.appendChild(checkbox);
-                    checklistDiv.appendChild(document.createTextNode(item));
-                    checklistDiv.appendChild(document.createElement("br"));
-                });
-                checklistsContainer.appendChild(checklistDiv);
-            });
-
-            document.getElementById("checklistSection").style.display = "block";
-            document.getElementById("reportIssueSection").style.display = "block"; // Show issue reporting section
+        // Check if the user's email is in the allowed list
+        if (!user || !allowedEmails.includes(user.email)) {
+            alert("You do not have permission to report issues.");
+            return;
         }
 
-        // Function to report an issue
-        window.reportIssue = async function() { // Attach to the window object
-            const issueDescription = document.getElementById("issueDescription").value;
-
-            // Check if an issue description is provided
-            if (!issueDescription) {
-                alert("Please provide a description of the issue.");
-                return;
-            }
-
-            // Save issue to Firestore
+        // Save issue to Firestore
+        try {
             await addDoc(collection(db, "issues"), {
                 description: issueDescription,
                 reportedAt: new Date(),
+                userEmail: user.email, // Optional: Store user email with the issue
             });
-
             alert("Issue reported successfully.");
             document.getElementById("issueReportForm").reset();
-        };
+        } catch (error) {
+            console.error("Error reporting issue: ", error);
+            alert("Failed to report the issue. Please try again.");
+        }
+    };
 
-        // Load vehicles on page load
-        window.onload = () => {
-            renderVehicleList();
-        };
-    </script>
+    // Load vehicles on page load
+    window.onload = () => {
+        renderVehicleList();
+    };
+</script>
     <style>
-        /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
