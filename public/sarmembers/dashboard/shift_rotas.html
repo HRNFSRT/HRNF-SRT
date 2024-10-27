@@ -5,283 +5,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shift Rotas</title>
 
-    <!-- Firebase Configuration and Imports -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <!-- Firebase Imports and Configuration with All JavaScript in Head -->
+    <script type="module">
+        // Import Firebase functions from the CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 
-    <script>
-        // Firebase configuration
+        // Firebase Configuration
         const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: AUTH_DOMAIN,
-  projectId: PROJECT_ID,
-  storageBucket: STORAGE_BUCKET,
-  messagingSenderId: MESSAGING_SENDER_ID,
-  appId: APP_ID,
-  measurementId: MEASUREMENT_ID
+            apiKey: API_KEY,
+            authDomain: AUTH_DOMAIN,
+            projectId: PROJECT_ID,
+            storageBucket: STORAGE_BUCKET,
+            messagingSenderId: MESSAGING_SENDER_ID,
+            appId: APP_ID,
+            measurementId: MEASUREMENT_ID
         };
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
 
-        // Function to show or hide the commander section based on the logged-in user's email
-        auth.onAuthStateChanged((user) => {
-            const commanderSection = document.getElementById("commanderUpdateSection");
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Restrict Commander Section to Command Account
+        onAuthStateChanged(auth, (user) => {
             if (user && user.email === "command@hrnf-srt.org") {
-                commanderSection.style.display = "block";
+                document.querySelector(".commander-section").style.display = "block";
             } else {
-                commanderSection.style.display = "none";
+                document.querySelector(".commander-section").style.display = "none";
             }
         });
 
-        // Function to update shift
-        function updateShift() {
-            const day = document.getElementById("day").value;
-            const member = document.getElementById("member").value;
-            const time = document.getElementById("time").value;
-
-            if (member && time) {
-                alert(`Shift updated: ${day} - ${member} (${time})`);
-                // Logic to update shift in the system
-            } else {
-                alert("Please fill out all fields for the shift update.");
-            }
+        // Fetch and display shifts
+        async function loadShifts() {
+            const shiftList = document.getElementById('shift-list');
+            const querySnapshot = await getDocs(collection(db, "shifts"));
+            shiftList.innerHTML = '';
+            querySnapshot.forEach((doc) => {
+                const shiftData = doc.data();
+                shiftList.innerHTML += `<p>${shiftData.name}: ${shiftData.time}</p>`;
+            });
         }
 
-        // Function to add a job
-        function addJob() {
-            const jobDescription = document.getElementById("job").value;
-
-            if (jobDescription) {
-                const jobList = document.getElementById("jobList");
-                const newJobItem = document.createElement("li");
-                newJobItem.textContent = jobDescription;
-                jobList.appendChild(newJobItem);
-                alert("Job added successfully.");
-                document.getElementById("jobUpdateForm").reset();
-            } else {
-                alert("Please enter a job description.");
-            }
+        // Fetch and display jobs
+        async function loadJobs() {
+            const jobList = document.getElementById('job-list');
+            const querySnapshot = await getDocs(collection(db, "jobs"));
+            jobList.innerHTML = '';
+            querySnapshot.forEach((doc) => {
+                const jobData = doc.data();
+                jobList.innerHTML += `<p>${jobData.name}: ${jobData.description}</p>`;
+            });
         }
+
+        // Update shift
+        async function updateShift() {
+            const shiftName = document.getElementById('shift').value;
+            await setDoc(doc(db, "shifts", shiftName), {
+                name: shiftName,
+                time: new Date().toISOString()
+            });
+            loadShifts();
+        }
+
+        // Update job
+        async function updateJob() {
+            const jobName = document.getElementById('job').value;
+            await setDoc(doc(db, "jobs", jobName), {
+                name: jobName,
+                description: "Job description"
+            });
+            loadJobs();
+        }
+
+        // Initial data load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadShifts();
+            loadJobs();
+        });
     </script>
 
     <style>
-        /* General Page Layout */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-            margin-top: 80px; /* Space for header */
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 70px;
         }
 
-        /* Week View of Shifts */
-        .shift-week-view {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .shift-week-view h2 {
-            margin-bottom: 15px;
-        }
-
-        .week-grid {
-            display: flex;
-            gap: 10px;
-        }
-
-        .day {
-            flex: 1;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .day h3 {
-            text-align: center;
-            color: #333;
-        }
-
-        /* Jobs Section */
-        .jobs-section {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .jobs-section h2 {
-            margin-bottom: 15px;
-        }
-
-        /* Commander Update Section */
-        .commander-update {
-            background-color: #fdfdfd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .commander-update h2 {
-            margin-bottom: 15px;
-            color: #b63101;
-        }
-
-        .update-forms {
-            display: flex;
-            gap: 20px;
-        }
-
-        .shift-update, .job-update {
-            flex: 1;
-            background-color: #f3f3f3;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .shift-update h3, .job-update h3 {
-            color: #333;
-        }
-
-        form label {
-            display: block;
-            margin: 8px 0 4px;
-            font-weight: bold;
-        }
-
-        form input, form select {
+        /* Header styling */
+        header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        }
-
-        form button {
-            background-color: #e94307;
+            z-index: 1000;
+            background-color: rgba(51, 51, 51, 0.8);
+            padding: 10px 20px;
             color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        form button:hover {
-            background-color: #b63101;
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            position: fixed;
+            top: 70px;
+            bottom: 0;
+            overflow-y: auto;
         }
 
-        /* Footer */
+        /* Content styling */
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        .commander-section {
+            display: none; /* Hidden by default, shown only to commanders */
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        /* Footer styling */
         footer {
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 20px 0;
-            width: 100%;
+            padding: 20px;
             margin-top: auto;
         }
     </style>
 </head>
+
 <body>
+    <!-- Header -->
+    <header>
+        <h1>Shift Rotas</h1>
+        <button onclick="location.href='/dashboard.html'" class="cta">Back to Dashboard</button>
+    </header>
 
-<!-- Header -->
-<header>
-    <div class="header-content">
-        <div class="logo">
-            <img src="/images/logo.png" alt="Logo" />
-            <div class="header-text">
-                <h1>Shift Rotas</h1>
-                <p>Keeping You Informed and Ready for Duty</p>
-            </div>
-        </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/logout" class="cta">Log Out</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<!-- Main Content -->
-<main class="main-content">
-    <!-- Week View of Shifts -->
-    <section class="shift-week-view">
-        <h2>This Week's Shifts</h2>
-        <div class="week-grid">
-            <div class="day" id="monday">
-                <h3>Monday</h3>
-                <ul>
-                    <li>John Doe - 08:00 - 16:00</li>
-                    <li>Jane Smith - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <div class="day" id="tuesday">
-                <h3>Tuesday</h3>
-                <ul>
-                    <li>Mike Lee - 08:00 - 16:00</li>
-                    <li>Sarah Kim - 16:00 - 00:00</li>
-                </ul>
-            </div>
-            <!-- Additional days here: Wednesday, Thursday, etc. -->
-        </div>
-    </section>
-
-    <!-- Jobs to be Completed -->
-    <section class="jobs-section">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Week View of Shifts</h2>
+        <div id="shift-list"></div>
         <h2>Jobs to be Completed</h2>
-        <ul id="jobList">
-            <li>Repair Station Equipment</li>
-            <li>Vehicle Maintenance</li>
-            <li>Trail Maintenance for HRNF</li>
-        </ul>
-    </section>
+        <div id="job-list"></div>
+    </div>
 
-    <!-- Commander-Only Update Section -->
-    <section id="commanderUpdateSection" class="commander-update">
-        <h2>Commander Control Panel</h2>
-        <div class="update-forms">
-            <div class="shift-update">
-                <h3>Update Shift Rota</h3>
-                <form id="shiftUpdateForm">
-                    <label for="day">Day:</label>
-                    <select id="day">
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <!-- Additional days -->
-                    </select>
-                    <label for="member">Member:</label>
-                    <input type="text" id="member" placeholder="Enter member name">
-                    <label for="time">Time:</label>
-                    <input type="text" id="time" placeholder="e.g., 08:00 - 16:00">
-                    <button type="button" onclick="updateShift()">Update Shift</button>
-                </form>
-            </div>
-            <div class="job-update">
-                <h3>Add Job to Complete</h3>
-                <form id="jobUpdateForm">
-                    <label for="job">Job Description:</label>
-                    <input type="text" id="job" placeholder="Enter job description">
-                    <button type="button" onclick="addJob()">Add Job</button>
-                </form>
-            </div>
+    <!-- Main Content -->
+    <div class="content">
+        <h2>Shift Rotas for the Week</h2>
+        <div id="rotas-view"></div>
+
+        <!-- Commander-Only Section -->
+        <div class="commander-section">
+            <h2>Commander Section</h2>
+            <p>This section is restricted to commanders only.</p>
+            <!-- Form to update shift rotas and jobs -->
+            <form id="update-form">
+                <label for="shift">Update Shift:</label>
+                <input type="text" id="shift" name="shift">
+                <button type="button" onclick="updateShift()">Update Shift</button>
+                
+                <label for="job">Update Job:</label>
+                <input type="text" id="job" name="job">
+                <button type="button" onclick="updateJob()">Update Job</button>
+            </form>
         </div>
-    </section>
-</main>
+    </div>
 
-<!-- Footer -->
-<footer>
-    <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved.</p>
-</footer>
-
+    <!-- Footer -->
+    <footer>
+        &copy; Highrock National Forest SRT 2024. All Rights Reserved.
+    </footer>
 </body>
 </html>
