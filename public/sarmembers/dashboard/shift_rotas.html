@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shift Rotas</title>
+    <title>Shift Rotas - HRNF SRT</title>
 
     <!-- Firebase Configuration and Imports -->
     <script type="module">
@@ -14,12 +14,13 @@
 
         // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+  authDomain: "hrnf-srt.firebaseapp.com",
+  projectId: "hrnf-srt",
+  storageBucket: "hrnf-srt.appspot.com",
+  messagingSenderId: "748926279394",
+  appId: "1:748926279394:web:1303b9000361b1d51808bb",
+  measurementId: "G-5PCZE3S5N5"
         };
 
         // Initialize Firebase
@@ -27,15 +28,17 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Function to show or hide the commander section based on the logged-in user's email
-        onAuthStateChanged(auth, (user) => {
-            const commanderSection = document.getElementById("commanderUpdateSection");
-            if (user && user.email === "command@hrnf-srt.org") {
-                commanderSection.style.display = "block";
-            } else {
-                commanderSection.style.display = "none";
-            }
-        });
+    // Check for auth state
+    onAuthStateChanged(auth, (user) => {
+        const commanderSection = document.getElementById("commanderUpdateSection");
+        if (user && user.email === "command@hrnf-srt.org") {
+            commanderSection.style.display = "block";
+console.log("Block");
+        } else {
+            commanderSection.style.display = "none";
+console.log("none");
+        }
+    });
 
         // Function to update shift
         window.updateShift = () => {
@@ -51,21 +54,50 @@
             }
         };
 
-        // Function to add a job
-        window.addJob = () => {
-            const jobDescription = document.getElementById("job").value;
+    // Function to fetch jobs from Firestore and display them
+    async function fetchJobs() {
+        const jobList = document.getElementById("jobList");
+        jobList.innerHTML = ''; // Clear existing jobs
 
-            if (jobDescription) {
-                const jobList = document.getElementById("jobList");
-                const newJobItem = document.createElement("li");
-                newJobItem.textContent = jobDescription;
-                jobList.appendChild(newJobItem);
-                alert("Job added successfully.");
-                document.getElementById("jobUpdateForm").reset();
-            } else {
-                alert("Please enter a job description.");
-            }
-        };
+        const querySnapshot = await getDocs(collection(db, "jobs"));
+        querySnapshot.forEach((doc) => {
+            const jobItem = document.createElement("li");
+            jobItem.textContent = doc.data().description;
+
+            // Create delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            deleteButton.style.marginLeft = "10px";
+            deleteButton.onclick = () => deleteJob(doc.id);
+
+            jobItem.appendChild(deleteButton);
+            jobList.appendChild(jobItem);
+        });
+    }
+
+    // Function to add a job to Firestore
+    async function addJob() {
+        const jobDescription = document.getElementById("job").value;
+
+        if (jobDescription) {
+            await addDoc(collection(db, "jobs"), { description: jobDescription });
+            alert("Job added successfully.");
+            document.getElementById("jobUpdateForm").reset();
+            fetchJobs(); // Refresh job list
+        } else {
+            alert("Please enter a job description.");
+        }
+    }
+
+    // Function to delete a job from Firestore
+    async function deleteJob(jobId) {
+        await deleteDoc(doc(db, "jobs", jobId));
+        alert("Job deleted successfully.");
+        fetchJobs(); // Refresh job list
+    }
+
+    // Load jobs when the page is loaded
+    window.onload = fetchJobs;
     </script>
 
     <style>
