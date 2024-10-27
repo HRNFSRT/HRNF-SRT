@@ -13,7 +13,7 @@
         // Import Firebase functions from the CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -51,27 +51,31 @@
 
         // View report
         window.viewReport = async (reportId) => {
-            const reportDoc = await doc(db, "reports", reportId).get();
-            const reportData = reportDoc.data();
-            const readerPane = document.getElementById("readerPane");
-            readerPane.innerHTML = `
-                <h2>${reportData.title}</h2>
-                <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
-                <p><strong>Incident Overview:</strong> ${reportData.incidentOverview}</p>
-                <p><strong>Health & Safety Issues:</strong> ${reportData.hsIssues}</p>
-                <p><strong>Casualties:</strong> ${reportData.casualties}</p>
-                <p><strong>Communication Issues:</strong> ${reportData.communicationIssues}</p>
-                <p><strong>Other Issues:</strong> ${reportData.otherIssues}</p>
-                <p><strong>Future Suggestions:</strong> ${reportData.futureSuggestions}</p>
-                <p><strong>Persons of Merit:</strong> ${reportData.personsOfMerit}</p>
-                <button onclick="downloadReport('${doc.id}')">Download</button>
-                <button onclick="deleteReport('${doc.id}')">Delete</button>
-            `;
+            const reportDoc = await getDoc(doc(db, "reports", reportId)); // Fixed: Using getDoc to retrieve the document
+            if (reportDoc.exists()) {
+                const reportData = reportDoc.data();
+                const readerPane = document.getElementById("readerPane");
+                readerPane.innerHTML = `
+                    <h2>${reportData.title}</h2>
+                    <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
+                    <p><strong>Incident Overview:</strong> ${reportData.incidentOverview}</p>
+                    <p><strong>Health & Safety Issues:</strong> ${reportData.hsIssues}</p>
+                    <p><strong>Casualties:</strong> ${reportData.casualties}</p>
+                    <p><strong>Communication Issues:</strong> ${reportData.communicationIssues}</p>
+                    <p><strong>Other Issues:</strong> ${reportData.otherIssues}</p>
+                    <p><strong>Future Suggestions:</strong> ${reportData.futureSuggestions}</p>
+                    <p><strong>Persons of Merit:</strong> ${reportData.personsOfMerit}</p>
+                    <button onclick="downloadReport('${doc.id}')">Download</button>
+                    <button onclick="deleteReport('${doc.id}')">Delete</button>
+                `;
+            } else {
+                alert("Report not found!");
+            }
         };
 
         // Download report
         window.downloadReport = async (reportId) => {
-            const reportDoc = await doc(db, "reports", reportId).get();
+            const reportDoc = await getDoc(doc(db, "reports", reportId));
             const reportData = reportDoc.data();
 
             if (reportData) {
@@ -117,21 +121,104 @@
     </script>
 
     <style>
+        /* General header styling */
+        header {
+            position: fixed; /* Fix the header to the top of the viewport */
+            top: 0; /* Align it to the top */
+            width: 100%; /* Make sure it spans the full width of the page */
+            z-index: 1000; /* Ensure the header stays above other content */
+            background-color: rgba(51, 51, 51, 0.8); /* Header background */
+            padding: 0px 0;
+        }
+
+        /* Header content styling */
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: white;
+        }
+
+        /* Logo styling */
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .logo img {
+            margin-right: 10px;
+            height: 40px; /* Set your desired logo height */
+        }
+
+        /* Header text styling - aligned inline with the logo */
+        .header-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-right: auto;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 1.3rem;
+            white-space: nowrap;
+        }
+
+        .header-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #ccc;
+            white-space: nowrap;
+        }
+
+        /* Navigation styling */
+        nav {
+            margin-left: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style-type: none;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #f0a500;
+        }
+
+        /* Call to action button style */
+        .cta {
+            padding: 8px 12px;
+            background-color: #e94307;
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .cta:hover {
+            background-color: #b63101; /* Slightly darker blue on hover */
+        }
+
         body {
             display: flex;
+            flex-direction: column;
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
+            padding-top: 70px; /* Space for the fixed header */
         }
         
-        header {
-            width: 100%;
-            background-color: rgba(51, 51, 51, 0.8);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-
         /* Sidebar styles */
         .sidebar {
             width: 250px;
@@ -148,67 +235,58 @@
 
         .report-item h3 {
             margin: 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
-        /* Reader pane styles */
+        /* Reader Pane Styles */
         .reader-pane {
-            flex: 1;
+            margin-left: 270px; /* Space for the sidebar */
             padding: 20px;
             background-color: #fff;
-            margin-left: 10px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Footer styling */
         footer {
             background-color: #333; /* Footer background color */
             color: white;
             text-align: center;
             padding: 20px 0;
             width: 100%;
-            position: absolute; /* Keep it at the bottom */
-            bottom: 0;
-        }
-
-        /* Button styling */
-        button {
-            padding: 10px 15px;
-            background-color: #e94307;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        /* Button hover effect */
-        button:hover {
-            background-color: #b63101;
+            margin-top: auto; /* Pushes footer to the bottom */
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Command Review Page</h1>
+        <div class="header-content">
+            <div class="logo">
+                <img src="logo.png" alt="Logo"> <!-- Add your logo here -->
+            </div>
+            <div class="header-text">
+                <h1>AAR Command Review</h1>
+                <p>Helping Make Your Voice Heard</p>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="dashboard.html" class="cta">Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <div class="container">
-        <div class="sidebar" id="reportList">
-            <h2>Reports</h2>
-            <!-- Reports will be dynamically loaded here -->
-        </div>
-        <div class="reader-pane" id="readerPane">
-            <h2>Select a report to view</h2>
-            <!-- Report details will be displayed here -->
-        </div>
+    <div class="sidebar">
+        <h2>Reports</h2>
+        <div id="reportList"></div>
+    </div>
+
+    <div class="reader-pane" id="readerPane">
+        <h2>Report Details</h2>
+        <p>Select a report to view details.</p>
     </div>
 
     <footer>
-        <p>&copy; 2024 Your Organization</p>
+        <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved</p>
     </footer>
 </body>
 </html>
+
