@@ -53,212 +53,250 @@ window.fetchReports = async () => {
     });
 };
 
+// View report
+window.viewReport = async (reportId) => {
+    const reportDoc = await getDoc(doc(db, "reports", reportId)); // Using getDoc to retrieve the document
+    if (reportDoc.exists()) {
+        const reportData = reportDoc.data();
+        const readerPane = document.getElementById("readerPane");
+        readerPane.innerHTML = `
+            <h2>${reportData.title}</h2>
+            <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
+            <p><strong>Incident Overview:</strong> ${reportData.incidentOverview}</p>
+            <p><strong>Health & Safety Issues:</strong> ${reportData.hsIssues}</p>
+            <p><strong>Casualties:</strong> ${reportData.casualties}</p>
+            <p><strong>Communication Issues:</strong> ${reportData.communicationIssues}</p>
+            <p><strong>Other Issues:</strong> ${reportData.otherIssues}</p>
+            <p><strong>Future Suggestions:</strong> ${reportData.futureSuggestions}</p>
+            <p><strong>Persons of Merit:</strong> ${reportData.personsOfMerit}</p>
+            <button class="button download" onclick="downloadReport('${reportId}')">Download</button>
+            <button class="button delete" onclick="deleteReport('${reportId}')">Delete</button>
+        `;
+    } else {
+        alert("Report not found!");
+    }
+};
 
-        // View report
-        window.viewReport = async (reportId) => {
-            const reportDoc = await getDoc(doc(db, "reports", reportId)); // Fixed: Using getDoc to retrieve the document
-            if (reportDoc.exists()) {
-                const reportData = reportDoc.data();
-                const readerPane = document.getElementById("readerPane");
-                readerPane.innerHTML = `
-                    <h2>${reportData.title}</h2>
-                    <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
-                    <p><strong>Incident Overview:</strong> ${reportData.incidentOverview}</p>
-                    <p><strong>Health & Safety Issues:</strong> ${reportData.hsIssues}</p>
-                    <p><strong>Casualties:</strong> ${reportData.casualties}</p>
-                    <p><strong>Communication Issues:</strong> ${reportData.communicationIssues}</p>
-                    <p><strong>Other Issues:</strong> ${reportData.otherIssues}</p>
-                    <p><strong>Future Suggestions:</strong> ${reportData.futureSuggestions}</p>
-                    <p><strong>Persons of Merit:</strong> ${reportData.personsOfMerit}</p>
-                    <button onclick="downloadReport('${doc.id}')">Download</button>
-                    <button onclick="deleteReport('${doc.id}')">Delete</button>
-                `;
-            } else {
-                alert("Report not found!");
-            }
-        };
+// Download report
+window.downloadReport = async (reportId) => {
+    const reportDoc = await getDoc(doc(db, "reports", reportId));
+    if (reportDoc.exists()) {
+        const reportData = reportDoc.data();
+        // Create a workbook and a worksheet
+        const wb = XLSX.utils.book_new();
+        const wsData = [
+            ["Title", "Submitted By", "Incident Overview", "H&S Issues", "Casualties", "Communication Issues", "Other Issues", "Future Suggestions", "Persons of Merit"],
+            [
+                reportData.title,
+                reportData.teamLead,
+                reportData.incidentOverview,
+                reportData.hsIssues,
+                reportData.casualties,
+                reportData.communicationIssues,
+                reportData.otherIssues,
+                reportData.futureSuggestions,
+                reportData.personsOfMerit,
+            ]
+        ];
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+        XLSX.utils.book_append_sheet(wb, ws, "Report");
 
-        // Download report
-        window.downloadReport = async (reportId) => {
-            const reportDoc = await getDoc(doc(db, "reports", reportId));
-            const reportData = reportDoc.data();
+        // Generate a downloadable file
+        const filename = `${reportData.title.replace(/ /g, "_")}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+        XLSX.writeFile(wb, filename);
+    } else {
+        alert("Error: Report not found.");
+    }
+};
 
-            if (reportData) {
-                // Create a workbook and a worksheet
-                const wb = XLSX.utils.book_new();
-                const wsData = [
-                    ["Title", "Submitted By", "Incident Overview", "H&S Issues", "Casualties", "Communication Issues", "Other Issues", "Future Suggestions", "Persons of Merit"],
-                    [
-                        reportData.title,
-                        reportData.teamLead,
-                        reportData.incidentOverview,
-                        reportData.hsIssues,
-                        reportData.casualties,
-                        reportData.communicationIssues,
-                        reportData.otherIssues,
-                        reportData.futureSuggestions,
-                        reportData.personsOfMerit,
-                    ]
-                ];
-                const ws = XLSX.utils.aoa_to_sheet(wsData);
-                XLSX.utils.book_append_sheet(wb, ws, "Report");
+// Delete report
+window.deleteReport = async (reportId) => {
+    if (confirm("Are you sure you want to delete this report?")) {
+        await deleteDoc(doc(db, "reports", reportId));
+        alert("Report deleted successfully.");
+        fetchReports(); // Refresh the report list
+        document.getElementById("readerPane").innerHTML = ""; // Clear the reader pane
+    }
+};
 
-                // Generate a downloadable file
-                const filename = `${reportData.title.replace(/ /g, "_")}_${new Date().toISOString().slice(0, 10)}.xlsx`;
-                XLSX.writeFile(wb, filename);
-            } else {
-                alert("Error: Report not found.");
-            }
-        };
+// Call fetchReports on page load
+fetchReports();
 
-        // Delete report
-        window.deleteReport = async (reportId) => {
-            if (confirm("Are you sure you want to delete this report?")) {
-                await deleteDoc(doc(db, "reports", reportId));
-                alert("Report deleted successfully.");
-                fetchReports(); // Refresh the report list
-                document.getElementById("readerPane").innerHTML = ""; // Clear the reader pane
-            }
-        };
-
-        // Call fetchReports on page load
-        fetchReports();
     </script>
 
     <style>
-        /* General header styling */
-        header {
-            position: fixed; /* Fix the header to the top of the viewport */
-            top: 0; /* Align it to the top */
-            width: 100%; /* Make sure it spans the full width of the page */
-            z-index: 1000; /* Ensure the header stays above other content */
-            background-color: rgba(51, 51, 51, 0.8); /* Header background */
-            padding: 0px 0;
-        }
+/* General header styling */
+header {
+    position: fixed; /* Fix the header to the top of the viewport */
+    top: 0; /* Align it to the top */
+    width: 100%; /* Make sure it spans the full width of the page */
+    z-index: 1000; /* Ensure the header stays above other content */
+    background-color: rgba(51, 51, 51, 0.8); /* Header background */
+    padding: 0px 0;
+}
 
-        /* Header content styling */
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 20px;
-            background-color: rgba(51, 51, 51, 0.8);
-            color: white;
-        }
+/* Header content styling */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: rgba(51, 51, 51, 0.8);
+    color: white;
+}
 
-        /* Logo styling */
-        .logo {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-        }
+/* Logo styling */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
 
-        .logo img {
-            margin-right: 10px;
-            height: 40px; /* Set your desired logo height */
-        }
+.logo img {
+    margin-right: 10px;
+    height: 40px; /* Set your desired logo height */
+}
 
-        /* Header text styling - aligned inline with the logo */
-        .header-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin-right: auto;
-        }
+/* Header text styling - aligned inline with the logo */
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto;
+}
 
-        .header-text h1 {
-            margin: 0;
-            font-size: 1.3rem;
-            white-space: nowrap;
-        }
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
 
-        .header-text p {
-            margin: 0;
-            font-size: 0.9rem;
-            font-style: italic;
-            color: #ccc;
-            white-space: nowrap;
-        }
+.header-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #ccc;
+    white-space: nowrap;
+}
 
-        /* Navigation styling */
-        nav {
-            margin-left: auto;
-        }
+/* Navigation styling */
+nav {
+    margin-left: auto;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            list-style-type: none;
-        }
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+}
 
-        .nav-links li a {
-            text-decoration: none;
-            color: white;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
 
-        .nav-links li a:hover {
-            color: #f0a500;
-        }
+.nav-links li a:hover {
+    color: #f0a500;
+}
 
-        /* Call to action button style */
-        .cta {
-            padding: 8px 12px;
-            background-color: #e94307;
-            color: white;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
+/* Call to action button style */
+.cta {
+    padding: 8px 12px;
+    background-color: #e94307;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
 
-        .cta:hover {
-            background-color: #b63101; /* Slightly darker blue on hover */
-        }
+.cta:hover {
+    background-color: #b63101; /* Slightly darker blue on hover */
+}
 
-        body {
-            display: flex;
-            flex-direction: column;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding-top: 70px; /* Space for the fixed header */
-        }
-        
-        /* Sidebar styles */
-        .sidebar {
-            width: 250px;
-            background-color: #fff;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            padding: 10px;
-            overflow-y: auto; /* Allow scrolling if content overflows */
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding-top: 70px; /* Space for the fixed header */
+}
 
-        .report-item {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding: 10px;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
 
-        .report-item h3 {
-            margin: 0;
-            font-size: 1.1rem;
-        }
+.report-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
 
-        /* Reader Pane Styles */
-        .reader-pane {
-            margin-left: 270px; /* Space for the sidebar */
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.report-item h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
 
-        footer {
-            background-color: #333; /* Footer background color */
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            width: 100%;
-            margin-top: auto; /* Pushes footer to the bottom */
-        }
+/* Reader Pane Styles */
+.reader-pane {
+    margin-left: 270px; /* Space for the sidebar */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-right: 10px; /* Spacing between buttons */
+}
+
+.view-report {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.view-report:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+.download {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.download:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+.delete {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.delete:hover {
+    background-color: #c62828; /* Darker red */
+}
+
+/* Footer styles */
+footer {
+    background-color: #333; /* Footer background color */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+
     </style>
 </head>
 <body>
