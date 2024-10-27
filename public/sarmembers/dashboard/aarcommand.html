@@ -230,6 +230,8 @@ body {
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
     padding: 10px;
     overflow-y: auto; /* Allow scrolling if content overflows */
+    position: fixed; /* Keep sidebar fixed */
+    height: calc(100vh - 70px); /* Adjust height to fit the viewport excluding the header */
 }
 
 .report-item {
@@ -248,6 +250,9 @@ body {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 0; /* Ensure there's no extra margin at the top */
+    height: calc(100vh - 70px); /* Adjust height to fit the viewport excluding the header */
+    overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 /* Button Styles */
