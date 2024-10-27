@@ -85,6 +85,80 @@
         #checklistSection, #reportIssueSection {
             display: none;
         }
+/* General header styling */
+header {
+    position: fixed; /* Fix the header to the top of the viewport */
+    top: 0; /* Align it to the top */
+    width: 100%; /* Make sure it spans the full width of the page */
+    z-index: 1000; /* Ensure the header stays above other content */
+    background-color: rgba(51, 51, 51, 0.8); /* Header background */
+    padding: 0px 0;
+}
+
+/* Header content styling */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: rgba(51, 51, 51, 0.8);
+    color: white;
+}
+
+/* Logo styling */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+/* Header text styling - aligned inline with the logo */
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #ccc;
+    white-space: nowrap;
+}
+
+/* Navigation styling */
+nav {
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #f0a500;
+}
     </style>
 </head>
 <body>
