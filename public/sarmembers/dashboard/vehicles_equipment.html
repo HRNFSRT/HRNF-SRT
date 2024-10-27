@@ -9,7 +9,8 @@
         // Firebase initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        
         const firebaseConfig = {
             apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
             authDomain: "hrnf-srt.firebaseapp.com",
@@ -23,7 +24,17 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+const auth = getAuth();
 
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is signed in:", user);
+        // You can fetch the user's role from your database here and set it in the token
+    } else {
+        console.log("No user is signed in.");
+    }
+});
         // Sample vehicles data
         const vehicles = [
             { id: 1, name: "2020 Ford F350 Technical", issues: false },
