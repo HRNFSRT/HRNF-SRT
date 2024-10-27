@@ -14,15 +14,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("User is signed in:", user.uid);
-    } else {
-        console.log("No user is signed in.");
-    }
-});
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
