@@ -41,7 +41,7 @@ window.fetchReports = async () => {
         const reportData = doc.data();
 
         // Filter out the document you want to hide
-        if (doc.id !== "DO NOT DELETE OR THE SYSTEM WILL BREAK") {
+        if (doc.id !== "DO NOT DELETE") {
             const reportElement = document.createElement("div");
             reportElement.className = "report-item";
             reportElement.innerHTML = `
