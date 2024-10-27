@@ -85,7 +85,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            padding: 80px 20px 20px; /* Space for header and bottom padding */
+            padding: 100px 20px 20px; /* Space for header and bottom padding */
             flex-grow: 1; /* Allow content to grow and take available space */
         }
 
@@ -226,7 +226,7 @@
     <!-- Add Shift Section -->
     <section class="add-shift-section">
         <h3>Add Shift</h3>
-        <form id="addShiftForm" onsubmit="event.preventDefault(); addShift();">
+        <form id="addShiftForm" onsubmit="event.preventDefault(); window.addShift();">
             <label for="shiftDay">Day:</label>
             <input type="text" id="shiftDay" placeholder="Enter day">
             <label for="shiftMember">Member:</label>
@@ -240,7 +240,7 @@
     <!-- Add Job Section -->
     <section class="add-job-section">
         <h3>Add Job</h3>
-        <form id="jobUpdateForm" onsubmit="event.preventDefault(); addJob();">
+        <form id="jobUpdateForm" onsubmit="event.preventDefault(); window.addJob();">
             <label for="job">Job Description:</label>
             <input type="text" id="job" placeholder="Enter job description">
             <button type="submit">Add Job</button>
@@ -254,7 +254,7 @@
 </footer>
 
 <!-- Firebase Configuration and Imports -->
-<script type="module">
+<script>
     // Import Firebase functions from the CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
@@ -308,7 +308,7 @@
     }
 
     // Function to add a shift
-    async function addShift() {
+    window.addShift = async function() {
         const day = document.getElementById("shiftDay").value;
         const member = document.getElementById("shiftMember").value;
         const time = document.getElementById("shiftTime").value;
@@ -325,7 +325,7 @@
         } else {
             alert("Please fill out all fields for the shift.");
         }
-    }
+    };
 
     // Function to delete a shift
     async function deleteShift(shiftId) {
@@ -356,7 +356,7 @@
     }
 
     // Function to add a job to Firestore
-    async function addJob() {
+    window.addJob = async function() {
         const jobDescription = document.getElementById("job").value;
 
         if (jobDescription) {
@@ -367,7 +367,7 @@
         } else {
             alert("Please enter a job description.");
         }
-    }
+    };
 
     // Function to delete a job from Firestore
     async function deleteJob(jobId) {
