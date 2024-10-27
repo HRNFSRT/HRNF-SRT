@@ -10,17 +10,17 @@
         // Import Firebase functions from the CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 
         // Firebase Configuration
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-  authDomain: "hrnf-srt.firebaseapp.com",
-  projectId: "hrnf-srt",
-  storageBucket: "hrnf-srt.appspot.com",
-  messagingSenderId: "748926279394",
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-  measurementId: "G-5PCZE3S5N5"
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
         };
 
         // Initialize Firebase
@@ -28,113 +28,113 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-    // Check for auth state
-    onAuthStateChanged(auth, (user) => {
-        const commanderSection = document.getElementById("commanderUpdateSection");
-        if (user && user.email === "command@hrnf-srt.org") {
-            commanderSection.style.display = "block";
-console.log("Block");
-        } else {
-            commanderSection.style.display = "none";
-console.log("none");
+        // Check for auth state
+        onAuthStateChanged(auth, (user) => {
+            const commanderSection = document.getElementById("commanderUpdateSection");
+            if (user && user.email === "command@hrnf-srt.org") {
+                commanderSection.style.display = "block";
+                console.log("Block");
+            } else {
+                commanderSection.style.display = "none";
+                console.log("none");
+            }
+        });
+
+        // Function to fetch shifts from Firestore
+        async function fetchShifts() {
+            const shiftsCollection = collection(db, "shifts");
+            const shiftsSnapshot = await getDocs(shiftsCollection);
+            const shiftsList = document.getElementById("shiftsList");
+            shiftsList.innerHTML = ""; // Clear existing shifts
+            shiftsSnapshot.forEach((doc) => {
+                const shiftData = doc.data();
+                const shiftItem = document.createElement("li");
+                shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
+
+                // Create a delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "X";
+                deleteButton.onclick = () => deleteShift(doc.id);
+
+                shiftItem.appendChild(deleteButton);
+                shiftsList.appendChild(shiftItem);
+            });
         }
-    });
 
-// Function to fetch shifts from Firestore
-async function fetchShifts() {
-    const shiftsCollection = collection(db, "shifts");
-    const shiftsSnapshot = await getDocs(shiftsCollection);
-    const shiftsList = document.getElementById("shiftsList");
-    shiftsList.innerHTML = ""; // Clear existing shifts
-    shiftsSnapshot.forEach((doc) => {
-        const shiftData = doc.data();
-        const shiftItem = document.createElement("li");
-        shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
-        
-        // Create a delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "X";
-        deleteButton.onclick = () => deleteShift(doc.id);
-        
-        shiftItem.appendChild(deleteButton);
-        shiftsList.appendChild(shiftItem);
-    });
-}
+        // Function to add a shift
+        async function addShift() {
+            const day = document.getElementById("shiftDay").value;
+            const member = document.getElementById("shiftMember").value;
+            const time = document.getElementById("shiftTime").value;
 
-// Function to add a shift
-async function addShift() {
-    const day = document.getElementById("shiftDay").value;
-    const member = document.getElementById("shiftMember").value;
-    const time = document.getElementById("shiftTime").value;
+            if (day && member && time) {
+                await addDoc(collection(db, "shifts"), {
+                    day: day,
+                    member: member,
+                    time: time,
+                    createdAt: serverTimestamp()
+                });
+                alert("Shift added successfully.");
+                fetchShifts(); // Refresh the list
+            } else {
+                alert("Please fill out all fields for the shift.");
+            }
+        }
 
-    if (day && member && time) {
-        await addDoc(collection(db, "shifts"), {
-            day: day,
-            member: member,
-            time: time,
-            createdAt: serverTimestamp()
-        });
-        alert("Shift added successfully.");
-        fetchShifts(); // Refresh the list
-    } else {
-        alert("Please fill out all fields for the shift.");
-    }
-}
+        // Function to delete a shift
+        async function deleteShift(shiftId) {
+            await deleteDoc(doc(db, "shifts", shiftId));
+            alert("Shift deleted successfully.");
+            fetchShifts(); // Refresh the list
+        }
 
-// Function to delete a shift
-async function deleteShift(shiftId) {
-    await deleteDoc(doc(db, "shifts", shiftId));
-    alert("Shift deleted successfully.");
-    fetchShifts(); // Refresh the list
-}
+        // Function to fetch jobs from Firestore and display them
+        async function fetchJobs() {
+            const jobList = document.getElementById("jobList");
+            jobList.innerHTML = ''; // Clear existing jobs
 
-// Call fetchShifts on page load to display shifts
-window.onload = fetchShifts;
-        
-    // Function to fetch jobs from Firestore and display them
-    async function fetchJobs() {
-        const jobList = document.getElementById("jobList");
-        jobList.innerHTML = ''; // Clear existing jobs
+            const querySnapshot = await getDocs(collection(db, "jobs"));
+            querySnapshot.forEach((doc) => {
+                const jobItem = document.createElement("li");
+                jobItem.textContent = doc.data().description;
 
-        const querySnapshot = await getDocs(collection(db, "jobs"));
-        querySnapshot.forEach((doc) => {
-            const jobItem = document.createElement("li");
-            jobItem.textContent = doc.data().description;
+                // Create delete button
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "X";
+                deleteButton.style.marginLeft = "10px";
+                deleteButton.onclick = () => deleteJob(doc.id);
 
-            // Create delete button
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "X";
-            deleteButton.style.marginLeft = "10px";
-            deleteButton.onclick = () => deleteJob(doc.id);
+                jobItem.appendChild(deleteButton);
+                jobList.appendChild(jobItem);
+            });
+        }
 
-            jobItem.appendChild(deleteButton);
-            jobList.appendChild(jobItem);
-        });
-    }
+        // Function to add a job to Firestore
+        async function addJob() {
+            const jobDescription = document.getElementById("job").value;
 
-    // Function to add a job to Firestore
-    async function addJob() {
-        const jobDescription = document.getElementById("job").value;
+            if (jobDescription) {
+                await addDoc(collection(db, "jobs"), { description: jobDescription });
+                alert("Job added successfully.");
+                document.getElementById("jobUpdateForm").reset();
+                fetchJobs(); // Refresh job list
+            } else {
+                alert("Please enter a job description.");
+            }
+        }
 
-        if (jobDescription) {
-            await addDoc(collection(db, "jobs"), { description: jobDescription });
-            alert("Job added successfully.");
-            document.getElementById("jobUpdateForm").reset();
+        // Function to delete a job from Firestore
+        async function deleteJob(jobId) {
+            await deleteDoc(doc(db, "jobs", jobId));
+            alert("Job deleted successfully.");
             fetchJobs(); // Refresh job list
-        } else {
-            alert("Please enter a job description.");
         }
-    }
 
-    // Function to delete a job from Firestore
-    async function deleteJob(jobId) {
-        await deleteDoc(doc(db, "jobs", jobId));
-        alert("Job deleted successfully.");
-        fetchJobs(); // Refresh job list
-    }
-
-    // Load jobs when the page is loaded
-    window.onload = fetchJobs;
+        // Load shifts and jobs when the page is loaded
+        window.onload = async () => {
+            await fetchShifts();
+            await fetchJobs();
+        };
     </script>
 
     <style>
@@ -155,53 +155,52 @@ window.onload = fetchShifts;
             min-height: 100vh; /* Ensures the body takes full height */
         }
 
-/* General header styling */
-header {
-    position: fixed; /* Fix the header to the top of the viewport */
-    top: 0; /* Align it to the top */
-    width: 100%; /* Make sure it spans the full width of the page */
-    z-index: 1000; /* Ensure the header stays above other content */
-    background-color: rgba(51, 51, 51, 0.8); /* Header background */
-    padding: 0; /* Adjust as needed */
-}
+        /* General header styling */
+        header {
+            position: fixed; /* Fix the header to the top of the viewport */
+            top: 0; /* Align it to the top */
+            width: 100%; /* Make sure it spans the full width of the page */
+            z-index: 1000; /* Ensure the header stays above other content */
+            background-color: rgba(51, 51, 51, 0.8); /* Header background */
+            padding: 0; /* Adjust as needed */
+        }
 
-/* Header content styling */
-.header-content {
-    display: flex; /* Use flexbox to align items */
-    align-items: center; /* Center items vertically */
-    padding: 10px 20px; /* Add padding */
-    color: white; /* Text color */
-}
+        /* Header content styling */
+        .header-content {
+            display: flex; /* Use flexbox to align items */
+            align-items: center; /* Center items vertically */
+            padding: 10px 20px; /* Add padding */
+            color: white; /* Text color */
+        }
 
-/* Logo styling */
-.header-content .logo {
-    display: flex;
-    align-items: center; /* Center items vertically */
-}
+        /* Logo styling */
+        .header-content .logo {
+            display: flex;
+            align-items: center; /* Center items vertically */
+        }
 
-.header-content img {
-    height: 80px; /* Limit the height of the logo to 80 pixels */
-    width: auto; /* Maintain aspect ratio */
-    margin-right: 15px; /* Space between logo and text */
-}
+        .header-content img {
+            height: 80px; /* Limit the height of the logo to 80 pixels */
+            width: auto; /* Maintain aspect ratio */
+            margin-right: 15px; /* Space between logo and text */
+        }
 
-.header-text {
-    display: flex;
-    flex-direction: column; /* Stack text vertically */
-    justify-content: center; /* Center text vertically */
-}
+        .header-text {
+            display: flex;
+            flex-direction: column; /* Stack text vertically */
+            justify-content: center; /* Center text vertically */
+        }
 
-/* Navigation styling */
-nav {
-    margin-left: auto; /* Align navigation to the right */
-}
+        /* Navigation styling */
+        nav {
+            margin-left: auto; /* Align navigation to the right */
+        }
 
-.nav-links {
-    display: flex; /* Align navigation links horizontally */
-    gap: 20px; /* Space between links */
-    list-style-type: none; /* Remove default list styling */
-}
-
+        .nav-links {
+            display: flex; /* Align navigation links horizontally */
+            gap: 20px; /* Space between links */
+            list-style-type: none; /* Remove default list styling */
+        }
 
         .nav-links li a {
             text-decoration: none;
@@ -341,39 +340,47 @@ nav {
 <!-- Main Content -->
 <main class="main-content">
     <!-- Week View of Shifts -->
-<section class="shift-week-view">
-    <h2>This Week's Shifts</h2>
-    <ul id="shiftsList"></ul> <!-- This will dynamically display shifts -->
-</section>
+    <section class="shift-week-view">
+        <h2>This Week's Shifts</h2>
+        <ul id="shiftsList"></ul> <!-- This will dynamically display shifts -->
+    </section>
 
-<!-- Jobs to be Completed -->
-<section class="jobs-section">
-    <h2>Jobs to be Completed</h2>
-    <ul id="jobList">
-        <!-- Jobs will be dynamically populated here -->
-    </ul>
-</section>
-
+    <!-- Jobs to be Completed -->
+    <section class="jobs-section">
+        <h2>Jobs to be Completed</h2>
+        <ul id="jobList">
+            <!-- Jobs will be dynamically populated here -->
+        </ul>
+    </section>
 
     <!-- Commander Update Section -->
-<!-- Form to add a shift -->
-<section class="add-shift-section">
-    <h3>Add Shift</h3>
-    <form id="addShiftForm" onsubmit="event.preventDefault(); addShift();">
-        <label for="shiftDay">Day:</label>
-        <input type="text" id="shiftDay" placeholder="Enter day">
-        <label for="shiftMember">Member:</label>
-        <input type="text" id="shiftMember" placeholder="Enter member name">
-        <label for="shiftTime">Time:</label>
-        <input type="text" id="shiftTime" placeholder="e.g., 08:00 - 16:00">
-        <button type="submit">Add Shift</button>
-    </form>
-</section>
+    <section class="add-shift-section">
+        <h3>Add Shift</h3>
+        <form id="addShiftForm" onsubmit="event.preventDefault(); addShift();">
+            <label for="shiftDay">Day:</label>
+            <input type="text" id="shiftDay" placeholder="Enter day">
+            <label for="shiftMember">Member:</label>
+            <input type="text" id="shiftMember" placeholder="Enter member name">
+            <label for="shiftTime">Time:</label>
+            <input type="text" id="shiftTime" placeholder="e.g., 08:00 - 16:00">
+            <button type="submit">Add Shift</button>
+        </form>
+    </section>
+
+    <!-- Job Update Section -->
+    <section class="add-job-section">
+        <h3>Add Job</h3>
+        <form id="jobUpdateForm" onsubmit="event.preventDefault(); addJob();">
+            <label for="job">Job Description:</label>
+            <input type="text" id="job" placeholder="Enter job description">
+            <button type="submit">Add Job</button>
+        </form>
+    </section>
 </main>
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2024 Shift Rotas. All rights reserved.</p>
+    <p>&copy; 2024 Highrock National Forest SRT. All rights reserved.</p>
 </footer>
 
 </body>
