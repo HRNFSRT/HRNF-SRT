@@ -6,7 +6,7 @@
     <title>AAR Command Review</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
     
-    <!-- Include SheetJS Library for Excel downloads -->
+    <!-- Include SheetJS Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <script type="module">
@@ -43,20 +43,30 @@
                 reportElement.className = "report-item";
                 reportElement.innerHTML = `
                     <h3>${reportData.title}</h3>
-                    <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
                     <button onclick="viewReport('${doc.id}')">View Report</button>
-                    <button onclick="downloadReport('${doc.id}')">Download</button>
-                    <button onclick="deleteReport('${doc.id}')">Delete</button>
                 `;
                 reportList.appendChild(reportElement);
             });
         };
 
         // View report
-        window.viewReport = (reportId) => {
-            // You can implement a modal or a redirect to a detailed view here
-            alert(`Viewing report ID: ${reportId}`);
-            // Additional logic for viewing report details can be added here
+        window.viewReport = async (reportId) => {
+            const reportDoc = await doc(db, "reports", reportId).get();
+            const reportData = reportDoc.data();
+            const readerPane = document.getElementById("readerPane");
+            readerPane.innerHTML = `
+                <h2>${reportData.title}</h2>
+                <p><strong>Submitted By:</strong> ${reportData.teamLead}</p>
+                <p><strong>Incident Overview:</strong> ${reportData.incidentOverview}</p>
+                <p><strong>Health & Safety Issues:</strong> ${reportData.hsIssues}</p>
+                <p><strong>Casualties:</strong> ${reportData.casualties}</p>
+                <p><strong>Communication Issues:</strong> ${reportData.communicationIssues}</p>
+                <p><strong>Other Issues:</strong> ${reportData.otherIssues}</p>
+                <p><strong>Future Suggestions:</strong> ${reportData.futureSuggestions}</p>
+                <p><strong>Persons of Merit:</strong> ${reportData.personsOfMerit}</p>
+                <button onclick="downloadReport('${doc.id}')">Download</button>
+                <button onclick="deleteReport('${doc.id}')">Delete</button>
+            `;
         };
 
         // Download report
@@ -98,6 +108,7 @@
                 await deleteDoc(doc(db, "reports", reportId));
                 alert("Report deleted successfully.");
                 fetchReports(); // Refresh the report list
+                document.getElementById("readerPane").innerHTML = ""; // Clear the reader pane
             }
         };
 
@@ -106,55 +117,77 @@
     </script>
 
     <style>
-        /* Basic Styling */
         body {
+            display: flex;
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            color: #0262c4;
-            text-align: center;
-            padding: 20px;
+            margin: 0;
         }
-
+        
         header {
-            background-color: #333;
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.8);
             color: white;
-            padding: 10px 0;
-            margin-bottom: 20px;
+            padding: 20px 0;
+            text-align: center;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            padding: 10px;
+            overflow-y: auto; /* Allow scrolling if content overflows */
         }
 
         .report-item {
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
         }
 
+        .report-item h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        /* Reader pane styles */
+        .reader-pane {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            margin-left: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #333; /* Footer background color */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+            position: absolute; /* Keep it at the bottom */
+            bottom: 0;
+        }
+
+        /* Button styling */
         button {
+            padding: 10px 15px;
             background-color: #e94307;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 10px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            margin: 5px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
+        /* Button hover effect */
         button:hover {
             background-color: #b63101;
-        }
-
-        footer {
-            margin-top: 20px;
-            padding: 10px 0;
-            background-color: #333;
-            color: white;
         }
     </style>
 </head>
@@ -164,12 +197,18 @@
     </header>
 
     <div class="container">
-        <h2>Reports to Review</h2>
-        <div id="reportList"></div>
+        <div class="sidebar" id="reportList">
+            <h2>Reports</h2>
+            <!-- Reports will be dynamically loaded here -->
+        </div>
+        <div class="reader-pane" id="readerPane">
+            <h2>Select a report to view</h2>
+            <!-- Report details will be displayed here -->
+        </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Highrock National Forest SRT. All Rights Reserved</p>
+        <p>&copy; 2024 Your Organization</p>
     </footer>
 </body>
 </html>
