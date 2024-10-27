@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shift Rotas</title>
 
-    <!-- Firebase Imports and Configuration with All JavaScript in Head -->
+    <!-- Firebase Imports and Configuration -->
     <script type="module">
-        // Import Firebase functions from the CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: API_KEY,
             authDomain: AUTH_DOMAIN,
@@ -23,12 +21,10 @@
             measurementId: MEASUREMENT_ID
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Restrict Commander Section to Command Account
         onAuthStateChanged(auth, (user) => {
             if (user && user.email === "command@hrnf-srt.org") {
                 document.querySelector(".commander-section").style.display = "block";
@@ -37,7 +33,6 @@
             }
         });
 
-        // Fetch and display shifts
         async function loadShifts() {
             const shiftList = document.getElementById('shift-list');
             const querySnapshot = await getDocs(collection(db, "shifts"));
@@ -48,7 +43,6 @@
             });
         }
 
-        // Fetch and display jobs
         async function loadJobs() {
             const jobList = document.getElementById('job-list');
             const querySnapshot = await getDocs(collection(db, "jobs"));
@@ -59,7 +53,6 @@
             });
         }
 
-        // Update shift
         async function updateShift() {
             const shiftName = document.getElementById('shift').value;
             await setDoc(doc(db, "shifts", shiftName), {
@@ -69,7 +62,6 @@
             loadShifts();
         }
 
-        // Update job
         async function updateJob() {
             const jobName = document.getElementById('job').value;
             await setDoc(doc(db, "jobs", jobName), {
@@ -79,7 +71,6 @@
             loadJobs();
         }
 
-        // Initial data load
         window.addEventListener('DOMContentLoaded', () => {
             loadShifts();
             loadJobs();
@@ -87,65 +78,118 @@
     </script>
 
     <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
+        /* General Reset */
+        body, h1, h2, p, ul, li, a, input, button {
             margin: 0;
-            padding-top: 70px;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
-        /* Header styling */
+        /* Body Styling */
+        body {
+            color: #0262c4;
+            background: #f0f0f0;
+        }
+
+        /* Headings */
+        h1, h2 {
+            color: #0262c4;
+        }
+
+        /* Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1000;
             background-color: rgba(51, 51, 51, 0.8);
             padding: 10px 20px;
+            z-index: 1000;
             color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        /* Sidebar styling */
+        .cta {
+            padding: 8px 12px;
+            background-color: #e94307;
+            color: white;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .cta:hover {
+            background-color: #b63101;
+        }
+
+        /* Sidebar */
         .sidebar {
             width: 250px;
-            padding: 10px;
-            background-color: #f4f4f4;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 70px;
             bottom: 0;
             overflow-y: auto;
         }
 
-        /* Content styling */
+        /* Content */
         .content {
             margin-left: 270px;
             padding: 20px;
         }
 
+        /* Commander Section */
         .commander-section {
-            display: none; /* Hidden by default, shown only to commanders */
-            margin-top: 20px;
-            padding: 10px;
+            display: none;
+            background-color: #fff;
+            padding: 20px;
             border: 1px solid #ccc;
-            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Footer styling */
+        /* Footer */
         footer {
             background-color: #333;
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: auto;
+            margin-top: 20px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Forms and Buttons */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, button {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #0262c4;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #024ca1;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header>
         <h1>Shift Rotas</h1>
         <button onclick="location.href='/dashboard.html'" class="cta">Back to Dashboard</button>
@@ -168,7 +212,6 @@
         <div class="commander-section">
             <h2>Commander Section</h2>
             <p>This section is restricted to commanders only.</p>
-            <!-- Form to update shift rotas and jobs -->
             <form id="update-form">
                 <label for="shift">Update Shift:</label>
                 <input type="text" id="shift" name="shift">
@@ -181,9 +224,8 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
-        &copy; Highrock National Forest SRT 2024. All Rights Reserved.
+        &copy; HRNF SRT 2023
     </footer>
 </body>
 </html>
