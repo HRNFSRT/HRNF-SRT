@@ -196,9 +196,8 @@
         </div>
         <nav>
             <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/logout" class="cta">Log Out</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="/sarmembers/login.html" class="cta">Log Out</a></li>
             </ul>
         </nav>
     </div>
@@ -228,11 +227,11 @@
         <h3>Add Shift</h3>
         <form id="addShiftForm" onsubmit="event.preventDefault(); window.addShift();">
             <label for="shiftDay">Day:</label>
-            <input type="text" id="shiftDay" placeholder="Enter day">
+            <input type="text" id="shiftDay" placeholder="Enter day" required>
             <label for="shiftMember">Member:</label>
-            <input type="text" id="shiftMember" placeholder="Enter member name">
+            <input type="text" id="shiftMember" placeholder="Enter member name" required>
             <label for="shiftTime">Time:</label>
-            <input type="text" id="shiftTime" placeholder="e.g., 08:00 - 16:00">
+            <input type="text" id="shiftTime" placeholder="e.g., 08:00 - 16:00" required>
             <button type="submit">Add Shift</button>
         </form>
     </section>
@@ -242,7 +241,7 @@
         <h3>Add Job</h3>
         <form id="jobUpdateForm" onsubmit="event.preventDefault(); window.addJob();">
             <label for="job">Job Description:</label>
-            <input type="text" id="job" placeholder="Enter job description">
+            <input type="text" id="job" placeholder="Enter job description" required>
             <button type="submit">Add Job</button>
         </form>
     </section>
@@ -254,7 +253,7 @@
 </footer>
 
 <!-- Firebase Configuration and Imports -->
-<script>
+<script type="module">
     // Import Firebase functions from the CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
@@ -308,7 +307,7 @@
     }
 
     // Function to add a shift
-    window.addShift = async function() {
+    async function addShift() {
         const day = document.getElementById("shiftDay").value;
         const member = document.getElementById("shiftMember").value;
         const time = document.getElementById("shiftTime").value;
@@ -325,7 +324,7 @@
         } else {
             alert("Please fill out all fields for the shift.");
         }
-    };
+    }
 
     // Function to delete a shift
     async function deleteShift(shiftId) {
@@ -356,7 +355,7 @@
     }
 
     // Function to add a job to Firestore
-    window.addJob = async function() {
+    async function addJob() {
         const jobDescription = document.getElementById("job").value;
 
         if (jobDescription) {
@@ -367,7 +366,7 @@
         } else {
             alert("Please enter a job description.");
         }
-    };
+    }
 
     // Function to delete a job from Firestore
     async function deleteJob(jobId) {
@@ -375,6 +374,10 @@
         alert("Job deleted successfully.");
         fetchJobs(); // Refresh job list
     }
+
+    // Make functions globally accessible
+    window.addShift = addShift;
+    window.addJob = addJob;
 
     // Fetch shifts and jobs on load
     window.onload = () => {
