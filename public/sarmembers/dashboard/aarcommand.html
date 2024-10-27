@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AAR Command Review</title>
+    <title>AAR Review - HRNF SRT</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
     
     <!-- Include SheetJS Library -->
@@ -31,23 +31,28 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Fetch reports and display them
-        window.fetchReports = async () => {
-            const reportList = document.getElementById("reportList");
-            reportList.innerHTML = ""; // Clear previous results
+// Updated fetchReports function
+window.fetchReports = async () => {
+    const reportList = document.getElementById("reportList");
+    reportList.innerHTML = ""; // Clear previous results
 
-            const querySnapshot = await getDocs(collection(db, "reports"));
-            querySnapshot.forEach((doc) => {
-                const reportData = doc.data();
-                const reportElement = document.createElement("div");
-                reportElement.className = "report-item";
-                reportElement.innerHTML = `
-                    <h3>${reportData.title}</h3>
-                    <button onclick="viewReport('${doc.id}')">View Report</button>
-                `;
-                reportList.appendChild(reportElement);
-            });
-        };
+    const querySnapshot = await getDocs(collection(db, "reports"));
+    querySnapshot.forEach((doc) => {
+        const reportData = doc.data();
+
+        // Filter out the document you want to hide
+        if (doc.id !== "DO NOT DELETE OR THE SYSTEM WILL BREAK") {
+            const reportElement = document.createElement("div");
+            reportElement.className = "report-item";
+            reportElement.innerHTML = `
+                <h3>${reportData.title}</h3>
+                <button onclick="viewReport('${doc.id}')">View Report</button>
+            `;
+            reportList.appendChild(reportElement);
+        }
+    });
+};
+
 
         // View report
         window.viewReport = async (reportId) => {
@@ -260,7 +265,7 @@
     <header>
         <div class="header-content">
             <div class="logo">
-                <img src="logo.png" alt="Logo"> <!-- Add your logo here -->
+                <img src="/images/logo.png" alt="Logo">
             </div>
             <div class="header-text">
                 <h1>AAR Command Review</h1>
@@ -275,7 +280,7 @@
     </header>
 
     <div class="sidebar">
-        <h2>Reports</h2>
+        <h2>Active Reports</h2>
         <div id="reportList"></div>
     </div>
 
