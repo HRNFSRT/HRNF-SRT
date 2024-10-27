@@ -4,22 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AAR SAR Member Submission</title>
-    <!--<link rel="stylesheet" href="styles.css"> <!-- Link to your CSS -->
 
     <script type="module">
         // Import Firebase functions from the CDN
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("User is signed in:", user.uid);
-    } else {
-        console.log("No user is signed in.");
-    }
-});
         // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
@@ -34,10 +25,18 @@ onAuthStateChanged(auth, (user) => {
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app); // Initialize authentication
 
         // Handle form submission and redirect to the main page
         window.handleFormSubmission = async (event) => {
             event.preventDefault();
+
+            // Check if user is authenticated
+            const user = auth.currentUser;
+            if (!user) {
+                alert("You must be logged in to submit a report.");
+                return;
+            }
 
             // Get form values
             const reportTitle = document.getElementById("report_title").value;
@@ -164,15 +163,15 @@ onAuthStateChanged(auth, (user) => {
             background-color: #b63101;
         }
 
-/* Footer styling */
-footer {
-    background-color: #333; /* Footer background color */
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    width: 100%;
-    margin-top: auto; /* Pushes footer to the bottom */
-}
+        /* Footer styling */
+        footer {
+            background-color: #333; /* Footer background color */
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
     </style>
 </head>
 <body>
