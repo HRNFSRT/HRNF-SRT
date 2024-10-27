@@ -291,15 +291,35 @@
         const shiftsSnapshot = await getDocs(shiftsCollection);
         const shiftsList = document.getElementById("shiftsList");
         shiftsList.innerHTML = ""; // Clear existing shifts
+
+        // Define the order of days
+        const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Create an array to hold the fetched shifts
+        let shiftsArray = [];
+
         shiftsSnapshot.forEach((doc) => {
             const shiftData = doc.data();
+            shiftsArray.push({
+                id: doc.id,
+                ...shiftData
+            });
+        });
+
+        // Sort the shifts based on the index of their day in the daysOfWeek array
+        shiftsArray.sort((a, b) => {
+            return daysOfWeek.indexOf(a.day) - daysOfWeek.indexOf(b.day);
+        });
+
+        // Display the sorted shifts
+        shiftsArray.forEach((shift) => {
             const shiftItem = document.createElement("li");
-            shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
+            shiftItem.textContent = `${shift.day} - ${shift.member} (${shift.time})`;
 
             // Create a delete button
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "X";
-            deleteButton.onclick = () => deleteShift(doc.id);
+            deleteButton.onclick = () => deleteShift(shift.id);
 
             shiftItem.appendChild(deleteButton);
             shiftsList.appendChild(shiftItem);
