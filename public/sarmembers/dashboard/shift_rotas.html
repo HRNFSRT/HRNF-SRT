@@ -4,140 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shift Rotas - HRNF SRT</title>
-
-    <!-- Firebase Configuration and Imports -->
-    <script type="module">
-        // Import Firebase functions from the CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Check for auth state
-        onAuthStateChanged(auth, (user) => {
-            const commanderSection = document.getElementById("commanderUpdateSection");
-            if (user && user.email === "command@hrnf-srt.org") {
-                commanderSection.style.display = "block";
-                console.log("Block");
-            } else {
-                commanderSection.style.display = "none";
-                console.log("none");
-            }
-        });
-
-        // Function to fetch shifts from Firestore
-        async function fetchShifts() {
-            const shiftsCollection = collection(db, "shifts");
-            const shiftsSnapshot = await getDocs(shiftsCollection);
-            const shiftsList = document.getElementById("shiftsList");
-            shiftsList.innerHTML = ""; // Clear existing shifts
-            shiftsSnapshot.forEach((doc) => {
-                const shiftData = doc.data();
-                const shiftItem = document.createElement("li");
-                shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
-
-                // Create a delete button
-                const deleteButton = document.createElement("button");
-                deleteButton.textContent = "X";
-                deleteButton.onclick = () => deleteShift(doc.id);
-
-                shiftItem.appendChild(deleteButton);
-                shiftsList.appendChild(shiftItem);
-            });
-        }
-
-        // Function to add a shift
-        async function addShift() {
-            const day = document.getElementById("shiftDay").value;
-            const member = document.getElementById("shiftMember").value;
-            const time = document.getElementById("shiftTime").value;
-
-            if (day && member && time) {
-                await addDoc(collection(db, "shifts"), {
-                    day: day,
-                    member: member,
-                    time: time,
-                    createdAt: serverTimestamp()
-                });
-                alert("Shift added successfully.");
-                fetchShifts(); // Refresh the list
-            } else {
-                alert("Please fill out all fields for the shift.");
-            }
-        }
-
-        // Function to delete a shift
-        async function deleteShift(shiftId) {
-            await deleteDoc(doc(db, "shifts", shiftId));
-            alert("Shift deleted successfully.");
-            fetchShifts(); // Refresh the list
-        }
-
-        // Function to fetch jobs from Firestore and display them
-        async function fetchJobs() {
-            const jobList = document.getElementById("jobList");
-            jobList.innerHTML = ''; // Clear existing jobs
-
-            const querySnapshot = await getDocs(collection(db, "jobs"));
-            querySnapshot.forEach((doc) => {
-                const jobItem = document.createElement("li");
-                jobItem.textContent = doc.data().description;
-
-                // Create delete button
-                const deleteButton = document.createElement("button");
-                deleteButton.textContent = "X";
-                deleteButton.style.marginLeft = "10px";
-                deleteButton.onclick = () => deleteJob(doc.id);
-
-                jobItem.appendChild(deleteButton);
-                jobList.appendChild(jobItem);
-            });
-        }
-
-        // Function to add a job to Firestore
-        async function addJob() {
-            const jobDescription = document.getElementById("job").value;
-
-            if (jobDescription) {
-                await addDoc(collection(db, "jobs"), { description: jobDescription });
-                alert("Job added successfully.");
-                document.getElementById("jobUpdateForm").reset();
-                fetchJobs(); // Refresh job list
-            } else {
-                alert("Please enter a job description.");
-            }
-        }
-
-        // Function to delete a job from Firestore
-        async function deleteJob(jobId) {
-            await deleteDoc(doc(db, "jobs", jobId));
-            alert("Job deleted successfully.");
-            fetchJobs(); // Refresh job list
-        }
-
-        // Load shifts and jobs when the page is loaded
-        window.onload = async () => {
-            await fetchShifts();
-            await fetchJobs();
-        };
-    </script>
-
-    <style>
+<style>
         /* General Reset */
         body, h1, h2, h3, p, ul, li, a, input, textarea, button {
             margin: 0;
@@ -342,18 +209,21 @@
     <!-- Week View of Shifts -->
     <section class="shift-week-view">
         <h2>This Week's Shifts</h2>
-        <ul id="shiftsList"></ul> <!-- This will dynamically display shifts -->
+        <ul id="shiftsList"></ul>
     </section>
 
     <!-- Jobs to be Completed -->
     <section class="jobs-section">
         <h2>Jobs to be Completed</h2>
-        <ul id="jobList">
-            <!-- Jobs will be dynamically populated here -->
-        </ul>
+        <ul id="jobList"></ul>
     </section>
 
     <!-- Commander Update Section -->
+    <section id="commanderUpdateSection" style="display: none;">
+        <!-- Content for the commander update goes here -->
+    </section>
+
+    <!-- Add Shift Section -->
     <section class="add-shift-section">
         <h3>Add Shift</h3>
         <form id="addShiftForm" onsubmit="event.preventDefault(); addShift();">
@@ -367,7 +237,7 @@
         </form>
     </section>
 
-    <!-- Job Update Section -->
+    <!-- Add Job Section -->
     <section class="add-job-section">
         <h3>Add Job</h3>
         <form id="jobUpdateForm" onsubmit="event.preventDefault(); addJob();">
@@ -380,8 +250,138 @@
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2024 Highrock National Forest SRT. All rights reserved.</p>
+    <p>&copy; 2024 Shift Rotas. All rights reserved.</p>
 </footer>
+
+<!-- Firebase Configuration and Imports -->
+<script type="module">
+    // Import Firebase functions from the CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, serverTimestamp, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+
+    // Firebase Configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Check for auth state
+    onAuthStateChanged(auth, (user) => {
+        const commanderSection = document.getElementById("commanderUpdateSection");
+        if (user && user.email === "command@hrnf-srt.org") {
+            commanderSection.style.display = "block";
+        } else {
+            commanderSection.style.display = "none";
+        }
+    });
+
+    // Function to fetch shifts from Firestore
+    async function fetchShifts() {
+        const shiftsCollection = collection(db, "shifts");
+        const shiftsSnapshot = await getDocs(shiftsCollection);
+        const shiftsList = document.getElementById("shiftsList");
+        shiftsList.innerHTML = ""; // Clear existing shifts
+        shiftsSnapshot.forEach((doc) => {
+            const shiftData = doc.data();
+            const shiftItem = document.createElement("li");
+            shiftItem.textContent = `${shiftData.day} - ${shiftData.member} (${shiftData.time})`;
+
+            // Create a delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            deleteButton.onclick = () => deleteShift(doc.id);
+
+            shiftItem.appendChild(deleteButton);
+            shiftsList.appendChild(shiftItem);
+        });
+    }
+
+    // Function to add a shift
+    async function addShift() {
+        const day = document.getElementById("shiftDay").value;
+        const member = document.getElementById("shiftMember").value;
+        const time = document.getElementById("shiftTime").value;
+
+        if (day && member && time) {
+            await addDoc(collection(db, "shifts"), {
+                day: day,
+                member: member,
+                time: time,
+                createdAt: serverTimestamp()
+            });
+            alert("Shift added successfully.");
+            fetchShifts(); // Refresh the list
+        } else {
+            alert("Please fill out all fields for the shift.");
+        }
+    }
+
+    // Function to delete a shift
+    async function deleteShift(shiftId) {
+        await deleteDoc(doc(db, "shifts", shiftId));
+        alert("Shift deleted successfully.");
+        fetchShifts(); // Refresh the list
+    }
+
+    // Function to fetch jobs from Firestore and display them
+    async function fetchJobs() {
+        const jobList = document.getElementById("jobList");
+        jobList.innerHTML = ''; // Clear existing jobs
+
+        const querySnapshot = await getDocs(collection(db, "jobs"));
+        querySnapshot.forEach((doc) => {
+            const jobItem = document.createElement("li");
+            jobItem.textContent = doc.data().description;
+
+            // Create delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            deleteButton.style.marginLeft = "10px";
+            deleteButton.onclick = () => deleteJob(doc.id);
+
+            jobItem.appendChild(deleteButton);
+            jobList.appendChild(jobItem);
+        });
+    }
+
+    // Function to add a job to Firestore
+    async function addJob() {
+        const jobDescription = document.getElementById("job").value;
+
+        if (jobDescription) {
+            await addDoc(collection(db, "jobs"), { description: jobDescription });
+            alert("Job added successfully.");
+            document.getElementById("jobUpdateForm").reset();
+            fetchJobs(); // Refresh job list
+        } else {
+            alert("Please enter a job description.");
+        }
+    }
+
+    // Function to delete a job from Firestore
+    async function deleteJob(jobId) {
+        await deleteDoc(doc(db, "jobs", jobId));
+        alert("Job deleted successfully.");
+        fetchJobs(); // Refresh job list
+    }
+
+    // Fetch shifts and jobs on load
+    window.onload = () => {
+        fetchShifts();
+        fetchJobs();
+    };
+</script>
 
 </body>
 </html>
