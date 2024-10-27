@@ -77,7 +77,9 @@
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
-
+        p{
+            font-style: italic;
+        }
         /* Body Styling */
         body {
             display: flex;
@@ -94,7 +96,7 @@
             width: 100%;
             background-color: rgba(51, 51, 51, 0.8);
             color: white;
-            padding: 20px 0;
+            padding: 0px 0;
             text-align: center;
         }
 
@@ -167,7 +169,8 @@ footer {
 </head>
 <body>
     <header>
-        <h1>SAR Member Submission</h1>
+        <h1>After Action Report</h1>
+        <p>Helping to Make Your Voice Heard</p>
     </header>
 
     <div class="container">
@@ -181,19 +184,19 @@ footer {
             <label for="team_lead">Team Lead:</label>
             <input type="text" id="team_lead" name="team_lead" required>
 
-            <label for="incident_overview">Brief Overview of Incident:</label>
+            <label for="incident_overview">Overview of Incident:</label>
             <textarea id="incident_overview" name="incident_overview" required></textarea>
 
-            <label for="hs_issues">Any H&S issues or near misses:</label>
+            <label for="hs_issues">Any Health & Safety Incidents or Near Misses:</label>
             <textarea id="hs_issues" name="hs_issues" required></textarea>
 
-            <label for="casualties">Any Team Casualties:</label>
+            <label for="casualties">Team Casualties:</label>
             <textarea id="casualties" name="casualties" required></textarea>
 
-            <label for="communication_issues">Issues with Communication:</label>
+            <label for="communication_issues">Issues With Communication:</label>
             <textarea id="communication_issues" name="communication_issues" required></textarea>
 
-            <label for="other_issues">Any Other Issues:</label>
+            <label for="other_issues">Other Issues:</label>
             <textarea id="other_issues" name="other_issues"></textarea>
 
             <label for="future_suggestions">Suggestions for Future Incidents:</label>
@@ -202,7 +205,7 @@ footer {
             <label for="persons_of_merit">Person(s) of Merit (optional):</label>
             <input type="text" id="persons_of_merit" name="persons_of_merit">
 
-            <button type="submit">Submit Report</button>
+            <button type="submit">Submit AAR</button>
         </form>
     </div>
 
