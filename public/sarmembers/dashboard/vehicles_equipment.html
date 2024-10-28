@@ -11,13 +11,20 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
         
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+
+  authDomain: "hrnf-srt.firebaseapp.com",
+
+  projectId: "hrnf-srt",
+
+  storageBucket: "hrnf-srt.appspot.com",
+
+  messagingSenderId: "748926279394",
+
+  appId: "1:748926279394:web:1303b9000361b1d51808bb",
+
+  measurementId: "G-5PCZE3S5N5"
+
         };
 
         const app = initializeApp(firebaseConfig);
@@ -26,6 +33,7 @@
 
         const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
 
+        // Check user access and load reports
         function checkUserAccess(userEmail) {
             if (allowedEmails.includes(userEmail)) {
                 loadReports();
@@ -37,7 +45,6 @@
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                console.log("User signed in:", user);
                 checkUserAccess(user.email);
             } else {
                 console.log("No user signed in.");
@@ -46,19 +53,21 @@
 
         const vehicles = [
             { id: 1, name: "2020 Ford F350 Technical", issues: false },
-            { id: 2, name: "2020 Ford F250 Brush", issues: true },
+            { id: 2, name: "2020 Ford F250 Brush", issues: false },
             { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
-            { id: 4, name: "2018 Ford F250 Utility", issues: true },
+            { id: 4, name: "2018 Ford F250 Utility", issues: false },
             { id: 5, name: "2018 Ford F250 Utility", issues: false },
             { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
             { id: 7, name: "2018 Ford F250 Command", issues: false },
             { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
-            { id: 9, name: "1982 Landrover Defender 110", issues: false },
+            { id: 9, name: "Utility Task Vehicle", issues: false },
             { id: 10, name: "HeliMed 99", issues: false },
         ];
 
+
         function renderVehicleList() {
             const vehicleList = document.getElementById("vehicleList");
+            vehicleList.innerHTML = ""; // Clear existing list
             vehicles.forEach(vehicle => {
                 const vehicleItem = document.createElement("li");
                 vehicleItem.className = "vehicle-item";
@@ -101,10 +110,31 @@
                 checklistsContainer.appendChild(checklistDiv);
             });
 
+            const takeOutButton = document.createElement("button");
+            takeOutButton.textContent = "Take Out of Service";
+            takeOutButton.onclick = () => updateServiceStatus(vehicleId, vehicleElement, false);
+            checklistsContainer.appendChild(takeOutButton);
+
             vehicleElement.after(checklistsContainer);
         }
 
-        window.reportIssue = async function() {
+        async function updateServiceStatus(vehicleId, vehicleElement, inService) {
+            const vehicle = vehicles.find(v => v.id === vehicleId);
+            if (vehicle) {
+                vehicle.issues = !inService; // Toggle service status
+                renderVehicleList();
+            }
+            try {
+                const vehicleDoc = doc(db, "vehicles", vehicleId.toString());
+                await updateDoc(vehicleDoc, { inService });
+                alert(`Vehicle status updated to ${inService ? "In Service" : "Out of Service"}`);
+            } catch (error) {
+                console.error("Error updating service status:", error);
+                alert("Failed to update vehicle status.");
+            }
+        }
+
+        async function reportIssue() {
             const user = auth.currentUser;
             const issueDescription = document.getElementById("issueDescription").value;
 
@@ -127,10 +157,10 @@
                 alert("Issue reported successfully.");
                 document.getElementById("issueReportForm").reset();
             } catch (error) {
-                console.error("Error reporting issue: ", error);
+                console.error("Error reporting issue:", error);
                 alert("Failed to report the issue. Please try again.");
             }
-        };
+        }
 
         async function loadReports() {
             const reportsContainer = document.getElementById("reportsContainer");
@@ -145,7 +175,7 @@
                     reportsContainer.appendChild(reportItem);
                 });
             } catch (error) {
-                console.error("Error loading reports: ", error);
+                console.error("Error loading reports:", error);
             }
         }
 
@@ -326,6 +356,19 @@
             padding: 10px; 
             border-top: 1px solid #ccc; 
         }
+        .maintenance-log {
+            width: 50%;
+            float: right;
+            overflow-y: scroll;
+            height: 400px;
+        }
+        .dynamic-checklist {
+            width: 45%;
+            float: left;
+        }
+        .log-entry {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -347,22 +390,14 @@
         </nav>
     </div>
 </header>
+    <ul id="vehicleList"></ul>
 
-    <h2>Select Your Vehicle</h2>
-    <ul class="vehicle-list" id="vehicleList"></ul>
+    <div class="dynamic-checklist" id="checklistsContainer"></div>
+    <div class="maintenance-log" id="maintenanceLogContainer"></div>
 
-    <div class="report-issue" id="reportIssueSection" style="display: none;">
-        <h2>Report an Issue</h2>
-        <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
-            <label for="issueDescription">Describe the issue:</label>
-            <textarea id="issueDescription" rows="4" required></textarea>
-            <button type="submit">Submit Issue</button>
-        </form>
-    </div>
-
-    <div id="reportsSection">
-        <h2>Reported Issues</h2>
-        <div id="reportsContainer"></div>
+    <div id="reportIssueSection">
+        <input type="text" id="issueDescription" placeholder="Report an issue...">
+        <button onclick="reportIssue()">Submit</button>
     </div>
 </body>
 </html>
