@@ -5,137 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicles and Equipment</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
- <script type="module">
-    // Firebase initialization
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-    
-    const firebaseConfig = {
-        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-        authDomain: "hrnf-srt.firebaseapp.com",
-        projectId: "hrnf-srt",
-        storageBucket: "hrnf-srt.appspot.com",
-        messagingSenderId: "748926279394",
-        appId: "1:748926279394:web:1303b9000361b1d51808bb",
-        measurementId: "G-5PCZE3S5N5"
-    };
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth();
+  authDomain: "hrnf-srt.firebaseapp.com",
 
-    // Allowed emails for reporting issues
-    const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
+  projectId: "hrnf-srt",
 
-    // Listen for authentication state changes
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            console.log("User is signed in:", user);
-            // You can fetch the user's role from your database here and set it in the token
-        } else {
-            console.log("No user is signed in.");
-        }
-    });
+  storageBucket: "hrnf-srt.appspot.com",
 
-    // Sample vehicles data
-    const vehicles = [
-        { id: 1, name: "2020 Ford F350 Technical", issues: false },
-        { id: 2, name: "2020 Ford F250 Brush", issues: false },
-        { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
-        { id: 4, name: "2018 Ford F250 Utility", issues: false },
-        { id: 5, name: "2018 Ford F250 Utility", issues: false },
-        { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
-        { id: 7, name: "2018 Ford F250 Command", issues: false },
-        { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
-        { id: 9, name: "1982 Landrover Defender 110", issues: false },
-        { id: 10, name: "HeliMed 99", issues: false },
-    ];
+  messagingSenderId: "748926279394",
 
-    // Function to render the vehicle list
-    function renderVehicleList() {
-        const vehicleList = document.getElementById("vehicleList");
-        vehicles.forEach(vehicle => {
-            const vehicleItem = document.createElement("li");
-            vehicleItem.className = "vehicle-item";
-            vehicleItem.textContent = vehicle.name;
-            if (vehicle.issues) {
-                vehicleItem.classList.add("not-in-service");
-                vehicleItem.textContent += " (Not In Service)";
+  appId: "1:748926279394:web:1303b9000361b1d51808bb",
+
+  measurementId: "G-5PCZE3S5N5"
+
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth();
+
+        // Allowed emails for reporting issues
+        const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
+
+        // Check if the user's email is authorized and show report sections if allowed
+        function checkUserAccess(userEmail) {
+            if (allowedEmails.includes(userEmail)) {
+                loadReports();
+                document.getElementById("reportsSection").style.display = "block"; // Show reports section for authorized users
+            } else {
+                document.getElementById("reportIssueSection").style.display = "none";
             }
-            vehicleItem.onclick = () => showChecklists(vehicle.id);
-            vehicleList.appendChild(vehicleItem);
+        }
+
+        // Listen for authentication state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User signed in:", user);
+                checkUserAccess(user.email);
+            } else {
+                console.log("No user signed in.");
+            }
         });
-    }
 
-    // Function to show checklists for the selected vehicle
-    function showChecklists(vehicleId) {
-        const checklistsContainer = document.getElementById("checklistsContainer");
-        checklistsContainer.innerHTML = ""; // Clear previous checklists
-
-        // Example checklists for the vehicle
-        const checklists = [
-            { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass /Windshield", "Standard Lights"] },
-            { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
-            { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
+        const vehicles = [
+            { id: 1, name: "2020 Ford F350 Technical", issues: false },
+            { id: 2, name: "2020 Ford F250 Brush", issues: true },
+            { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
+            { id: 4, name: "2018 Ford F250 Utility", issues: true },
+            { id: 5, name: "2018 Ford F250 Utility", issues: false },
+            { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
+            { id: 7, name: "2018 Ford F250 Command", issues: false },
+            { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
+            { id: 9, name: "1982 Landrover Defender 110", issues: false },
+            { id: 10, name: "HeliMed 99", issues: false },
         ];
 
-        checklists.forEach(checklist => {
-            const checklistDiv = document.createElement("div");
-            checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
-            checklist.items.forEach(item => {
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.id = item;
-                checklistDiv.appendChild(checkbox);
-                checklistDiv.appendChild(document.createTextNode(item));
-                checklistDiv.appendChild(document.createElement("br"));
+        // Render vehicle list
+        function renderVehicleList() {
+            const vehicleList = document.getElementById("vehicleList");
+            vehicles.forEach(vehicle => {
+                const vehicleItem = document.createElement("li");
+                vehicleItem.className = "vehicle-item";
+                vehicleItem.textContent = vehicle.name;
+
+                if (vehicle.issues) {
+                    vehicleItem.classList.add("not-in-service");
+                    vehicleItem.textContent += " (Not In Service)";
+                }
+
+                vehicleItem.onclick = () => showChecklists(vehicle.id);
+                vehicleList.appendChild(vehicleItem);
             });
-            checklistsContainer.appendChild(checklistDiv);
-        });
-
-        document.getElementById("checklistSection").style.display = "block";
-        document.getElementById("reportIssueSection").style.display = "block"; // Show issue reporting section
-    }
-
-    // Function to report an issue
-    window.reportIssue = async function() { // Attach to the window object
-        const user = auth.currentUser;
-        const issueDescription = document.getElementById("issueDescription").value;
-
-        // Check if an issue description is provided
-        if (!issueDescription) {
-            alert("Please provide a description of the issue.");
-            return;
         }
 
-        // Check if the user's email is in the allowed list
-        if (!user || !allowedEmails.includes(user.email)) {
-            alert("You do not have permission to report issues.");
-            return;
-        }
+        // Display checklist for selected vehicle
+        function showChecklists(vehicleId) {
+            const checklistsContainer = document.getElementById("checklistsContainer");
+            checklistsContainer.innerHTML = "";
 
-        // Save issue to Firestore
-        try {
-            await addDoc(collection(db, "issues"), {
-                description: issueDescription,
-                reportedAt: new Date(),
-                userEmail: user.email, // Optional: Store user email with the issue
+            const checklists = [
+                { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass / Windshield", "Lights"] },
+                { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
+                { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
+            ];
+
+            checklists.forEach(checklist => {
+                const checklistDiv = document.createElement("div");
+                checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
+                checklist.items.forEach(item => {
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = item;
+                    checklistDiv.appendChild(checkbox);
+                    checklistDiv.appendChild(document.createTextNode(item));
+                    checklistDiv.appendChild(document.createElement("br"));
+                });
+                checklistsContainer.appendChild(checklistDiv);
             });
-            alert("Issue reported successfully.");
-            document.getElementById("issueReportForm").reset();
-        } catch (error) {
-            console.error("Error reporting issue: ", error);
-            alert("Failed to report the issue. Please try again.");
-        }
-    };
 
-    // Load vehicles on page load
-    window.onload = () => {
-        renderVehicleList();
-    };
-</script>
+            document.getElementById("checklistSection").style.display = "block";
+            document.getElementById("reportIssueSection").style.display = "block";
+        }
+
+        // Report an issue
+        window.reportIssue = async function() {
+            const user = auth.currentUser;
+            const issueDescription = document.getElementById("issueDescription").value;
+
+            if (!issueDescription) {
+                alert("Please provide a description of the issue.");
+                return;
+            }
+
+            if (!user || !allowedEmails.includes(user.email)) {
+                alert("You do not have permission to report issues.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "issues"), {
+                    description: issueDescription,
+                    reportedAt: new Date(),
+                    userEmail: user.email,
+                });
+                alert("Issue reported successfully.");
+                document.getElementById("issueReportForm").reset();
+            } catch (error) {
+                console.error("Error reporting issue: ", error);
+                alert("Failed to report the issue. Please try again.");
+            }
+        };
+
+        // Load reports for authorized emails
+        async function loadReports() {
+            const reportsContainer = document.getElementById("reportsContainer");
+            reportsContainer.innerHTML = "";
+
+            try {
+                const reportsSnapshot = await getDocs(collection(db, "issues"));
+                reportsSnapshot.forEach(doc => {
+                    const report = doc.data();
+                    const reportItem = document.createElement("p");
+                    reportItem.textContent = `${report.userEmail}: ${report.description} (Reported at: ${report.reportedAt.toDate()})`;
+                    reportsContainer.appendChild(reportItem);
+                });
+            } catch (error) {
+                console.error("Error loading reports: ", error);
+            }
+        }
+
+        window.onload = renderVehicleList;
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -292,51 +319,33 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .not-in-service { background: #d3d3d3; color: #888; cursor: not-allowed; }
+        #reportsSection { display: none; position: fixed; bottom: 0; width: 100%; background: #f9f9f9; padding: 10px; border-top: 1px solid #ccc; }
     </style>
 </head>
 <body>
-<!-- Header Section -->
-<header>
-    <div class="header-content">
-        <div class="logo">
-            <img src="/images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
-        </div>
-        <div class="header-text">
-            <h1>Highrock National Forest Search & Rescue Team</h1>
-            <p>Saving Lives 365 Days a Year</p>
-        </div>
-        <!-- Logout Button -->
-        <button onclick="logout()" class="logout-btn">Logout</button>
+    <header>...</header>
+
+    <h2>Select Your Vehicle</h2>
+    <ul class="vehicle-list" id="vehicleList"></ul>
+
+    <div id="checklistSection" class="checklist" style="display: none;">
+        <h2>Inspection Checklist</h2>
+        <div id="checklistsContainer"></div>
     </div>
-</header>
-<!-- Vehicle List -->
-<h2>Select Your Vehicle</h2>
-<ul class="vehicle-list" id="vehicleList">
-    <!-- Vehicle items will be populated here dynamically -->
-</ul>
 
-<!-- Inspection Checklist -->
-<div id="checklistSection" class="checklist" style="display: none;">
-    <h2>Inspection Checklist</h2>
-    <div id="checklistsContainer"></div>
-</div>
+    <div class="report-issue" id="reportIssueSection" style="display: none;">
+        <h2>Report an Issue</h2>
+        <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
+            <label for="issueDescription">Describe the issue:</label>
+            <textarea id="issueDescription" rows="4" required></textarea>
+            <button type="submit">Submit Issue</button>
+        </form>
+    </div>
 
-<!-- Issue Reporting Form -->
-<div class="report-issue" style="display: none;" id="reportIssueSection">
-    <h2>Report an Issue</h2>
-    <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
-        <label for="issueDescription">Describe the issue:</label>
-        <textarea id="issueDescription" rows="4" required></textarea>
-        <button type="submit">Submit Issue</button>
-    </form>
-</div>
-
-<script type="module">
-    // Logout function
-    window.logout = function() {
-        // You can implement Firebase Auth logout here if necessary
-        alert("Logout function called.");
-    };
-</script>
+    <div id="reportsSection">
+        <h2>Reported Issues</h2>
+        <div id="reportsContainer"></div>
+    </div>
 </body>
 </html>
