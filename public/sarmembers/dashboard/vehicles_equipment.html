@@ -7,24 +7,17 @@
     <link rel="icon" href="/images/logo.png" type="image/png">
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
         
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-
-  authDomain: "hrnf-srt.firebaseapp.com",
-
-  projectId: "hrnf-srt",
-
-  storageBucket: "hrnf-srt.appspot.com",
-
-  messagingSenderId: "748926279394",
-
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-
-  measurementId: "G-5PCZE3S5N5"
-
+            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+            authDomain: "hrnf-srt.firebaseapp.com",
+            projectId: "hrnf-srt",
+            storageBucket: "hrnf-srt.appspot.com",
+            messagingSenderId: "748926279394",
+            appId: "1:748926279394:web:1303b9000361b1d51808bb",
+            measurementId: "G-5PCZE3S5N5"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -33,7 +26,6 @@
 
         const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
 
-        // Check user access and load reports
         function checkUserAccess(userEmail) {
             if (allowedEmails.includes(userEmail)) {
                 loadReports();
@@ -63,7 +55,6 @@
             { id: 9, name: "Utility Task Vehicle", issues: false },
             { id: 10, name: "HeliMed 99", issues: false },
         ];
-
 
         function renderVehicleList() {
             const vehicleList = document.getElementById("vehicleList");
@@ -124,13 +115,18 @@
                 vehicle.issues = !inService; // Toggle service status
                 renderVehicleList();
             }
+            const loadingIndicator = document.getElementById("loadingIndicator");
+            loadingIndicator.style.display = "block"; // Show loading indicator
+
             try {
                 const vehicleDoc = doc(db, "vehicles", vehicleId.toString());
                 await updateDoc(vehicleDoc, { inService });
                 alert(`Vehicle status updated to ${inService ? "In Service" : "Out of Service"}`);
             } catch (error) {
                 console.error("Error updating service status:", error);
-                alert("Failed to update vehicle status.");
+                alert("Failed to update vehicle status. Please try again.");
+            } finally {
+                loadingIndicator.style.display = "none"; // Hide loading indicator
             }
         }
 
@@ -148,6 +144,9 @@
                 return;
             }
 
+            const loadingIndicator = document.getElementById("loadingIndicator");
+            loadingIndicator.style.display = "block"; // Show loading indicator
+
             try {
                 await addDoc(collection(db, "issues"), {
                     description: issueDescription,
@@ -159,12 +158,16 @@
             } catch (error) {
                 console.error("Error reporting issue:", error);
                 alert("Failed to report the issue. Please try again.");
+            } finally {
+                loadingIndicator.style.display = "none"; // Hide loading indicator
             }
         }
 
         async function loadReports() {
             const reportsContainer = document.getElementById("reportsContainer");
             reportsContainer.innerHTML = "";
+            const loadingIndicator = document.getElementById("loadingIndicator");
+            loadingIndicator.style.display = "block"; // Show loading indicator
 
             try {
                 const reportsSnapshot = await getDocs(collection(db, "issues"));
@@ -176,6 +179,9 @@
                 });
             } catch (error) {
                 console.error("Error loading reports:", error);
+                alert("Failed to load reports. Please try again.");
+            } finally {
+                loadingIndicator.style.display = "none"; // Hide loading indicator
             }
         }
 
@@ -190,22 +196,6 @@
         }
         h1, h2, h3 {
             color: #0262c4;
-        }
-        .vehicle-list {
-            list-style: none;
-            padding: 0;
-        }
-        .vehicle-item {
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .vehicle-item.not-in-service {
-            background: #d3d3d3; /* Greyed out */
-            color: #888;
-            cursor: not-allowed;
         }
         .checklist {
             margin-top: 20px;
@@ -248,9 +238,6 @@
         }
         form button:hover {
             background-color: #b63101;
-        }
-        .not-in-service {
-            color: gray;
         }
         #checklistSection, #reportIssueSection {
             display: none;
@@ -369,10 +356,61 @@
         .log-entry {
             margin: 5px 0;
         }
+        .vehicle-list {
+            list-style: none;
+            padding: 0;
+        }
+        .vehicle-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vehicle-item.not-in-service {
+            background: #d3d3d3; /* Greyed out */
+            color: #888;
+            cursor: not-allowed;
+        }
+        .checklist {
+            margin-top: 20px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #loadingIndicator {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+            .vehicle-item {
+                font-size: 12px;
+                padding: 5px;
+            }
+            .checklist {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
-<!-- Header Section -->
 <header>
     <div class="header-content">
         <div class="logo">
@@ -390,14 +428,24 @@
         </nav>
     </div>
 </header>
-    <ul id="vehicleList"></ul>
+    <main>
+        <section>
+            <h2>Vehicles</h2>
+            <ul id="vehicleList" class="vehicle-list"></ul>
+            <div id="loadingIndicator"></div>
+        </section>
 
-    <div class="dynamic-checklist" id="checklistsContainer"></div>
-    <div class="maintenance-log" id="maintenanceLogContainer"></div>
+        <section id="reportsSection" style="display: none;">
+            <h2>Report an Issue</h2>
+            <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
+                <textarea id="issueDescription" rows="4" placeholder="Describe the issue..."></textarea>
+                <br>
+                <button type="submit">Report Issue</button>
+            </form>
 
-    <div id="reportIssueSection">
-        <input type="text" id="issueDescription" placeholder="Report an issue...">
-        <button onclick="reportIssue()">Submit</button>
-    </div>
+            <h2>Reported Issues</h2>
+            <div id="reportsContainer"></div>
+        </section>
+    </main>
 </body>
 </html>
