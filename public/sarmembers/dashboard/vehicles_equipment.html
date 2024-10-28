@@ -5,188 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicles and Equipment</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-            authDomain: "hrnf-srt.firebaseapp.com",
-            projectId: "hrnf-srt",
-            storageBucket: "hrnf-srt.appspot.com",
-            messagingSenderId: "748926279394",
-            appId: "1:748926279394:web:1303b9000361b1d51808bb",
-            measurementId: "G-5PCZE3S5N5"
-        };
+ <script type="module">
+    // Firebase initialization
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+        authDomain: "hrnf-srt.firebaseapp.com",
+        projectId: "hrnf-srt",
+        storageBucket: "hrnf-srt.appspot.com",
+        messagingSenderId: "748926279394",
+        appId: "1:748926279394:web:1303b9000361b1d51808bb",
+        measurementId: "G-5PCZE3S5N5"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth();
 
-        const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
+    // Allowed emails for reporting issues
+    const allowedEmails = ['admin@example.com', 'mechanic@example.com'];
 
-        function checkUserAccess(userEmail) {
-            if (allowedEmails.includes(userEmail)) {
-                loadReports();
-                document.getElementById("reportsSection").style.display = "block";
-            } else {
-                document.getElementById("reportIssueSection").style.display = "none";
-            }
+    // Listen for authentication state changes
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("User is signed in:", user);
+            // You can fetch the user's role from your database here and set it in the token
+        } else {
+            console.log("No user is signed in.");
         }
+    });
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                checkUserAccess(user.email);
-            } else {
-                console.log("No user signed in.");
+    // Sample vehicles data
+    const vehicles = [
+        { id: 1, name: "2020 Ford F350 Technical", issues: false },
+        { id: 2, name: "2020 Ford F250 Brush", issues: false },
+        { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
+        { id: 4, name: "2018 Ford F250 Utility", issues: false },
+        { id: 5, name: "2018 Ford F250 Utility", issues: false },
+        { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
+        { id: 7, name: "2018 Ford F250 Command", issues: false },
+        { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
+        { id: 9, name: "1982 Landrover Defender 110", issues: false },
+        { id: 10, name: "HeliMed 99", issues: false },
+    ];
+
+    // Function to render the vehicle list
+    function renderVehicleList() {
+        const vehicleList = document.getElementById("vehicleList");
+        vehicles.forEach(vehicle => {
+            const vehicleItem = document.createElement("li");
+            vehicleItem.className = "vehicle-item";
+            vehicleItem.textContent = vehicle.name;
+            if (vehicle.issues) {
+                vehicleItem.classList.add("not-in-service");
+                vehicleItem.textContent += " (Not In Service)";
             }
+            vehicleItem.onclick = () => showChecklists(vehicle.id);
+            vehicleList.appendChild(vehicleItem);
         });
+    }
 
-        const vehicles = [
-            { id: 1, name: "2020 Ford F350 Technical", issues: false },
-            { id: 2, name: "2020 Ford F250 Brush", issues: false },
-            { id: 3, name: "1994 Pierce Rescue SWB", issues: false },
-            { id: 4, name: "2018 Ford F250 Utility", issues: false },
-            { id: 5, name: "2018 Ford F250 Utility", issues: false },
-            { id: 6, name: "2019 Ford Explorer EMS SUV", issues: false },
-            { id: 7, name: "2018 Ford F250 Command", issues: false },
-            { id: 8, name: "2012 Jeep Bronco 4x4", issues: false },
-            { id: 9, name: "Utility Task Vehicle", issues: false },
-            { id: 10, name: "HeliMed 99", issues: false },
+    // Function to show checklists for the selected vehicle
+    function showChecklists(vehicleId) {
+        const checklistsContainer = document.getElementById("checklistsContainer");
+        checklistsContainer.innerHTML = ""; // Clear previous checklists
+
+        // Example checklists for the vehicle
+        const checklists = [
+            { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass /Windshield", "Standard Lights"] },
+            { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
+            { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
         ];
 
-        function renderVehicleList() {
-            const vehicleList = document.getElementById("vehicleList");
-            vehicleList.innerHTML = ""; // Clear existing list
-            vehicles.forEach(vehicle => {
-                const vehicleItem = document.createElement("li");
-                vehicleItem.className = "vehicle-item";
-                vehicleItem.textContent = vehicle.name;
-
-                if (vehicle.issues) {
-                    vehicleItem.classList.add("not-in-service");
-                    vehicleItem.textContent += " (Not In Service)";
-                }
-
-                vehicleItem.onclick = () => showChecklists(vehicle.id, vehicleItem);
-                vehicleList.appendChild(vehicleItem);
+        checklists.forEach(checklist => {
+            const checklistDiv = document.createElement("div");
+            checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
+            checklist.items.forEach(item => {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = item;
+                checklistDiv.appendChild(checkbox);
+                checklistDiv.appendChild(document.createTextNode(item));
+                checklistDiv.appendChild(document.createElement("br"));
             });
+            checklistsContainer.appendChild(checklistDiv);
+        });
+
+        document.getElementById("checklistSection").style.display = "block";
+        document.getElementById("reportIssueSection").style.display = "block"; // Show issue reporting section
+    }
+
+    // Function to report an issue
+    window.reportIssue = async function() { // Attach to the window object
+        const user = auth.currentUser;
+        const issueDescription = document.getElementById("issueDescription").value;
+
+        // Check if an issue description is provided
+        if (!issueDescription) {
+            alert("Please provide a description of the issue.");
+            return;
         }
 
-        function showChecklists(vehicleId, vehicleElement) {
-            const existingChecklist = document.querySelector(".dynamic-checklist");
-            if (existingChecklist) existingChecklist.remove();
+        // Check if the user's email is in the allowed list
+        if (!user || !allowedEmails.includes(user.email)) {
+            alert("You do not have permission to report issues.");
+            return;
+        }
 
-            const checklistsContainer = document.createElement("div");
-            checklistsContainer.className = "dynamic-checklist checklist";
-            
-            const checklists = [
-                { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass / Windshield", "Lights"] },
-                { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
-                { title: "Documentation", items: ["Maintenance log checked", "Any Issues Logged"] },
-            ];
-
-            checklists.forEach(checklist => {
-                const checklistDiv = document.createElement("div");
-                checklistDiv.innerHTML = `<h4>${checklist.title}</h4>`;
-                checklist.items.forEach(item => {
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.id = item;
-                    checklistDiv.appendChild(checkbox);
-                    checklistDiv.appendChild(document.createTextNode(item));
-                    checklistDiv.appendChild(document.createElement("br"));
-                });
-                checklistsContainer.appendChild(checklistDiv);
+        // Save issue to Firestore
+        try {
+            await addDoc(collection(db, "issues"), {
+                description: issueDescription,
+                reportedAt: new Date(),
+                userEmail: user.email, // Optional: Store user email with the issue
             });
-
-            const takeOutButton = document.createElement("button");
-            takeOutButton.textContent = "Take Out of Service";
-            takeOutButton.onclick = () => updateServiceStatus(vehicleId, vehicleElement, false);
-            checklistsContainer.appendChild(takeOutButton);
-
-            vehicleElement.after(checklistsContainer);
+            alert("Issue reported successfully.");
+            document.getElementById("issueReportForm").reset();
+        } catch (error) {
+            console.error("Error reporting issue: ", error);
+            alert("Failed to report the issue. Please try again.");
         }
+    };
 
-        async function updateServiceStatus(vehicleId, vehicleElement, inService) {
-            const vehicle = vehicles.find(v => v.id === vehicleId);
-            if (vehicle) {
-                vehicle.issues = !inService; // Toggle service status
-                renderVehicleList();
-            }
-            const loadingIndicator = document.getElementById("loadingIndicator");
-            loadingIndicator.style.display = "block"; // Show loading indicator
-
-            try {
-                const vehicleDoc = doc(db, "vehicles", vehicleId.toString());
-                await updateDoc(vehicleDoc, { inService });
-                alert(`Vehicle status updated to ${inService ? "In Service" : "Out of Service"}`);
-            } catch (error) {
-                console.error("Error updating service status:", error);
-                alert("Failed to update vehicle status. Please try again.");
-            } finally {
-                loadingIndicator.style.display = "none"; // Hide loading indicator
-            }
-        }
-
-        async function reportIssue() {
-            const user = auth.currentUser;
-            const issueDescription = document.getElementById("issueDescription").value;
-
-            if (!issueDescription) {
-                alert("Please provide a description of the issue.");
-                return;
-            }
-
-            if (!user || !allowedEmails.includes(user.email)) {
-                alert("You do not have permission to report issues.");
-                return;
-            }
-
-            const loadingIndicator = document.getElementById("loadingIndicator");
-            loadingIndicator.style.display = "block"; // Show loading indicator
-
-            try {
-                await addDoc(collection(db, "issues"), {
-                    description: issueDescription,
-                    reportedAt: new Date(),
-                    userEmail: user.email,
-                });
-                alert("Issue reported successfully.");
-                document.getElementById("issueReportForm").reset();
-            } catch (error) {
-                console.error("Error reporting issue:", error);
-                alert("Failed to report the issue. Please try again.");
-            } finally {
-                loadingIndicator.style.display = "none"; // Hide loading indicator
-            }
-        }
-
-        async function loadReports() {
-            const reportsContainer = document.getElementById("reportsContainer");
-            reportsContainer.innerHTML = "";
-            const loadingIndicator = document.getElementById("loadingIndicator");
-            loadingIndicator.style.display = "block"; // Show loading indicator
-
-            try {
-                const reportsSnapshot = await getDocs(collection(db, "issues"));
-                reportsSnapshot.forEach(doc => {
-                    const report = doc.data();
-                    const reportItem = document.createElement("p");
-                    reportItem.textContent = `${report.userEmail}: ${report.description} (Reported at: ${report.reportedAt.toDate()})`;
-                    reportsContainer.appendChild(reportItem);
-                });
-            } catch (error) {
-                console.error("Error loading reports:", error);
-                alert("Failed to load reports. Please try again.");
-            } finally {
-                loadingIndicator.style.display = "none"; // Hide loading indicator
-            }
-        }
-
-        window.onload = renderVehicleList;
-    </script>
+    // Load vehicles on page load
+    window.onload = () => {
+        renderVehicleList();
+    };
+</script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -196,6 +145,22 @@
         }
         h1, h2, h3 {
             color: #0262c4;
+        }
+        .vehicle-list {
+            list-style: none;
+            padding: 0;
+        }
+        .vehicle-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vehicle-item.not-in-service {
+            background: #d3d3d3; /* Greyed out */
+            color: #888;
+            cursor: not-allowed;
         }
         .checklist {
             margin-top: 20px;
@@ -238,6 +203,9 @@
         }
         form button:hover {
             background-color: #b63101;
+        }
+        .not-in-service {
+            color: gray;
         }
         #checklistSection, #reportIssueSection {
             display: none;
@@ -316,7 +284,7 @@
         .nav-links li a:hover {
             color: #f0a500;
         }
-        cta {
+        .logout-btn {
             background-color: #ff4d4d;
             color: white;
             border: none;
@@ -324,93 +292,10 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .not-in-service { 
-            background: #d3d3d3; 
-            color: #888; 
-            cursor: not-allowed; 
-        }
-        .checklist, .dynamic-checklist { 
-            background: #fff; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border-radius: 5px; 
-        }
-        #reportsSection { 
-            display: none; 
-            position: relative; 
-            bottom: 0; width: 100%; 
-            background: #f9f9f9; 
-            padding: 10px; 
-            border-top: 1px solid #ccc; 
-        }
-        .maintenance-log {
-            width: 50%;
-            float: right;
-            overflow-y: scroll;
-            height: 400px;
-        }
-        .dynamic-checklist {
-            width: 45%;
-            float: left;
-        }
-        .log-entry {
-            margin: 5px 0;
-        }
-        .vehicle-list {
-            list-style: none;
-            padding: 0;
-        }
-        .vehicle-item {
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .vehicle-item.not-in-service {
-            background: #d3d3d3; /* Greyed out */
-            color: #888;
-            cursor: not-allowed;
-        }
-        .checklist {
-            margin-top: 20px;
-            background: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        #loadingIndicator {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 8px solid #f3f3f3; /* Light grey */
-            border-top: 8px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @media (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-            .vehicle-item {
-                font-size: 12px;
-                padding: 5px;
-            }
-            .checklist {
-                font-size: 12px;
-            }
-        }
     </style>
 </head>
 <body>
+<!-- Header Section -->
 <header>
     <div class="header-content">
         <div class="logo">
@@ -420,32 +305,38 @@
             <h1>Highrock National Forest Search & Rescue Team</h1>
             <p>Saving Lives 365 Days a Year</p>
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="dashboard.html" class="cta">Return to Dashboard</a></li>
-
-            </ul>
-        </nav>
+        <!-- Logout Button -->
+        <button onclick="logout()" class="logout-btn">Logout</button>
     </div>
 </header>
-    <main>
-        <section>
-            <h2>Vehicles</h2>
-            <ul id="vehicleList" class="vehicle-list"></ul>
-            <div id="loadingIndicator"></div>
-        </section>
+<!-- Vehicle List -->
+<h2>Select Your Vehicle</h2>
+<ul class="vehicle-list" id="vehicleList">
+    <!-- Vehicle items will be populated here dynamically -->
+</ul>
 
-        <section id="reportsSection" style="display: none;">
-            <h2>Report an Issue</h2>
-            <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
-                <textarea id="issueDescription" rows="4" placeholder="Describe the issue..."></textarea>
-                <br>
-                <button type="submit">Report Issue</button>
-            </form>
+<!-- Inspection Checklist -->
+<div id="checklistSection" class="checklist" style="display: none;">
+    <h2>Inspection Checklist</h2>
+    <div id="checklistsContainer"></div>
+</div>
 
-            <h2>Reported Issues</h2>
-            <div id="reportsContainer"></div>
-        </section>
-    </main>
+<!-- Issue Reporting Form -->
+<div class="report-issue" style="display: none;" id="reportIssueSection">
+    <h2>Report an Issue</h2>
+    <form id="issueReportForm" onsubmit="event.preventDefault(); reportIssue();">
+        <label for="issueDescription">Describe the issue:</label>
+        <textarea id="issueDescription" rows="4" required></textarea>
+        <button type="submit">Submit Issue</button>
+    </form>
+</div>
+
+<script type="module">
+    // Logout function
+    window.logout = function() {
+        // You can implement Firebase Auth logout here if necessary
+        alert("Logout function called.");
+    };
+</script>
 </body>
 </html>
