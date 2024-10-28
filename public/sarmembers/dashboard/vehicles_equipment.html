@@ -11,40 +11,30 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
         
         const firebaseConfig = {
-  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
-
-  authDomain: "hrnf-srt.firebaseapp.com",
-
-  projectId: "hrnf-srt",
-
-  storageBucket: "hrnf-srt.appspot.com",
-
-  messagingSenderId: "748926279394",
-
-  appId: "1:748926279394:web:1303b9000361b1d51808bb",
-
-  measurementId: "G-5PCZE3S5N5"
-
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth();
 
-        // Allowed emails for reporting issues
         const allowedEmails = ['command@hrnf-srt.org', 'stationmechanic@hrnf-srt.org'];
 
-        // Check if the user's email is authorized and show report sections if allowed
         function checkUserAccess(userEmail) {
             if (allowedEmails.includes(userEmail)) {
                 loadReports();
-                document.getElementById("reportsSection").style.display = "block"; // Show reports section for authorized users
+                document.getElementById("reportsSection").style.display = "block";
             } else {
                 document.getElementById("reportIssueSection").style.display = "none";
             }
         }
 
-        // Listen for authentication state changes
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User signed in:", user);
@@ -67,7 +57,6 @@
             { id: 10, name: "HeliMed 99", issues: false },
         ];
 
-        // Render vehicle list
         function renderVehicleList() {
             const vehicleList = document.getElementById("vehicleList");
             vehicles.forEach(vehicle => {
@@ -80,16 +69,18 @@
                     vehicleItem.textContent += " (Not In Service)";
                 }
 
-                vehicleItem.onclick = () => showChecklists(vehicle.id);
+                vehicleItem.onclick = () => showChecklists(vehicle.id, vehicleItem);
                 vehicleList.appendChild(vehicleItem);
             });
         }
 
-        // Display checklist for selected vehicle
-        function showChecklists(vehicleId) {
-            const checklistsContainer = document.getElementById("checklistsContainer");
-            checklistsContainer.innerHTML = "";
+        function showChecklists(vehicleId, vehicleElement) {
+            const existingChecklist = document.querySelector(".dynamic-checklist");
+            if (existingChecklist) existingChecklist.remove();
 
+            const checklistsContainer = document.createElement("div");
+            checklistsContainer.className = "dynamic-checklist checklist";
+            
             const checklists = [
                 { title: "Vehicle Inspection", items: ["Exterior Inspection", "Bodywork", "Glass / Windshield", "Lights"] },
                 { title: "Equipment Inspection", items: ["First Aid Kit", "Trauma Kit", "AED/LifePak", "Oxygen Tank"] },
@@ -110,11 +101,9 @@
                 checklistsContainer.appendChild(checklistDiv);
             });
 
-            document.getElementById("checklistSection").style.display = "block";
-            document.getElementById("reportIssueSection").style.display = "block";
+            vehicleElement.after(checklistsContainer);
         }
 
-        // Report an issue
         window.reportIssue = async function() {
             const user = auth.currentUser;
             const issueDescription = document.getElementById("issueDescription").value;
@@ -143,7 +132,6 @@
             }
         };
 
-        // Load reports for authorized emails
         async function loadReports() {
             const reportsContainer = document.getElementById("reportsContainer");
             reportsContainer.innerHTML = "";
@@ -319,8 +307,25 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        .not-in-service { background: #d3d3d3; color: #888; cursor: not-allowed; }
-        #reportsSection { display: none; position: fixed; bottom: 0; width: 100%; background: #f9f9f9; padding: 10px; border-top: 1px solid #ccc; }
+        .not-in-service { 
+            background: #d3d3d3; 
+            color: #888; 
+            cursor: not-allowed; 
+        }
+        .checklist, .dynamic-checklist { 
+            background: #fff; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        #reportsSection { 
+            display: none; 
+            position: relative; 
+            bottom: 0; width: 100%; 
+            background: #f9f9f9; 
+            padding: 10px; 
+            border-top: 1px solid #ccc; 
+        }
     </style>
 </head>
 <body>
@@ -328,11 +333,6 @@
 
     <h2>Select Your Vehicle</h2>
     <ul class="vehicle-list" id="vehicleList"></ul>
-
-    <div id="checklistSection" class="checklist" style="display: none;">
-        <h2>Inspection Checklist</h2>
-        <div id="checklistsContainer"></div>
-    </div>
 
     <div class="report-issue" id="reportIssueSection" style="display: none;">
         <h2>Report an Issue</h2>
