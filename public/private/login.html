@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Login - Highrock National Forest Search & Rescue</title>
+    <title>Highrock National Forest Search & Rescue</title>
     <link rel="icon" href="/images/logo.png" type="image/png">
     <link rel="stylesheet" href="../styles.css">
 
@@ -106,10 +106,16 @@
     </div>
 </div>
 
-<!-- Footer Section -->
-<footer>
-    <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
-</footer>
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>&copy; <span id="year"></span> Engineer Apollo. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ===== EMBEDDED JS ===== -->
+  <script>
+    // Auto-update footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
