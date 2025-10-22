@@ -6,7 +6,7 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     font-family: Arial, sans-serif;
 }
 
-/* ===== Body Styling ===== */
+/* ===== Body ===== */
 body {
     color: #0262c4;
     background: #f0f0f0;
@@ -22,8 +22,8 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
     background-color: rgba(51, 51, 51, 0.9);
+    z-index: 1000;
 }
 
 .header-content {
@@ -83,8 +83,8 @@ header {
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 100px 20px 40px; /* Space for fixed header */
+    align-items: flex-start;
+    padding: 160px 20px 60px; /* Leaves room for fixed header */
 }
 
 .login-box {
@@ -93,17 +93,19 @@ header {
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     text-align: center;
+    border-top: 5px solid #0262c4;
 }
 
+/* ===== Title ===== */
 .login-box h2 {
     color: #0262c4;
-    margin-bottom: 25px;
     font-size: 1.8rem;
+    margin-bottom: 25px;
 }
 
-/* ===== Input Fields ===== */
+/* ===== Input Group ===== */
 .input-group {
     text-align: left;
     margin-bottom: 20px;
@@ -120,11 +122,11 @@ header {
 .input-group input[type="password"] {
     width: 100%;
     padding: 12px 15px;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     background-color: #f9f9f9;
     transition: all 0.3s ease;
-    font-size: 1rem;
 }
 
 .input-group input:focus {
@@ -188,7 +190,7 @@ footer {
     width: 100%;
 }
 
-/* ===== Responsive Design ===== */
+/* ===== Responsive ===== */
 @media (max-width: 600px) {
     .header-content {
         flex-direction: column;
@@ -203,5 +205,12 @@ footer {
 
     .login-box {
         padding: 30px 20px;
+        margin-top: 20px;
+    }
+
+    .bottom-links {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
     }
 }
