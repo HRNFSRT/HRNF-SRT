@@ -11,7 +11,7 @@ body {
     color: #0262c4;
     background: #f0f0f0;
     overflow-x: hidden; /* Prevent horizontal scroll */
-    padding: 0 1rem; /* Small side padding for breathing room */
+    padding: 0 0rem; /* Small side padding for breathing room */
 }
 
 h1, h2, h3, h4, h5, h6 {
