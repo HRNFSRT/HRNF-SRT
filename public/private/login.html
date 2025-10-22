@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Login - Highrock National Forest Search & Rescue</title>
+    <link rel="icon" href="/images/logo.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyCCz1kIH5hT_15pWT9rf5JqJhexK76qpRE",
+  authDomain: "hrnf-srt.firebaseapp.com",
+  projectId: "hrnf-srt",
+  storageBucket: "hrnf-srt.appspot.com",
+  messagingSenderId: "748926279394",
+  appId: "1:748926279394:web:1303b9000361b1d51808bb",
+  measurementId: "G-5PCZE3S5N5"
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Pass the app instance to getAuth
+
+        // Function to handle login
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                console.log("Attempting to log in with:", email); // Debugging line
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        console.log("Login successful! Redirecting..."); // Debugging line
+                        const user = userCredential.user;
+                        window.location.href = "dashboard/dashboard.html"; // Change to your dashboard URL
+                    })
+                    .catch((error) => {
+                        console.error("Login error:", error.message); // Debugging line
+                        alert(error.message); // Show error message
+                    });
+            });
+        });
+    </script>
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <img src="../images/logo.png" alt="Highrock National Forest Search & Rescue Logo" width="90">
+        </div>
+        <div class="header-text">
+            <h1>APS LLC</h1>
+            <p>Saving Lives 365 Days a Year</p>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="cta">Member Login</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Login Form Example -->
+<div class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <!-- Form now has an ID to capture the submission -->
+        <form id="login-form">
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group checkbox-group">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me"> Remember Me</label>
+            </div>
+            <!-- Submit button should not cause form to submit automatically -->
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        
+        <!-- Links at the Bottom -->
+        <div class="bottom-links">
+            <a href="#">Forgot Password?</a>
+            <a href="#">Create an Account</a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Highrock National Forest Search & Rescue Team. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
