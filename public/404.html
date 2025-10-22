@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found | HRNF SRT</title>
+
+  <!-- Link to your existing main CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* 404 Page Styling */
+    .not-found {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+      text-align: center;
+      color: #0262c4;
+      padding: 20px;
+    }
+
+    .not-found h1 {
+      font-size: 6rem;
+      margin-bottom: 10px;
+    }
+
+    .not-found p {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .not-found a {
+      text-decoration: none;
+      background-color: #e94307;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .not-found a:hover {
+      background-color: #b63101;
+    }
+
+    .emoji {
+      display: inline-block;
+      font-size: 3rem;
+      animation: float 2s ease-in-out infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="not-found">
+    <h1>404</h1>
+    <p>Oops! The page you're looking for doesn't exist.</p>
+    <div class="emoji">📷</div>
+    <p>Maybe you were looking for my <a href="index.html" style="background:none;color:#0262c4;text-decoration:underline;padding:0;">homepage</a>?</p>
+    <a href="index.html" class="cta">Go Home</a>
+  </section>
+
+  <script>
+    // Optional: Automatically redirect home after 8 seconds
+    setTimeout(() => {
+      window.location.href = "/index.html";
+    }, 20000);
+  </script>
+</body>
+</html>
