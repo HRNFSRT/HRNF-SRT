@@ -1,4 +1,4 @@
-/* General Reset */
+/* === General Reset === */
 body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     margin: 0;
     padding: 0;
@@ -6,37 +6,38 @@ body, h1, h2, h3, p, ul, li, a, input, textarea, button {
     font-family: Arial, sans-serif;
 }
 
-/* General Body Styling - Adjust text color */
+/* === Global Layout & Typography === */
 body {
-    color: #0262c4;  /* Blue text */
+    color: #0262c4;
     background: #f0f0f0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding: 0 1rem; /* Small side padding for breathing room */
 }
 
-/* Adjust all headings to blue */
 h1, h2, h3, h4, h5, h6 {
-     color: #0262c4;
-}
-/* General header styling */
-header {
-    position: fixed; /* Fix the header to the top of the viewport */
-    top: 0; /* Align it to the top */
-    width: 100%; /* Make sure it spans the full width of the page */
-    z-index: 1000; /* Ensure the header stays above other content */
-    background-color: rgba(51, 51, 51, 0.8); /* Header background */
-    padding: 0px 0;
+    color: #0262c4;
 }
 
-/* Header content styling */
+/* === Header === */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(51, 51, 51, 0.8);
+    padding: 0.5rem 0;
+}
+
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 5px;
-    background-color: rgba(51, 51, 51, 0.8);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
     color: white;
 }
 
-/* Logo styling */
 .logo {
     display: flex;
     align-items: center;
@@ -47,7 +48,6 @@ header {
     margin-right: 10px;
 }
 
-/* Header text styling - aligned inline with the logo */
 .header-text {
     display: flex;
     flex-direction: column;
@@ -56,20 +56,18 @@ header {
 }
 
 .header-text h1 {
-    margin: 0;
     font-size: 1.3rem;
     white-space: nowrap;
 }
 
 .header-text p {
-    margin: 0;
     font-size: 0.9rem;
     font-style: italic;
     color: #ccc;
     white-space: nowrap;
 }
 
-/* Navigation styling */
+/* === Navigation === */
 nav {
     margin-left: auto;
 }
@@ -91,8 +89,6 @@ nav {
     color: #f0a500;
 }
 
-/* Call to action button style */
-/* Updated CTA button to the same blue as other text */
 .cta {
     padding: 8px 12px;
     background-color: #e94307;
@@ -102,43 +98,48 @@ nav {
 }
 
 .cta:hover {
-    background-color: #b63101; /* Slightly darker blue on hover */
-}
-/* ===== Contact Form Styling ===== */
-.contact form {
-    display: flex;
-    flex-direction: column;         /* Stack elements vertically */
-    gap: 15px;                      /* Space between inputs */
-    
-    width: 100%;                     /* Responsive width for smaller screens */
-    margin: 0 auto;                 /* Center the form horizontally */
-    padding: 20px;
-    background-color: #ffffff;      /* White background for contrast */
-    
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #b63101;
 }
 
-/* Input and Textarea Styles */
+/* === Section Wrapper === */
+section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 4rem; /* Adds spacing below fixed header */
+}
+
+/* === Contact Form === */
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .contact form input,
 .contact form textarea {
     padding: 12px 15px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background-color: #f9f9f9;      /* Light background */
+    background-color: #f9f9f9;
     transition: all 0.3s ease;
 }
 
-/* Hover and Focus Effects */
 .contact form input:focus,
 .contact form textarea:focus {
     outline: none;
-    border-color: #0262c4;          /* Blue border to match your theme */
+    border-color: #0262c4;
     background-color: #fff;
     box-shadow: 0 0 5px rgba(2, 98, 196, 0.3);
 }
 
-/* Submit Button */
 .contact form button {
     background-color: #0262c4;
     color: #fff;
@@ -154,190 +155,33 @@ nav {
     background-color: #024ca1;
 }
 
-/* ===== Responsive Design ===== */
+/* === Responsive Adjustments === */
 @media (max-width: 600px) {
-    .contact form {
-        width: 95%;
-        padding: 15px;
-        gap: 12px;
+    body {
+        padding: 0 0.75rem;
     }
 
-    .contact form input,
-    .contact form textarea {
-        font-size: 0.95rem;
+    .header-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
     }
 
-    .contact form button {
-        font-size: 1rem;
-        padding: 10px;
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section {
+        padding: 5rem 1rem 3rem;
     }
 }
 
-/* Footer Styling */
-footer {
-    background-color: #333; /* Light grey background for footer */
-    text-align: center; /* Center the text */
-    padding: 20px 0; /* Padding for spacing */
-    position: relative; /* Ensure it doesn't overlap with content */
-    bottom: 0; /* Align to the bottom of the page */
-    width: 100%; /* Full width */
-}
-
-
-
-/* Login Page Styles */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px); /* Adjust for header height */
-    background-color: #f0f0f0; /* Background color */
-}
-
-.login-box {
-    background-color: #ffffff; /* White background for the form */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-}
-
-h2 {
-    margin-bottom: 20px;
-    color: #2f4f4f; /* Consistent color with your theme */
-}
-
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-/* Style for the checkbox and label */
-.input-group label {
-    display: inline-flex; /* Align the checkbox and text in a single line */
-    align-items: center; /* Vertically align items */
-    font-size: 14px; /* Adjust text size */
-    color: #333333;
-}
-
-.input-group input[type="checkbox"] {
-    margin-right: 8px; /* Space between checkbox and label text */
-    vertical-align: middle; /* Vertically center the checkbox */
-}
-
-
-.login-btn {
-    background-color: #0262c4; /* Blue button to match the theme */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.login-btn:hover {
-    background-color: #024ca1; /* Darker blue on hover */
-}
-/* If links are in a container */
-.bottom-links {
-    display: flex;
-    justify-content: space-between; /* Equal space between links */
-    margin-top: 20px; /* Space above the links */
-}
-
-.bottom-links a {
-    margin-right: 10px; /* Space between each link */
-    color: #0262c4; /* Adjust link color if needed */
-    text-decoration: none; /* Remove underline */
-    transition: color 0.3s;
-}
-
-.bottom-links a:hover {
-    color: #0055a4; /* Slightly darker on hover */
-}
-
-/* styles.css */
-
-/* Basic reset */
-body, h1, h2, h3, p {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-header {
-    background-color: #004080;
-    color: white;
-    padding: 10px;
-    position: relative;
-}
-
-.header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.header-content .logo img {
-    margin-right: 15px;
-}
-
-.logout-btn {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.profile-section {
-    display: flex;
-    align-items: center;
-    background-color: #f8f8f8;
-    padding: 15px;
-    margin: 10px;
-    border-radius: 5px;
-}
-
-.profile-picture img {
-    border-radius: 50%;
-}
-
-.profile-info {
-    margin-left: 15px;
-}
-
-.dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-    padding: 20px;
-}
-
-.feature-box {
-    background-color: #e7f3fe;
-    border: 1px solid #a6c8f0;
-    border-radius: 5px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.feature-box:hover {
-    background-color: #d0e7ff;
-}
-
+/* === Footer === */
 footer {
     background-color: #A6060C;
-    color: white;
     text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
+    padding: 20px 0;
     width: 100%;
+    color: white;
 }
