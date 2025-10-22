@@ -64,16 +64,18 @@
   <section class="not-found">
     <h1>404</h1>
     <p>Well, Looks like the place you just tried to go to does not exist, that's unfortunate.</p>
-    <div class="emoji">📷</div>
-    <p>Personally, I'd go back to the <a href="index.html" style="background:none;color:#0262c4;text-decoration:underline;padding:0;">homepage</a> and try going to wherever you are trying to go again. If that does not work then try waiting half an hour.</p>
-    <a href="HRNF-SRT/public/index.html" class="cta">Go Home</a>
+    <div class="emoji"></div>
+    <p>Personally, I'd go back to the <a href="index.html" style="background:none;color:#0262c4;text-decoration:underline;padding:0;">homepage</a> and try going to wherever you are trying to go again.</p>
+    <p>If that does not work then I suggest waiting 5 minutes and then trying again, after that please make a report on the homepage.</p>
+    <p>Fun Fact, This page auto redirects to the hompage after 5 minutes.</p>
+    <a href="HRNF-SRT/public/index.html" class="cta">Return to Homepage</a>
   </section>
 
   <script>
-    // Optional: Automatically redirect home after 20 seconds
+    // Automatically redirect home after 5 minutes
     setTimeout(() => {
       window.location.href = "/index.html";
-    }, 20000);
+    }, 300000);
   </script>
 </body>
 </html>
