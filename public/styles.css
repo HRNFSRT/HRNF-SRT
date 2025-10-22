@@ -32,7 +32,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1500px;
+    max-width: 2000px;
     margin: 0 auto;
     padding: 0 1.5rem;
     color: white;
@@ -103,7 +103,7 @@ nav {
 
 /* === Section Wrapper === */
 section {
-    max-width: 1200px;
+    max-width: 2000px;
     margin: 0 auto;
     padding: 6rem 1.5rem 4rem; /* Adds spacing below fixed header */
 }
@@ -113,12 +113,12 @@ section {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    max-width: 600px;
+    /* max-width: 600px; */
     width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 0px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
