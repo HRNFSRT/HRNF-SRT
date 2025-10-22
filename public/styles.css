@@ -104,6 +104,74 @@ nav {
 .cta:hover {
     background-color: #b63101; /* Slightly darker blue on hover */
 }
+/* ===== Contact Form Styling ===== */
+.contact form {
+    display: flex;
+    flex-direction: column;         /* Stack elements vertically */
+    gap: 15px;                      /* Space between inputs */
+    max-width: 600px;               /* Comfortable width for larger screens */
+    width: 90%;                     /* Responsive width for smaller screens */
+    margin: 0 auto;                 /* Center the form horizontally */
+    padding: 20px;
+    background-color: #ffffff;      /* White background for contrast */
+    border-radius: 10px;            /* Rounded corners for a soft look */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Input and Textarea Styles */
+.contact form input,
+.contact form textarea {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;      /* Light background */
+    transition: all 0.3s ease;
+}
+
+/* Hover and Focus Effects */
+.contact form input:focus,
+.contact form textarea:focus {
+    outline: none;
+    border-color: #0262c4;          /* Blue border to match your theme */
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(2, 98, 196, 0.3);
+}
+
+/* Submit Button */
+.contact form button {
+    background-color: #0262c4;
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact form button:hover {
+    background-color: #024ca1;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 600px) {
+    .contact form {
+        width: 95%;
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .contact form input,
+    .contact form textarea {
+        font-size: 0.95rem;
+    }
+
+    .contact form button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
 
 /* Footer Styling */
 footer {
@@ -114,6 +182,9 @@ footer {
     bottom: 0; /* Align to the bottom of the page */
     width: 100%; /* Full width */
 }
+
+
+
 /* Login Page Styles */
 .login-container {
     display: flex;
@@ -262,7 +333,7 @@ header {
 }
 
 footer {
-    background-color: #004080;
+    background-color: #A6060C;
     color: white;
     text-align: center;
     padding: 10px;
