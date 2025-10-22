@@ -1,0 +1,207 @@
+/* ===== General Reset ===== */
+body, h1, h2, h3, p, ul, li, a, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== Body Styling ===== */
+body {
+    color: #0262c4;
+    background: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(51, 51, 51, 0.9);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    color: white;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+.header-text h1 {
+    font-size: 1.3rem;
+}
+
+.header-text p {
+    font-size: 0.9rem;
+    color: #ccc;
+    font-style: italic;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #f0a500;
+}
+
+.cta {
+    padding: 8px 12px;
+    background-color: #e94307;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.cta:hover {
+    background-color: #b63101;
+}
+
+/* ===== Login Section ===== */
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 40px; /* Space for fixed header */
+}
+
+.login-box {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box h2 {
+    color: #0262c4;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+/* ===== Input Fields ===== */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    color: #0262c4;
+    margin-bottom: 5px;
+}
+
+.input-group input[type="email"],
+.input-group input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #0262c4;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(2, 98, 196, 0.3);
+}
+
+/* ===== Checkbox Group ===== */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* ===== Login Button ===== */
+.login-btn {
+    width: 100%;
+    background-color: #0262c4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+    background-color: #024ca1;
+}
+
+/* ===== Bottom Links ===== */
+.bottom-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.bottom-links a {
+    color: #0262c4;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.bottom-links a:hover {
+    color: #f0a500;
+}
+
+/* ===== Footer ===== */
+footer {
+    background-color: #A6060C;
+    text-align: center;
+    padding: 20px 0;
+    color: white;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .login-box {
+        padding: 30px 20px;
+    }
+}
