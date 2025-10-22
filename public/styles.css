@@ -1,0 +1,272 @@
+/* General Reset */
+body, h1, h2, h3, p, ul, li, a, input, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* General Body Styling - Adjust text color */
+body {
+    color: #0262c4;  /* Blue text */
+    background: #f0f0f0;
+}
+
+/* Adjust all headings to blue */
+h1, h2, h3, h4, h5, h6 {
+     color: #0262c4;
+}
+/* General header styling */
+header {
+    position: fixed; /* Fix the header to the top of the viewport */
+    top: 0; /* Align it to the top */
+    width: 100%; /* Make sure it spans the full width of the page */
+    z-index: 1000; /* Ensure the header stays above other content */
+    background-color: rgba(51, 51, 51, 0.8); /* Header background */
+    padding: 0px 0;
+}
+
+/* Header content styling */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: rgba(51, 51, 51, 0.8);
+    color: white;
+}
+
+/* Logo styling */
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+/* Header text styling - aligned inline with the logo */
+.header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #ccc;
+    white-space: nowrap;
+}
+
+/* Navigation styling */
+nav {
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #f0a500;
+}
+
+/* Call to action button style */
+/* Updated CTA button to the same blue as other text */
+.cta {
+    padding: 8px 12px;
+    background-color: #e94307;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.cta:hover {
+    background-color: #b63101; /* Slightly darker blue on hover */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #333; /* Light grey background for footer */
+    text-align: center; /* Center the text */
+    padding: 20px 0; /* Padding for spacing */
+    position: relative; /* Ensure it doesn't overlap with content */
+    bottom: 0; /* Align to the bottom of the page */
+    width: 100%; /* Full width */
+}
+/* Login Page Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px); /* Adjust for header height */
+    background-color: #f0f0f0; /* Background color */
+}
+
+.login-box {
+    background-color: #ffffff; /* White background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #2f4f4f; /* Consistent color with your theme */
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Style for the checkbox and label */
+.input-group label {
+    display: inline-flex; /* Align the checkbox and text in a single line */
+    align-items: center; /* Vertically align items */
+    font-size: 14px; /* Adjust text size */
+    color: #333333;
+}
+
+.input-group input[type="checkbox"] {
+    margin-right: 8px; /* Space between checkbox and label text */
+    vertical-align: middle; /* Vertically center the checkbox */
+}
+
+
+.login-btn {
+    background-color: #0262c4; /* Blue button to match the theme */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #024ca1; /* Darker blue on hover */
+}
+/* If links are in a container */
+.bottom-links {
+    display: flex;
+    justify-content: space-between; /* Equal space between links */
+    margin-top: 20px; /* Space above the links */
+}
+
+.bottom-links a {
+    margin-right: 10px; /* Space between each link */
+    color: #0262c4; /* Adjust link color if needed */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s;
+}
+
+.bottom-links a:hover {
+    color: #0055a4; /* Slightly darker on hover */
+}
+
+/* styles.css */
+
+/* Basic reset */
+body, h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #004080;
+    color: white;
+    padding: 10px;
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-content .logo img {
+    margin-right: 15px;
+}
+
+.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.profile-picture img {
+    border-radius: 50%;
+}
+
+.profile-info {
+    margin-left: 15px;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.feature-box {
+    background-color: #e7f3fe;
+    border: 1px solid #a6c8f0;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feature-box:hover {
+    background-color: #d0e7ff;
+}
+
+footer {
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
