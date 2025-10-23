@@ -115,7 +115,7 @@ section {
     /* gap: 15px; */
     /* max-width: 600px; */
     width: 100%;
-    margin: 0 auto;
+    margin: 10px 0px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 0px;
@@ -125,6 +125,7 @@ section {
 .contact form input,
 .contact form textarea {
     padding: 12px 15px;
+    margin: 12px 0px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
