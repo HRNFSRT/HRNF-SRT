@@ -205,6 +205,8 @@ nav {
 
 /* ===== Footer ===== */
 footer {
+    position: fixed;
+    bottom: 0;
     background-color: #A6060C;
     text-align: center;
     padding: 20px 0;
